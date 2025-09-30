@@ -6,188 +6,413 @@
     <title>Tech Tips & Blog - Blue Technology</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="global-styles.css">
     <style>
-
-        /* Categories Section */
-        .categories-section {
-            padding: 3rem 1rem;
-            background: rgba(10, 26, 53, 0.95);
-            margin: 0 auto 2rem;
-            border-radius: 15px;
-            max-width: 1700px;
-            width: 100%;
+        :root {
+            --primary: #0066cc;
+            --primary-dark: #0052a3;
+            --secondary: #00a8ff;
+            --accent: #00d4ff;
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --success: #28a745;
+            --warning: #ffc107;
+            --error: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: var(--cyber-blue);
-            text-align: center;
-            position: relative;
+        /* Light theme variables */
+        [data-theme="light"] {
+            --dark: #f8f9fa;
+            --darker: #e9ecef;
+            --light: #1a1a2e;
+            --gray: #495057;
+            --gray-light: #343a40;
         }
 
-        .section-title:after {
-            content: '';
-            position: absolute;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(to right, var(--cyber-blue), var(--cyber-purple));
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 3px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin: 0 auto;
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .category-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            text-align: center;
-            padding: 1.5rem 0.8rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
             cursor: pointer;
-            border: 1px solid rgba(0, 242, 255, 0.2);
+            border: none;
+            font-family: inherit;
         }
 
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 242, 255, 0.3);
-            background: rgba(0, 242, 255, 0.1);
+        img {
+            max-width: 100%;
+            height: auto;
         }
 
-        .category-card.active {
-            background: linear-gradient(135deg, var(--cyber-blue) 0%, var(--cyber-purple) 100%);
+        /* Header Styles */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            padding: 0.75rem 1rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .header-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .header-action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error);
             color: white;
-            box-shadow: 0 0 15px rgba(0, 194, 255, 0.6);
-        }
-
-        .category-card.active .category-title {
-            color: white;
-        }
-
-        .category-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--cyber-blue) 0%, var(--cyber-purple) 100%);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 0.8rem;
-            font-size: 1.5rem;
-            color: white;
         }
 
-        .category-card.active .category-icon {
-            background: white;
-            color: var(--cyber-blue);
+        .search-bar {
+            display: flex;
+            margin-bottom: 0.5rem;
         }
 
-        .category-title {
+        .search-bar input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
             font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--cyber-blue);
         }
 
-        /* Blog Section */
-        .blog-section {
-            padding: 3rem 1rem;
-            background: rgba(10, 26, 53, 0.95);
-            border-radius: 15px;
-            margin: 0 auto 2rem;
-            max-width: 1700px;
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-bar button {
+            padding: 0 1rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            transition: var(--transition);
+        }
+
+        .search-bar button:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Desktop Navigation */
+        .desktop-nav {
+            display: none;
+        }
+
+        .desktop-nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .desktop-nav-links a {
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .desktop-nav-links a:hover,
+        .desktop-nav-links a.active {
+            color: var(--accent);
+        }
+
+        .desktop-nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .desktop-nav-links a:hover::after,
+        .desktop-nav-links a.active::after {
             width: 100%;
         }
 
-        .blog-container {
+        @media (min-width: 768px) {
+            .desktop-nav {
+                display: block;
+            }
+        }
+
+        /* Mobile Navigation */
+        .nav-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            gap: 0;
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        .nav-links li {
+            list-style: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links li:last-child {
+            border-bottom: none;
+        }
+
+        .nav-links a {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: white;
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        @media (min-width: 768px) {
+            .nav-container {
+                display: none;
+            }
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            padding: 2rem 1rem 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-header-content {
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Filter Bar */
-        .filter-bar {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-        }
-
-        .filter-options {
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-select {
-            padding: 0.8rem;
-            border: 1px solid rgba(0, 242, 255, 0.3);
-            border-radius: 8px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
-            flex: 1;
-            min-width: 120px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .filter-select option {
-            background: var(--dark);
-            color: white;
-        }
-
-        .search-box {
+        .breadcrumb {
             display: flex;
             align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-description {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 0 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .category-tabs::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0, 242, 255, 0.3);
-            border-radius: 8px;
-            padding: 0.5rem;
-            width: 100%;
+            border-radius: 2px;
         }
 
-        .search-box input {
-            border: none;
-            outline: none;
-            padding: 0.5rem;
-            font-family: 'Montserrat', sans-serif;
-            width: 100%;
-            font-size: 0.9rem;
-            background: transparent;
-            color: white;
+        .category-tabs::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 2px;
         }
 
-        .search-box input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .search-box button {
-            background: var(--cyber-blue);
-            color: var(--dark);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
+        .category-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            white-space: nowrap;
+            transition: var(--transition);
             cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
-        .search-box button:hover {
-            background: var(--cyber-purple);
-            transform: translateY(-2px);
+        .category-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .category-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
         }
 
         /* Blog Grid */
@@ -195,29 +420,38 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .blog-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         .blog-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+            background: var(--dark);
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0, 242, 255, 0.2);
-        }
-
-        .blog-card.hidden {
-            display: none;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .blog-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 242, 255, 0.3);
-            border-color: var(--cyber-blue);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
         }
 
         .blog-image {
-            height: 180px;
+            height: 200px;
             overflow: hidden;
             position: relative;
         }
@@ -230,706 +464,436 @@
         }
 
         .blog-card:hover .blog-image img {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
         .blog-badge {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            background: var(--primary);
             color: white;
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            z-index: 2;
         }
 
-        .blog-info {
+        .blog-content {
             padding: 1.5rem;
         }
 
         .blog-category {
-            color: var(--cyber-blue);
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
+            color: var(--accent);
+            font-size: 0.85rem;
             font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
         .blog-title {
             font-size: 1.2rem;
-            margin-bottom: 0.8rem;
-            color: white;
+            margin-bottom: 0.75rem;
+            color: var(--light);
             font-weight: 600;
-            height: auto;
-            overflow: hidden;
+            line-height: 1.4;
         }
 
         .blog-excerpt {
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 1.2rem;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .blog-full-content {
-            display: none;
-            padding: 0 0 1.2rem 0;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .blog-full-content h4 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-            color: var(--cyber-blue);
-        }
-
-        .blog-full-content p {
+            color: var(--gray);
             margin-bottom: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-        
+
         .blog-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            color: var(--gray);
         }
-        
-        .blog-date {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        
+
+        .blog-date,
         .blog-read-time {
             display: flex;
             align-items: center;
             gap: 0.3rem;
         }
-        
+
         .blog-actions {
             display: flex;
-            justify-content: space-between;
-            gap: 0.8rem;
+            gap: 0.75rem;
         }
-        
+
         .read-more {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            flex: 1;
+            background: var(--primary);
             color: white;
-            border: none;
-            padding: 0.7rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
             font-weight: 600;
-            transition: all 0.3s ease;
-            flex-grow: 1;
-            font-size: 0.85rem;
+            transition: var(--transition);
         }
-        
+
         .read-more:hover {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
-            transform: translateY(-2px);
+            background: var(--primary-dark);
         }
-        
-        .share {
+
+        .share-btn {
             background: rgba(255, 255, 255, 0.1);
-            color: var(--cyber-blue);
-            border: 1px solid rgba(0, 242, 255, 0.3);
-            padding: 0.7rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: var(--accent);
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
         }
-        
-        .share:hover {
-            background: var(--cyber-blue);
+
+        .share-btn:hover {
+            background: var(--accent);
             color: var(--dark);
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
         }
-        
+
+        /* Loading State */
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .empty-state p {
+            color: var(--gray);
+        }
+
         /* Pagination */
         .pagination {
             display: flex;
             justify-content: center;
-            margin-top: 3rem;
             gap: 0.5rem;
+            margin-top: 2rem;
         }
-        
+
         .pagination button {
             width: 40px;
             height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(0, 242, 255, 0.3);
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            color: white;
-        }
-        
-        .pagination button.active {
-            background: linear-gradient(135deg, var(--cyber-blue) 0%, var(--cyber-purple) 100%);
-            color: white;
-            border-color: var(--cyber-blue);
-            box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
-        }
-        
-        .pagination button:hover:not(.active) {
-            background: rgba(0, 242, 255, 0.1);
-            border-color: var(--cyber-blue);
-        }
-        
-        /* Share Modal Styles */
-        .share-modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            color: var(--light);
+            transition: var(--transition);
         }
 
-        .share-modal.show {
-            display: flex;
-            opacity: 1;
-        }
-
-        .share-modal-content {
-            background: var(--dark);
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-            width: 90%;
-            max-width: 400px;
-            border: 1px solid rgba(0, 242, 255, 0.3);
-        }
-
-        .share-modal.show .share-modal-content {
-            transform: scale(1);
-        }
-
-        .share-modal h3 {
-            margin-top: 0;
-            font-size: 1.5rem;
-            color: var(--cyber-blue);
-            margin-bottom: 1.5rem;
-        }
-
-        .share-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .share-links a {
-            color: white;
-            font-size: 1.5rem;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .pagination button:hover {
             background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
         }
 
-        .share-links a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.4);
-        }
-
-        .share-links a.facebook:hover { background-color: #3b5998; }
-        .share-links a.twitter:hover { background-color: #1da1f2; }
-        .share-links a.whatsapp:hover { background-color: #25d366; }
-        .share-links a.linkedin:hover { background-color: #0077b5; }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.8rem;
-            color: var(--cyber-blue);
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        
-        .close-btn:hover {
+        .pagination button.active {
+            background: var(--primary);
+            border-color: var(--primary);
             color: white;
         }
 
-        /* Responsive Design */
-        @media (min-width: 480px) {
-            .blog-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 3rem 1rem 1rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
         @media (min-width: 768px) {
-            .filter-bar {
-                flex-direction: row;
-                align-items: center;
-            }
-            
-            .search-box {
-                width: auto;
-                min-width: 250px;
-            }
-            
-            .blog-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .page-header, .categories-section, .blog-section {
-                padding: 3rem 2rem;
-            }
-        }
-        
-        @media (min-width: 992px) {
-            .blog-grid {
+            .footer-content {
                 grid-template-columns: repeat(3, 1fr);
             }
-            
-            .page-header h1 {
-                font-size: 3rem;
-            }
-            
-            .section-title {
-                font-size: 2.5rem;
-            }
         }
-        
-        @media (min-width: 1200px) {
-            .page-header, .categories-section, .blog-section {
-                padding: 4rem;
-            }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
         }
-        
-        @media (max-width: 480px) {
-            .page-header h1 {
-                font-size: 2rem;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
-            }
-            
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .filter-options {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .filter-select {
-                width: 100%;
-            }
-            
-            .blog-actions {
-                flex-direction: column;
-            }
-            
-            .blog-image {
-                height: 150px;
-            }
+
+        .footer-section p {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--gray);
+        }
+
+        .contact-icon {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+        }
+
+        /* Blog Detail Modal */
+        .blog-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+
+        .blog-modal.active {
+            display: block;
+        }
+
+        .blog-modal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .blog-modal-header {
+            position: relative;
+            height: 300px;
+        }
+
+        .blog-modal-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            background: var(--error);
+        }
+
+        .blog-modal-body {
+            padding: 2rem;
+        }
+
+        .blog-modal-body h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .blog-modal-body h4 {
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        .blog-modal-body p {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="logo" onclick="window.location.href='index.html'">
-            <div class="logo-icon">
-                <img src="http://bt-images-045854052038.s3-website-us-east-1.amazonaws.com/logo-b.png" alt="Blue Technology Logo" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="header-top">
+            <div class="logo" onclick="window.location.href='index.html'">
+                <div class="logo-icon">
+                    <img src="https://s6.imgcdn.dev/YNRxhl.png" alt="Blue Technology">
+                </div>
+                <span class="logo-text">Blue Tech</span>
             </div>
-            <span class="logo-text">BLUE TECHNOLOGY</span>
-        </div>
-        
-        <div class="nav-container">
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="blog.html" class="active">Blog/Tips</a></li>
-            </ul>
-            
             <div class="header-actions">
-                <div class="cart-button" onclick="window.location.href='cart.html'">
+                <button class="header-action-btn" id="theme-toggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="header-action-btn" onclick="window.location.href='cart.html'" title="Cart">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
-                </div>
-                <div class="profile-button" onclick="window.location.href='profile.html'">
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <button class="header-action-btn" onclick="window.location.href='profile.html'" title="Profile">
                     <i class="fas fa-user"></i>
-                </div>
-            </div>
-            
-            <div class="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
+                </button>
             </div>
         </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search blog posts..." id="search-input">
+            <button onclick="searchBlogs()"><i class="fas fa-search"></i></button>
+        </div>
         
-        <div class="header-particles">
-            <div class="particle" style="top: 20%; left: 10%; width: 5px; height: 5px; animation-delay: 0s;"></div>
-            <div class="particle" style="top: 60%; left: 80%; width: 7px; height: 7px; animation-delay: 2s;"></div>
-            <div class="particle" style="top: 40%; left: 50%; width: 4px; height: 4px; animation-delay: 4s;"></div>
-            <div class="particle" style="top: 80%; left: 30%; width: 6px; height: 6px; animation-delay: 6s;"></div>
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+            <ul class="desktop-nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Mobile Navigation -->
+        <div class="nav-container">
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
         </div>
     </header>
 
+
     <!-- Main Content -->
-    <main style="margin-right: -5%;">
-        <!-- Page Header -->
-        <section class="page-header">
-            <h1>Tech Tips & Blog</h1>
-            <p>Expert advice, maintenance tips, and the latest tech insights from Blue Technology</p>
-        </section>
+    <main>
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="category-tab active" data-category="all">All Posts</button>
+            <button class="category-tab" data-category="Repair Tips">Repair Tips</button>
+            <button class="category-tab" data-category="Maintenance">Maintenance</button>
+            <button class="category-tab" data-category="Buying Guide">Buying Guide</button>
+            <button class="category-tab" data-category="Tech News">Tech News</button>
+            <button class="category-tab" data-category="Troubleshooting">Troubleshooting</button>
+        </div>
 
-        <!-- Categories Section -->
-        <section class="categories-section">
-            <h2 class="section-title">Browse Categories</h2>
-            
-            <div class="categories-grid">
-                <div class="category-card active" data-category="all">
-                    <div class="category-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3 class="category-title">All Tips</h3>
-                </div>
-                
-                <div class="category-card" data-category="battery">
-                    <div class="category-icon">
-                        <i class="fas fa-battery-full"></i>
-                    </div>
-                    <h3 class="category-title">Battery Care</h3>
-                </div>
-                
-                <div class="category-card" data-category="maintenance">
-                    <div class="category-icon">
-                        <i class="fas fa-laptop"></i>
-                    </div>
-                    <h3 class="category-title">Maintenance</h3>
-                </div>
-                
-                <div class="category-card" data-category="security">
-                    <div class="category-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="category-title">Security</h3>
-                </div>
-                
-                <div class="category-card" data-category="performance">
-                    <div class="category-icon">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <h3 class="category-title">Performance</h3>
-                </div>
+        <!-- Blog Grid -->
+        <div id="blog-container">
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
             </div>
-        </section>
+        </div>
 
-        <!-- Blog Section -->
-        <section class="blog-section">
-            <div class="blog-container">
-                
-                <div class="filter-bar">
-                    <div class="filter-options">
-                        <select class="filter-select" id="category-filter">
-                            <option value="all">All Categories</option>
-                            <option value="battery">Battery Care</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="security">Security</option>
-                            <option value="performance">Performance</option>
-                            <option value="storage">Storage</option>
-                            <option value="troubleshooting">Troubleshooting</option>
-                            <option value="gadgets">Gadgets</option>
-                        </select>
-                        
-                        <select class="filter-select" id="sort-filter">
-                            <option value="latest">Latest First</option>
-                            <option value="popular">Most Popular</option>
-                            <option value="oldest">Oldest First</option>
-                        </select>
-                    </div>
-                    
-                    <div class="search-box">
-                        <input type="text" placeholder="Search tips..." id="search-input">
-                        <button><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-                
-                <div class="blog-grid">
-                    <!-- Tip 1 -->
-                    <div class="blog-card" data-categories="battery">
-                        <div class="blog-image">
-                            <img src="https://images.unsplash.com/photo-1616077168079-7e09a677fb2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=70" alt="Extend Phone Battery Life" width="400" height="300" loading="lazy">
-                            <div class="blog-badge">Battery Care</div>
-                        </div>
-                        <div class="blog-info">
-                            <div class="blog-category">BATTERY CARE</div>
-                            <h3 class="blog-title">10 Ways to Extend Your Phone Battery Life</h3>
-                            <p class="blog-excerpt">Learn simple tricks to make your phone battery last longer throughout the day and extend its overall lifespan.</p>
-                            <div class="blog-full-content">
-                                <h4>1. Reduce Screen Brightness</h4>
-                                <p>The screen is one of the biggest power consumers. Lowering your brightness, or enabling auto-brightness, can significantly save power.</p>
-                                <h4>2. Disable Unused Features</h4>
-                                <p>Turn off Wi-Fi, Bluetooth, GPS, and cellular data when you don't need them. Your phone constantly scans for these connections, draining the battery.</p>
-                                <h4>3. Use Dark Mode</h4>
-                                <p>On devices with OLED screens, dark mode uses less power because black pixels are simply turned off. This can make a noticeable difference.</p>
-                                <h4>4. Close Unused Apps</h4>
-                                <p>Apps running in the background can continue to consume power. Regularly close apps you aren't actively using.</p>
-                                <h4>5. Optimize Location Services</h4>
-                                <p>Review which apps have access to your location and set them to "Only While Using" to prevent constant tracking.</p>
-                                <h4>6. Fetch Email Manually</h4>
-                                <p>Instead of having your phone constantly "push" new emails to you, change the settings to "Fetch" on a manual basis.</p>
-                                <h4>7. Avoid Extreme Temperatures</h4>
-                                <p>Heat and cold can both damage your battery. Avoid leaving your phone in direct sunlight or in a very cold environment.</p>
-                                <h4>8. Update Your Phone's OS</h4>
-                                <p>New operating system updates often include battery performance improvements and bug fixes.</p>
-                                <h4>9. Use Battery Saver Mode</h4>
-                                <p>When your battery is low, enable this mode to automatically restrict background activity and visual effects.</p>
-                                <h4>10. Keep Notifications to a Minimum</h4>
-                                <p>Each notification lights up your screen and makes a sound. Turning off unnecessary notifications can help save battery.</p>
-                            </div>
-                            <div class="blog-meta">
-                                <div class="blog-date">
-                                    <i class="far fa-calendar"></i> May 15, 2025
-                                </div>
-                                <div class="blog-read-time">
-                                    <i class="far fa-clock"></i> 5 min read
-                                </div>
-                            </div>
-                            <div class="blog-actions">
-                                <button class="read-more">Read More</button>
-                                <button class="share"><i class="fas fa-share-alt"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Tip 2 -->
-                    <div class="blog-card" data-categories="maintenance">
-                        <div class="blog-image">
-                            <img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=70" alt="Laptop Cleaning" width="400" height="300" loading="lazy">
-                            <div class="blog-badge">Maintenance</div>
-                        </div>
-                        <div class="blog-info">
-                            <div class="blog-category">MAINTENANCE</div>
-                            <h3 class="blog-title">How to Properly Clean Your Laptop</h3>
-                            <p class="blog-excerpt">Step-by-step guide to safely clean your laptop screen, keyboard, and vents without causing damage.</p>
-                            <div class="blog-full-content">
-                                <h4>1. Power Down Your Laptop</h4>
-                                <p>Before you begin, turn off your laptop and unplug it from the power source. This is a critical safety step to prevent electrical damage.</p>
-                                <h4>2. Clean the Keyboard</h4>
-                                <p>Use a can of compressed air to blow out dust and debris from between the keys. Hold the can upright to prevent liquid propellant from spraying onto the keyboard. For a deeper clean, use a microfiber cloth dampened with isopropyl alcohol to wipe the keycaps.</p>
-                                <h4>3. Wipe the Screen</h4>
-                                <p>Use a soft, lint-free microfiber cloth specifically designed for electronics. You can dampen the cloth slightly with a cleaning solution made for screens (never use harsh chemicals like window cleaner). Gently wipe the screen in one direction, then the other, to remove smudges and fingerprints.</p>
-                                <h4>4. Clean the Vents and Ports</h4>
-                                <p>Use compressed air to carefully blow out dust from the air vents on the side or back of your laptop. This helps prevent overheating. You can also use a small, soft brush to clean any dirt from the USB or other ports.</p>
-                                <h4>5. Disinfect the Exterior</h4>
-                                <p>For the casing and touchpad, you can use a clean microfiber cloth with a small amount of isopropyl alcohol to disinfect and remove any grime.</p>
-                            </div>
-                            <div class="blog-meta">
-                                <div class="blog-date">
-                                    <i class="far fa-calendar"></i> May 10, 2025
-                                </div>
-                                <div class="blog-read-time">
-                                    <i class="far fa-clock"></i> 4 min read
-                                </div>
-                            </div>
-                            <div class="blog-actions">
-                                <button class="read-more">Read More</button>
-                                <button class="share"><i class="fas fa-share-alt"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Tip 3 -->
-                    <div class="blog-card" data-categories="security">
-                        <div class="blog-image">
-                            <img src="https://images.unsplash.com/photo-1563013541-7d34d11ba0e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=70" alt="Phone Security" width="400" height="300" loading="lazy">
-                            <div class="blog-badge">Security</div>
-                        </div>
-                        <div class="blog-info">
-                            <div class="blog-category">SECURITY</div>
-                            <h3 class="blog-title">Essential Security Settings for Your Smartphone</h3>
-                            <p class="blog-excerpt">Protect your personal data with these must-have security settings for both iOS and Android devices.</p>
-                            <div class="blog-full-content">
-                                <h4>1. Set a Strong Password or Biometric Lock</h4>
-                                <p>The first line of defense is a strong lock screen. Use a complex passcode (more than 4 digits), or better yet, enable fingerprint or facial recognition for quick and secure access.</p>
-                                <h4>2. Enable Two-Factor Authentication (2FA)</h4>
-                                <p>Whenever possible, enable 2FA for your key accounts (email, social media, banking). This adds a second layer of security, requiring a code from your phone or an authenticator app in addition to your password.</p>
-                                <h4>3. Manage App Permissions</h4>
-                                <p>Regularly review the permissions you have granted to apps. Does a flashlight app really need access to your camera and contacts? Revoke any permissions that seem unnecessary or suspicious.</p>
-                                <h4>4. Keep Your OS Updated</h4>
-                                <p>Operating system updates often contain critical security patches. Make sure you install them as soon as they become available to protect against new threats.</p>
-                                <h4>5. Be Wary of Public Wi-Fi</h4>
-                                <p>Public Wi-Fi networks are often unsecured and can be exploited by hackers. Avoid logging into sensitive accounts or making online purchases while connected to public Wi-Fi. A VPN is highly recommended for added security.</p>
-                                <h4>6. Install a Reputable Security App</h4>
-                                <p>For Android users, a good antivirus or security app can help detect and block malware. iOS devices have built-in security, but an app can still be useful for things like managing passwords or a VPN.</p>
-                            </div>
-                            <div class="blog-meta">
-                                <div class="blog-date">
-                                    <i class="far fa-calendar"></i> May 5, 2025
-                                </div>
-                                <div class="blog-read-time">
-                                    <i class="far fa-clock"></i> 7 min read
-                                </div>
-                            </div>
-                            <div class="blog-actions">
-                                <button class="read-more">Read More</button>
-                                <button class="share"><i class="fas fa-share-alt"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Tip 4 -->
-                    <div class="blog-card" data-categories="performance">
-                        <div class="blog-image">
-                            <img src="https://images.unsplash.com/photo-1603481546238-487240415921?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=70" alt="Laptop Speed" width="400" height="300" loading="lazy">
-                            <div class="blog-badge">Performance</div>
-                        </div>
-                        <div class="blog-info">
-                            <div class="blog-category">PERFORMANCE</div>
-                            <h3 class="blog-title">Speed Up Your Slow Laptop in 5 Easy Steps</h3>
-                            <p class="blog-excerpt">Is your laptop running slow? Try these simple fixes to improve performance without spending money.</p>
-                            <div class="blog-full-content">
-                                <h4>1. Clean Up Your Startup Programs</h4>
-                                <p>Many applications automatically launch when you boot your laptop, slowing down the startup process. Go to your Task Manager (Windows) or System Preferences (Mac) and disable any unnecessary programs from starting automatically.</p>
-                                <h4>2. Free Up Disk Space</h4>
-                                <p>A full hard drive can significantly slow down your computer. Delete old files, uninstall unused applications, and empty your recycle bin to free up space. Consider using a disk cleanup tool to remove temporary files.</p>
-                                <h4>3. Close Unnecessary Browser Tabs</h4>
-                                <p>Browser tabs are a major drain on your system's RAM. Close any tabs you're not actively using. This is a simple but highly effective way to improve performance.</p>
-                                <h4>4. Run a Malware Scan</h4>
-                                <p>Viruses and malware can consume system resources and slow down your computer. Use a reputable antivirus program to scan your system and remove any threats.</p>
-                                <h4>5. Update Your Drivers</h4>
-                                <p>Outdated drivers can sometimes cause performance issues. Check for updates for your graphics card, network adapter, and other components to ensure they are running at optimal efficiency.</p>
-                            </div>
-                            <div class="blog-meta">
-                                <div class="blog-date">
-                                    <i class="far fa-calendar"></i> April 28, 2025
-                                </div>
-                                <div class="blog-read-time">
-                                    <i class="far fa-clock"></i> 6 min read
-                                </div>
-                            </div>
-                            <div class="blog-actions">
-                                <button class="read-more">Read More</button>
-                                <button class="share"><i class="fas fa-share-alt"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Tip 5 -->
-                    <div class="blog-card" data-categories="storage">
-                        <div class="blog-image">
-                            <img src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=70" alt="Phone Storage" width="400" height="300" loading="lazy">
-                            <div class="blog-badge">Storage</div>
-                        </div>
-                        <div class="blog-info">
-                            <div class="blog-category">STORAGE</div>
-                            <h3 class="blog-title">How to Free Up Storage Space on Your Phone</h3>
-                            <p class="blog-excerpt">Running out of storage? Here are effective ways to clear space without losing important data.</p>
-                            <div class="blog-full-content">
-                                <h4>1. Delete Unused Apps</h4>
-                                <p>Start by identifying and deleting apps you no longer use. On both iOS and Android, you can see how much space each app occupies. Remove the ones that are taking up a lot of space unnecessarily.</p>
-                                <h4>2. Clear App Cache and Data</h4>
-                                <p>Apps like social media, browsers, and streaming services can accumulate a large amount of cache data. You can clear this from your phone's settings to free up a significant amount of space without affecting the app's core functionality.</p>
-                                <h4>3. Move Photos and Videos to the Cloud</h4>
-                                <p>Photos and videos are the biggest storage consumers for most people. Use cloud services like Google Photos, iCloud, or Dropbox to back them up and then delete them from your device.</p>
-                                <h4>4. Delete Old Downloads and Files</h4>
-                                <p>Check your downloads folder and file manager for old documents, music, or other files you don't need anymore. These can add up quickly.</p>
-                                <h4>5. Review Your Messages</h4>
-                                <p>Old message threads with attachments (photos, videos, and GIFs) can take up a surprising amount of space. Delete old conversations you don't need to save.</p>
-                            </div>
-                            <div class="blog-meta">
-                                <div class="blog-date">
-                                    <i class="far fa-calendar"></i> April 22, 2025
-                                </div>
-                                <div class="blog-read-time">
-                                    <i class="far fa-clock"></i> 5 min read
-                                </div>
-                            </div>
-                            <div class="blog-actions">
-                                <button class="read-more">Read More</button>
-                                <button class="share"><i class="fas fa-share-alt"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Tip 6 -->
-                    <div class="blog-card" data-categories="troubleshooting">
-                        <div class="blog-image">
-                            <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=70" alt="Laptop Overheating" width="400" height="300" loading="lazy">
-                            <div class="blog-badge">Troubleshooting</div>
-                        </div>
-                        <div class="blog-info">
-                            <div class="blog-category">TROUBLESHOOTING</div>
-                            <h3 class="blog-title">Fixing Laptop Overheating Issues</h3>
-                            <p class="blog-excerpt">Is your laptop overheating? Learn the common causes and how to prevent damage from excessive heat.</p>
-                            <div class="blog-full-content">
-                                <h4>1. Clean the Fans and Vents</h4>
-                                <p>Dust and debris are the most common culprits. Use a can of compressed air to carefully blow out the vents and fan blades to improve airflow.</p>
-                                <h4>2. Use Your Laptop on a Hard, Flat Surface</h4>
-                                <p>Avoid using your laptop on soft surfaces like a bed, blanket, or your lap. These surfaces can block the air vents and cause a build-up of heat.</p>
-                                <h4>3. Close Resource-Intensive Applications</h4>
-                                <p>If you're running multiple demanding programs or too many browser tabs, your CPU will have to work harder, generating more heat. Close any unnecessary applications.</p>
-                                <h4>4. Invest in a Cooling Pad</h4>
-                                <p>A cooling pad is a great accessory for laptops that frequently overheat. They are typically equipped with fans that blow cool air onto the bottom of the laptop, helping to dissipate heat.</p>
-                                <h4>5. Check for Malware</h4>
-                                <p>Some malware can run in the background, consuming CPU cycles and causing your laptop to overheat. Run a full system scan with a reliable antivirus program.</p>
-                            </div>
-                            <div class="blog-meta">
-                                <div class="blog-date">
-                                    <i class="far fa-calendar"></i> April 15, 2025
-                                </div>
-                                <div class="blog-read-time">
-                                    <i class="far fa-clock"></i> 8 min read
-                                </div>
-                            </div>
-                            <div class="blog-actions">
-                                <button class="read-more">Read More</button>
-                                <button class="share"><i class="fas fa-share-alt"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="pagination">
-                    <button data-page-number="1" class="active">1</button>
-                    <button data-page-number="2">2</button>
-                </div>
-            </div>
-        </section>
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
     </main>
 
     <!-- Footer -->
@@ -939,10 +903,10 @@
                 <h3>About Blue Technology</h3>
                 <p>We are Nairobi's leading technology repair and sales company, providing top-quality services since 2010.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
             <div class="footer-section">
@@ -990,175 +954,437 @@
         </div>
     </footer>
 
-    <!-- Social Media Share Modal -->
-    <div id="shareModal" class="share-modal">
-        <div class="share-modal-content">
-            <span class="close-btn">&times;</span>
-            <h3>Share this tip!</h3>
-            <div class="share-links">
-                <a href="#" class="facebook" title="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="twitter" title="Share on X"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="whatsapp" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                <a href="#" class="linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <!-- Blog Detail Modal -->
+    <div class="blog-modal" id="blog-modal">
+        <div class="blog-modal-content">
+            <div class="blog-modal-header">
+                <img id="modal-image" src="" alt="">
+                <button class="close-modal" onclick="closeBlogModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="blog-modal-body" id="modal-body">
+                <!-- Content will be dynamically inserted -->
             </div>
         </div>
     </div>
 
     <script>
-        // Navigation toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuToggle.classList.toggle('active');
+        // Demo blog data (replace with API calls if needed)
+        const blogPosts = [
+            {
+                id: 1,
+                title: "10 Signs Your Phone Needs Professional Repair",
+                category: "Repair Tips",
+                excerpt: "Is your phone acting strange? Learn the warning signs that indicate it's time to seek professional repair services.",
+                image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=500",
+                date: "May 15, 2025",
+                readTime: "5 min read",
+                badge: "Popular",
+                content: `
+                    <h2>10 Signs Your Phone Needs Professional Repair</h2>
+                    <p>Your smartphone is an essential part of your daily life, but like any electronic device, it can develop problems over time. Here are 10 signs that indicate your phone needs professional repair:</p>
+                    
+                    <h4>1. Battery Drains Quickly</h4>
+                    <p>If your phone's battery life has significantly decreased and it needs charging multiple times a day, it might be time for a battery replacement.</p>
+                    
+                    <h4>2. Overheating Issues</h4>
+                    <p>While phones can get warm during heavy use, excessive heat is a red flag that shouldn't be ignored.</p>
+                    
+                    <h4>3. Cracked or Damaged Screen</h4>
+                    <p>Even small cracks can worsen over time and affect touch sensitivity. Get it repaired before it becomes unusable.</p>
+                    
+                    <h4>4. Slow Performance</h4>
+                    <p>If your phone is lagging, freezing, or apps are crashing frequently, it might need professional attention.</p>
+                    
+                    <h4>5. Charging Problems</h4>
+                    <p>Difficulty charging your phone could indicate a faulty charging port or cable connection.</p>
+                `
+            },
+            {
+                id: 2,
+                title: "How to Extend Your Laptop's Battery Life",
+                category: "Maintenance",
+                excerpt: "Simple tips and tricks to maximize your laptop's battery performance and longevity.",
+                image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=500",
+                date: "May 12, 2025",
+                readTime: "7 min read",
+                badge: "Featured",
+                content: `
+                    <h2>How to Extend Your Laptop's Battery Life</h2>
+                    <p>Battery life is one of the most important factors for laptop users. Here are proven strategies to extend your laptop's battery life:</p>
+                    
+                    <h4>1. Adjust Screen Brightness</h4>
+                    <p>The display is one of the biggest battery drains. Lower your screen brightness to a comfortable level.</p>
+                    
+                    <h4>2. Enable Power Saving Mode</h4>
+                    <p>Most operating systems have built-in power saving features that optimize battery usage.</p>
+                    
+                    <h4>3. Close Unnecessary Applications</h4>
+                    <p>Background apps consume power even when you're not using them. Close what you don't need.</p>
+                    
+                    <h4>4. Disable Bluetooth and Wi-Fi When Not Needed</h4>
+                    <p>Wireless connections drain battery. Turn them off when you're not using them.</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Choosing the Right Phone: A Complete Buying Guide",
+                category: "Buying Guide",
+                excerpt: "Everything you need to know before purchasing your next smartphone in 2025.",
+                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500",
+                date: "May 10, 2025",
+                readTime: "10 min read",
+                badge: "New",
+                content: `
+                    <h2>Choosing the Right Phone: A Complete Buying Guide</h2>
+                    <p>With so many smartphones on the market, choosing the right one can be overwhelming. This guide will help you make an informed decision.</p>
+                    
+                    <h4>1. Determine Your Budget</h4>
+                    <p>Set a realistic budget before you start shopping. Phones range from budget-friendly to premium flagship models.</p>
+                    
+                    <h4>2. Consider the Operating System</h4>
+                    <p>Choose between iOS, Android, or other platforms based on your preferences and ecosystem.</p>
+                    
+                    <h4>3. Camera Quality</h4>
+                    <p>If photography is important to you, look for phones with high-quality camera systems.</p>
+                    
+                    <h4>4. Battery Life</h4>
+                    <p>Check reviews for real-world battery performance, not just the mAh rating.</p>
+                `
+            },
+            {
+                id: 4,
+                title: "Common Laptop Problems and Quick Fixes",
+                category: "Troubleshooting",
+                excerpt: "Troubleshoot common laptop issues with these simple solutions before calling a technician.",
+                image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500",
+                date: "May 8, 2025",
+                readTime: "6 min read",
+                badge: "",
+                content: `
+                    <h2>Common Laptop Problems and Quick Fixes</h2>
+                    <p>Before taking your laptop to a repair shop, try these quick fixes for common problems:</p>
+                    
+                    <h4>1. Laptop Won't Turn On</h4>
+                    <p>Check if the battery is charged and the power adapter is working. Try removing the battery and holding the power button for 30 seconds.</p>
+                    
+                    <h4>2. Slow Performance</h4>
+                    <p>Clear temporary files, uninstall unused programs, and run a disk cleanup.</p>
+                    
+                    <h4>3. Overheating</h4>
+                    <p>Clean the vents, use a cooling pad, and ensure proper ventilation.</p>
+                    
+                    <h4>4. Wi-Fi Connection Issues</h4>
+                    <p>Restart your router, update network drivers, and forget/reconnect to the network.</p>
+                `
+            },
+            {
+                id: 5,
+                title: "The Future of Mobile Technology in 2025",
+                category: "Tech News",
+                excerpt: "Explore the latest trends and innovations shaping the mobile technology landscape.",
+                image: "https://images.unsplash.com/photo-1556656793-08538906a9f8?w=500",
+                date: "May 5, 2025",
+                readTime: "8 min read",
+                badge: "Trending",
+                content: `
+                    <h2>The Future of Mobile Technology in 2025</h2>
+                    <p>Mobile technology continues to evolve at a rapid pace. Here's what to expect in 2025 and beyond:</p>
+                    
+                    <h4>1. 5G Expansion</h4>
+                    <p>5G networks are becoming more widespread, offering faster speeds and lower latency.</p>
+                    
+                    <h4>2. Foldable Phones</h4>
+                    <p>Foldable technology is maturing, with more affordable options entering the market.</p>
+                    
+                    <h4>3. AI Integration</h4>
+                    <p>Artificial intelligence is being integrated into smartphones for enhanced photography, voice assistants, and more.</p>
+                    
+                    <h4>4. Improved Battery Technology</h4>
+                    <p>New battery technologies promise longer life and faster charging capabilities.</p>
+                `
+            },
+            {
+                id: 6,
+                title: "Essential Maintenance Tips for Your Devices",
+                category: "Maintenance",
+                excerpt: "Keep your electronics running smoothly with these essential maintenance practices.",
+                image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500",
+                date: "May 3, 2025",
+                readTime: "5 min read",
+                badge: "",
+                content: `
+                    <h2>Essential Maintenance Tips for Your Devices</h2>
+                    <p>Regular maintenance can extend the life of your electronic devices. Follow these tips:</p>
+                    
+                    <h4>1. Keep Devices Clean</h4>
+                    <p>Regularly clean screens, keyboards, and ports to prevent dust buildup.</p>
+                    
+                    <h4>2. Update Software Regularly</h4>
+                    <p>Keep your operating system and apps updated for security and performance improvements.</p>
+                    
+                    <h4>3. Use Protective Cases</h4>
+                    <p>Invest in quality cases and screen protectors to prevent physical damage.</p>
+                    
+                    <h4>4. Manage Storage</h4>
+                    <p>Regularly delete unnecessary files and back up important data.</p>
+                `
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentPage = 1;
+        const postsPerPage = 6;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            loadCartCount();
+            renderBlogs();
+            setupEventListeners();
         });
-        
-        // Category filtering functionality
-        const categoryCards = document.querySelectorAll('.category-card');
-        const blogCards = document.querySelectorAll('.blog-card');
-        const categoryFilter = document.getElementById('category-filter');
-        
-        function filterByCategory(category) {
-            blogCards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-categories').includes(category)) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-            
-            // Update active state for category cards
-            categoryCards.forEach(card => {
-                if (card.getAttribute('data-category') === category) {
-                    card.classList.add('active');
-                } else {
-                    card.classList.remove('active');
-                }
-            });
-            
-            // Update dropdown to match
-            categoryFilter.value = category;
+
+        // Theme Toggle
+        function initializeTheme() {
+            const theme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+            updateThemeIcon(theme);
         }
-        
-        // Add event listeners to category cards
-        categoryCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const category = card.getAttribute('data-category');
-                filterByCategory(category);
+
+        function updateThemeIcon(theme) {
+            const icon = document.querySelector('#theme-toggle i');
+            icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        // Mobile Menu Toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('nav-links').classList.toggle('active');
+        });
+
+        // Cart Count
+        function loadCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+        }
+
+        // Category Tabs
+        function setupEventListeners() {
+            const tabs = document.querySelectorAll('.category-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.dataset.category;
+                    currentPage = 1;
+                    renderBlogs();
+                });
             });
-        });
-        
-        // Add event listener to category filter dropdown
-        categoryFilter.addEventListener('change', () => {
-            filterByCategory(categoryFilter.value);
-        });
-        
-        // Share functionality
-        const shareButtons = document.querySelectorAll('.share');
-        const shareModal = document.getElementById('shareModal');
-        const closeBtn = shareModal.querySelector('.close-btn');
+        }
 
-        shareButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                event.preventDefault();
-                const shareUrl = window.location.href;
-                const shareTitle = button.closest('.blog-card').querySelector('.blog-title').textContent.trim();
-                const shareText = "Check out this great tech tip from Blue Technology!";
+        // Render Blogs
+        function renderBlogs() {
+            const container = document.getElementById('blog-container');
+            
+            // Filter posts
+            let filteredPosts = currentCategory === 'all' 
+                ? blogPosts 
+                : blogPosts.filter(post => post.category === currentCategory);
 
-                // Set up the dynamic sharing links
-                document.querySelector('.share-links .facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-                document.querySelector('.share-links .twitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText + ' ' + shareTitle)}`;
-                document.querySelector('.share-links .whatsapp').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
-                document.querySelector('.share-links .linkedin').href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}`;
+            // Pagination
+            const startIndex = (currentPage - 1) * postsPerPage;
+            const endIndex = startIndex + postsPerPage;
+            const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
 
-                shareModal.classList.add('show');
-            });
-        });
+            // Render
+            if (paginatedPosts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-newspaper"></i>
+                        <h3>No Posts Found</h3>
+                        <p>No blog posts available in this category.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="blog-grid">
+                        ${paginatedPosts.map(post => `
+                            <div class="blog-card">
+                                <div class="blog-image">
+                                    <img src="${post.image}" alt="${post.title}" onerror="this.src='https://via.placeholder.com/500x300?text=Blog+Post'">
+                                    ${post.badge ? `<span class="blog-badge">${post.badge}</span>` : ''}
+                                </div>
+                                <div class="blog-content">
+                                    <div class="blog-category">${post.category}</div>
+                                    <h3 class="blog-title">${post.title}</h3>
+                                    <p class="blog-excerpt">${post.excerpt}</p>
+                                    <div class="blog-meta">
+                                        <div class="blog-date">
+                                            <i class="far fa-calendar"></i> ${post.date}
+                                        </div>
+                                        <div class="blog-read-time">
+                                            <i class="far fa-clock"></i> ${post.readTime}
+                                        </div>
+                                    </div>
+                                    <div class="blog-actions">
+                                        <button class="read-more" onclick="openBlogModal(${post.id})">Read More</button>
+                                        <button class="share-btn" onclick="shareBlog(${post.id})">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
 
-        // Close the modal when the close button is clicked
-        closeBtn.addEventListener('click', () => {
-            shareModal.classList.remove('show');
-        });
+            // Render pagination
+            renderPagination(filteredPosts.length);
+        }
 
-        // Close the modal if the user clicks outside of it
-        window.addEventListener('click', (event) => {
-            if (event.target === shareModal) {
-                shareModal.classList.remove('show');
+        // Pagination
+        function renderPagination(totalPosts) {
+            const totalPages = Math.ceil(totalPosts / postsPerPage);
+            const paginationContainer = document.getElementById('pagination');
+
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            renderBlogs();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Blog Modal
+        function openBlogModal(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            document.getElementById('modal-image').src = post.image;
+            document.getElementById('modal-body').innerHTML = post.content;
+            document.getElementById('blog-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBlogModal() {
+            document.getElementById('blog-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Search
+        function searchBlogs() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            if (!searchTerm) {
+                renderBlogs();
+                return;
+            }
+
+            const container = document.getElementById('blog-container');
+            const filteredPosts = blogPosts.filter(post => 
+                post.title.toLowerCase().includes(searchTerm) ||
+                post.excerpt.toLowerCase().includes(searchTerm) ||
+                post.category.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredPosts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>No Results Found</h3>
+                        <p>No blog posts match your search term "${searchTerm}".</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="blog-grid">
+                        ${filteredPosts.map(post => `
+                            <div class="blog-card">
+                                <div class="blog-image">
+                                    <img src="${post.image}" alt="${post.title}" onerror="this.src='https://via.placeholder.com/500x300?text=Blog+Post'">
+                                    ${post.badge ? `<span class="blog-badge">${post.badge}</span>` : ''}
+                                </div>
+                                <div class="blog-content">
+                                    <div class="blog-category">${post.category}</div>
+                                    <h3 class="blog-title">${post.title}</h3>
+                                    <p class="blog-excerpt">${post.excerpt}</p>
+                                    <div class="blog-meta">
+                                        <div class="blog-date">
+                                            <i class="far fa-calendar"></i> ${post.date}
+                                        </div>
+                                        <div class="blog-read-time">
+                                            <i class="far fa-clock"></i> ${post.readTime}
+                                        </div>
+                                    </div>
+                                    <div class="blog-actions">
+                                        <button class="read-more" onclick="openBlogModal(${post.id})">Read More</button>
+                                        <button class="share-btn" onclick="shareBlog(${post.id})">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            document.getElementById('pagination').innerHTML = '';
+        }
+
+        // Share Blog
+        function shareBlog(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: post.title,
+                    text: post.excerpt,
+                    url: window.location.href
+                }).catch(err => console.log('Error sharing:', err));
+            } else {
+                alert('Sharing is not supported on this browser');
+            }
+        }
+
+        // Search on Enter key
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchBlogs();
             }
         });
 
-        // Read more functionality
-        const readMoreButtons = document.querySelectorAll('.read-more');
-
-        readMoreButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const card = button.closest('.blog-card');
-                const excerpt = card.querySelector('.blog-excerpt');
-                const fullContent = card.querySelector('.blog-full-content');
-                
-                if (fullContent.style.display === 'block') {
-                    // Collapse the content
-                    fullContent.style.display = 'none';
-                    excerpt.style.display = 'block';
-                    button.textContent = 'Read More';
-                } else {
-                    // Expand the content
-                    excerpt.style.display = 'none';
-                    fullContent.style.display = 'block';
-                    button.textContent = 'Read Less';
-                }
-            });
-        });
-
-        // Pagination functionality
-        const paginationButtons = document.querySelectorAll('.pagination button');
-        const itemsPerPage = 6;
-
-        function showPage(pageNumber) {
-            blogCards.forEach((card, index) => {
-                if (index >= (pageNumber - 1) * itemsPerPage && index < pageNumber * itemsPerPage) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-
-            paginationButtons.forEach(btn => {
-                if (parseInt(btn.getAttribute('data-page-number')) === pageNumber) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-        }
-
-        // Initial page load
-        showPage(1);
-        
-        paginationButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const pageNumber = parseInt(button.getAttribute('data-page-number'));
-                showPage(pageNumber);
-            });
-        });
-        
-        // Search functionality
-        const searchInput = document.getElementById('search-input');
-        
-        searchInput.addEventListener('keyup', () => {
-            const searchTerm = searchInput.value.toLowerCase();
-            
-            blogCards.forEach(card => {
-                const title = card.querySelector('.blog-title').textContent.toLowerCase();
-                const excerpt = card.querySelector('.blog-excerpt').textContent.toLowerCase();
-                
-                if (title.includes(searchTerm) || excerpt.includes(searchTerm)) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeBlogModal();
+            }
         });
     </script>
 </body>
