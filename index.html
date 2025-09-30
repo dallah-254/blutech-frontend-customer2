@@ -6,65 +6,885 @@
     <title>Blue Technology - Advanced Tech Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="global-styles.css">
-    <link rel="stylesheet" href="carousel.css">
     <style>
-        /* Loading spinner styles */
-        .loading-spinner {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            grid-column: 1 / -1;
+        :root {
+            --primary: #0066cc;
+            --primary-dark: #0052a3;
+            --secondary: #00a8ff;
+            --accent: #00d4ff;
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --success: #28a745;
+            --warning: #ffc107;
+            --error: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
-        
-        .spinner {
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Header Styles */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            padding: 0.75rem 1rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
             width: 40px;
             height: 40px;
-            border: 4px solid rgba(0, 0, 0, 0.1);
             border-radius: 50%;
-            border-top: 4px solid var(--primary);
-            animation: spin 1s linear infinite;
+            overflow: hidden;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .header-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .header-action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-bar {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-bar button {
+            padding: 0 1rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            transition: var(--transition);
+        }
+
+        .search-bar button:hover {
+            background: var(--primary-dark);
+        }
+
+        .nav-container {
+            position: relative;
+        }
+
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .nav-links.active {
+            display: block;
+        }
+
+        .nav-links li {
+            list-style: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links li:last-child {
+            border-bottom: none;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 0.75rem 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: white;
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Main Content */
+        main {
+            padding: 1rem;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .view-all {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .carousel-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 1rem;
+            color: white;
+        }
+
+        .carousel-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .carousel-content .price {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .carousel-cta {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .carousel-cta:hover {
+            background: var(--primary-dark);
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .carousel-nav:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .carousel-nav.prev {
+            left: 10px;
+        }
+
+        .carousel-nav.next {
+            right: 10px;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transition: var(--transition);
+        }
+
+        .carousel-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        /* Horizontal Scroll Sections */
+        .horizontal-scroll-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 1rem;
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding-bottom: 0.5rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
-        
-        .empty-state, .error-state {
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product-card, .service-card {
+            min-width: 150px;
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover, .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-container {
+            position: relative;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .product-image, .service-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image,
+        .service-card:hover .service-image {
+            transform: scale(1.05);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--error);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .product-info, .service-info {
+            padding: 0.75rem;
+        }
+
+        .product-title, .service-title {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price, .service-price {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .product-actions, .service-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .buy-now, .book-now {
+            flex: 1;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .buy-now:hover, .book-now:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            margin-bottom: 2rem;
+        }
+
+        .reviews-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .review-card {
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .reviewer-info {
+            flex: 1;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .review-date {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .review-rating {
+            display: flex;
+            gap: 2px;
+        }
+
+        .review-rating i {
+            color: var(--warning);
+            font-size: 0.9rem;
+        }
+
+        .review-content p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .show-more-btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background: transparent;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+
+        .show-more-btn:hover {
+            background: rgba(0, 168, 255, 0.1);
+        }
+
+        .add-review {
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .add-review h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .submit-review {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .submit-review:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 2rem 1rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer-section p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--gray-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            font-size: 0.9rem;
+            color: var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .contact-item p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 1.5rem 0;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: white;
+        }
+
+        .modal-body {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .modal-image-container {
+            position: relative;
+            height: 200px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-placeholder {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            text-align: center;
-            grid-column: 1 / -1;
-        }
-        
-        .empty-state i, .error-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            height: 100%;
+            background: linear-gradient(45deg, #2a2a4a, #1a1a2e);
             color: var(--gray);
         }
-        
-        .error-state i {
-            color: var(--error);
+
+        .image-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
         }
-        
-        .retry-btn {
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
+
+        .modal-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-discount {
+            display: inline-block;
+            background: var(--error);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .modal-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .modal-variations {
+            margin-bottom: 1.5rem;
+        }
+
+        .variation-title {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .variation-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .variation-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .variation-option input[type="radio"] {
+            accent-color: var(--primary);
+        }
+
+        .variation-option label {
+            font-size: 0.9rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-buy-btn, .modal-book-btn {
+            flex: 1;
+            padding: 0.75rem;
             background: var(--primary);
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
         }
-        
-        /* Toast notification */
+
+        .modal-buy-btn:hover, .modal-book-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Toast Notification */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -72,130 +892,159 @@
             background: var(--dark);
             color: white;
             padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
             gap: 10px;
-            z-index: 10001;
+            z-index: 3000;
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s ease;
+            max-width: 300px;
         }
-        
+
         .toast.show {
             transform: translateY(0);
             opacity: 1;
         }
-        
+
         .toast.error {
             background: var(--error);
         }
-        
+
         .toast.success {
             background: var(--success);
         }
-        
-        /* Product and service image styles */
-        .product-image, .service-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px 8px 0 0;
+
+        .toast-icon {
+            font-size: 1.2rem;
         }
-        
-        /* Hide descriptions on cards */
-        .product-card .product-description,
-        .service-card .service-description {
-            display: none;
-        }
-        
-        /* Placeholder styling */
-        .image-placeholder {
-            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+
+        /* Loading and Error States */
+        .loading-spinner {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #888;
-            font-size: 14px;
+            padding: 2rem;
             width: 100%;
-            height: 100%;
-            min-height: 200px;
         }
-        
-        .image-placeholder i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
         }
-        
-        /* Carousel image styles */
-        .carousel-image {
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state, .error-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
             width: 100%;
-            height: 300px;
-            object-fit: cover;
+        }
+
+        .empty-state i, .error-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .error-state i {
+            color: var(--error);
+        }
+
+        .retry-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .footer-section {
+                flex: 1;
+            }
+            
+            .carousel-image {
+                height: 250px;
+            }
+            
+            .image-container {
+                height: 150px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="logo" onclick="window.location.href='index.html'">
-            <div class="logo-icon">
-                <img src="http://bt-images-045854052038.s3-website-us-east-1.amazonaws.com/logo-b.png" alt="Blue Technology Logo" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="header-top">
+            <div class="logo" onclick="window.location.href='index.html'">
+                <div class="logo-icon">
+                    <img src="http://bt-images-045854052038.s3-website-us-east-1.amazonaws.com/logo-b.png" alt="Blue Technology Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <span class="logo-text">BLUE TECHNOLOGY</span>
             </div>
-            <span class="logo-text">BLUE TECHNOLOGY</span>
+            
+            <div class="header-actions">
+                <div class="header-action-btn cart-button" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+                <div class="header-action-btn profile-button" onclick="window.location.href='profile.html'">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search products and services...">
+            <button><i class="fas fa-search"></i></button>
         </div>
         
         <div class="nav-container">
-            <ul class="nav-links">
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-links" id="nav-links">
                 <li><a href="#" class="active">Home</a></li>
                 <li><a href="products.html">Products</a></li>
                 <li><a href="services.html">Services</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="blog.html">Blog/Tips</a></li>
             </ul>
-            
-            <div class="header-actions">
-                <div class="cart-button" onclick="window.location.href='cart.html'">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
-                </div>
-                <div class="profile-button" onclick="window.location.href='profile.html'">
-                    <i class="fas fa-user"></i>
-                </div>
-            </div>
-            
-            <div class="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-        
-        <div class="header-particles">
-            <div class="particle" style="top: 20%; left: 10%; width: 5px; height: 5px; animation-delay: 0s;"></div>
-            <div class="particle" style="top: 60%; left: 80%; width: 7px; height: 7px; animation-delay: 2s;"></div>
-            <div class="particle" style="top: 40%; left: 50%; width: 4px; height: 4px; animation-delay: 4s;"></div>
-            <div class="particle" style="top: 80%; left: 30%; width: 6px; height: 6px; animation-delay: 6s;"></div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Advanced Technology Solutions for Modern Businesses</h1>
-                <p>Discover our premium range of tech products and professional services designed to elevate your business to the next level.</p>
-                <div class="hero-buttons">
-                    <button class="secondary-button" onclick="window.location.href='products.html'">Explore Products</button>
-                    <button class="secondary-button" onclick="window.location.href='services.html'">View Services</button>
-                </div>
-            </div>
-        </section>
-
         <!-- Featured Products Carousel Section -->
-        <section class="universal-carousel">
+        <section class="carousel-section">
             <h2 class="section-title">Featured Products</h2>
             <div class="carousel-container">
                 <div class="carousel-track" id="featured-products-carousel">
@@ -212,28 +1061,27 @@
             </div>
         </section>
 
-        <!-- Products Grid Section -->
-        <section class="products-section">
+        <!-- Products Horizontal Scroll Section -->
+        <section class="horizontal-scroll-section">
             <div class="section-header">
                 <h2 class="section-title">Our Products</h2>
                 <a href="products.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="products-grid" id="homepage-products-grid">
+            <div class="scroll-container" id="homepage-products-scroll">
                 <div class="loading-spinner">
                     <div class="spinner"></div>
                     <p>Loading products...</p>
                 </div>
             </div>
         </section>
-        <br><br>
- 
-        <!-- Services Grid Section -->
-        <section class="services-section">
+
+        <!-- Services Horizontal Scroll Section -->
+        <section class="horizontal-scroll-section">
             <div class="section-header">
                 <h2 class="section-title">Our Services</h2>
                 <a href="services.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="services-grid" id="homepage-services-grid">
+            <div class="scroll-container" id="homepage-services-scroll">
                 <div class="loading-spinner">
                     <div class="spinner"></div>
                     <p>Loading services...</p>
@@ -344,13 +1192,6 @@
         <div class="copyright">
             <p>&copy; 2025 Blue Tech. All rights reserved.</p>
         </div>
-        
-        <div class="floating-elements">
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-        </div>
     </footer>
 
     <!-- Product/Service Modal -->
@@ -363,13 +1204,16 @@
             <div class="modal-body">
                 <div class="modal-image-container">
                     <img src="" alt="Product Image" class="modal-image" id="modalProductImage">
-                    <div class="image-placeholder" id="modalProductImagePlaceholder">No Image Available</div>
+                    <div class="image-placeholder" id="modalProductImagePlaceholder" style="display: none;">
+                        <i class="fas fa-image"></i>
+                        <span>No Image Available</span>
+                    </div>
                 </div>
                 <div class="modal-price" id="modalProductPrice"></div>
                 <div class="modal-discount" id="modalProductDiscount" style="display: none;"></div>
                 <p class="modal-description" id="modalProductDescription"></p>
                 
-                <div class="modal-variations" id="modalProductVariations">
+                <div class="modal-variations" id="modalProductVariations" style="display: none;">
                     <h4 class="variation-title">Available Variations</h4>
                     <div class="variation-options" id="modalProductVariationOptions">
                         <!-- Backend will populate variation options -->
@@ -393,12 +1237,15 @@
             <div class="modal-body">
                 <div class="modal-image-container">
                     <img src="" alt="Service Image" class="modal-image" id="modalServiceImage">
-                    <div class="image-placeholder" id="modalServiceImagePlaceholder">No Image Available</div>
+                    <div class="image-placeholder" id="modalServiceImagePlaceholder" style="display: none;">
+                        <i class="fas fa-image"></i>
+                        <span>No Image Available</span>
+                    </div>
                 </div>
                 <div class="modal-price" id="modalServicePrice"></div>
                 <p class="modal-description" id="modalServiceDescription"></p>
                 
-                <div class="modal-variations" id="modalServiceVariations">
+                <div class="modal-variations" id="modalServiceVariations" style="display: none;">
                     <h4 class="variation-title">Service Options</h4>
                     <div class="variation-options" id="modalServiceVariationOptions">
                         <!-- Backend will populate service options -->
@@ -417,7 +1264,43 @@
         <span class="toast-icon"><i class="fas fa-info-circle"></i></span>
         <span class="toast-message" id="toast-message"></span>
     </div>
+
     <script>
+        // API endpoints - unchanged from original
+        const API_BASE_URL = 'https://blutech-backend2.onrender.com';
+        const API_ENDPOINTS = {
+            FEATURED_PRODUCTS: `${API_BASE_URL}/api/products/carousel`,
+            FEATURED_SERVICES: `${API_BASE_URL}/api/services/carousel`,
+            PRODUCTS: `${API_BASE_URL}/api/products?limit=10`,
+            SERVICES: `${API_BASE_URL}/api/services?limit=10`,
+            REVIEWS: `${API_BASE_URL}/api/reviews`,
+            SUBMIT_REVIEW: `${API_BASE_URL}/api/reviews/submit`,
+            PRODUCT_DETAILS: `${API_BASE_URL}/api/products/`,
+            SERVICE_DETAILS: `${API_BASE_URL}/api/services/`,
+            ADD_TO_CART: `${API_BASE_URL}/api/cart/`
+        };
+
+        // DOM elements
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        const featuredProductsCarousel = document.getElementById('featured-products-carousel');
+        const productsScroll = document.getElementById('homepage-products-scroll');
+        const servicesScroll = document.getElementById('homepage-services-scroll');
+        const reviewsContainer = document.getElementById('reviews-container');
+        const showMoreReviewsBtn = document.getElementById('show-more-reviews');
+        const reviewForm = document.getElementById('review-form');
+        const productModal = document.getElementById('productModal');
+        const serviceModal = document.getElementById('serviceModal');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const cartCount = document.querySelector('.cart-count');
+
+        // State variables
+        let currentReviewsPage = 1;
+        let hasMoreReviews = true;
+        let featuredProductsCarouselInstance = null;
+        let featuredServicesCarouselInstance = null;
+
         // Generate a session ID for cart if not exists
         function getSessionId() {
             let sessionId = localStorage.getItem('sessionId');
@@ -427,8 +1310,64 @@
             }
             return sessionId;
         }
+        
+        const sessionId = getSessionId();
 
-        // Universal Carousel Class (from carousel.js)
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadFeaturedProducts();
+            loadProducts();
+            loadServices();
+            loadReviews();
+            updateCartCount();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Mobile menu toggle
+            menuToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.nav-container')) {
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            });
+            
+            // Review form submission
+            reviewForm.addEventListener('submit', handleReviewSubmit);
+            
+            // Show more reviews button
+            showMoreReviewsBtn.addEventListener('click', loadMoreReviews);
+            
+            // Modal close buttons
+            document.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === productModal) {
+                    productModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+                if (event.target === serviceModal) {
+                    serviceModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        // Universal Carousel Class
         class UniversalCarousel {
             constructor(container, options = {}) {
                 this.container = container;
@@ -634,82 +1573,6 @@
                 }
             }
         }
-        
-        // API endpoints - updated to connect to our backend
-        const API_BASE_URL = 'https://blutech-backend2.onrender.com'; // Change this to your backend URL
-        const API_ENDPOINTS = {
-            FEATURED_PRODUCTS: `${API_BASE_URL}/api/products/carousel`,
-            FEATURED_SERVICES: `${API_BASE_URL}/api/services/carousel`,
-            PRODUCTS: `${API_BASE_URL}/api/products?limit=10`,
-            SERVICES: `${API_BASE_URL}/api/services?limit=10`,
-            REVIEWS: `${API_BASE_URL}/api/reviews`,
-            SUBMIT_REVIEW: `${API_BASE_URL}/api/reviews/submit`,
-            PRODUCT_DETAILS: `${API_BASE_URL}/api/products/`,
-            SERVICE_DETAILS: `${API_BASE_URL}/api/services/`,
-            ADD_TO_CART: `${API_BASE_URL}/api/cart/`
-        };
-
-        // DOM elements
-        const featuredProductsCarousel = document.getElementById('featured-products-carousel');
-        const featuredServicesCarousel = document.getElementById('featured-services-carousel');
-        const productsGrid = document.getElementById('homepage-products-grid');
-        const servicesGrid = document.getElementById('homepage-services-grid');
-        const reviewsContainer = document.getElementById('reviews-container');
-        const showMoreReviewsBtn = document.getElementById('show-more-reviews');
-        const reviewForm = document.getElementById('review-form');
-        const productModal = document.getElementById('productModal');
-        const serviceModal = document.getElementById('serviceModal');
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toast-message');
-        const cartCount = document.querySelector('.cart-count');
-
-        // State variables
-        let currentReviewsPage = 1;
-        let hasMoreReviews = true;
-        let featuredProductsCarouselInstance = null;
-        let featuredServicesCarouselInstance = null;
-        const sessionId = getSessionId();
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            setupEventListeners();
-            loadFeaturedProducts();
-            loadProducts();
-            loadFeaturedServices();
-            loadServices();
-            loadReviews();
-            updateCartCount();
-        });
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Review form submission
-            reviewForm.addEventListener('submit', handleReviewSubmit);
-            
-            // Show more reviews button
-            showMoreReviewsBtn.addEventListener('click', loadMoreReviews);
-            
-            // Modal close buttons
-            document.querySelectorAll('.close-modal').forEach(button => {
-                button.addEventListener('click', function() {
-                    const modal = this.closest('.modal');
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                });
-            });
-            
-            // Close modals when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target === productModal) {
-                    productModal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-                if (event.target === serviceModal) {
-                    serviceModal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        }
 
         // Update cart count
         async function updateCartCount() {
@@ -760,7 +1623,7 @@
                     featuredProductsCarouselInstance.destroy();
                 }
                 
-                const carouselContainer = document.querySelector('#featured-products-carousel').closest('.carousel-container');
+                const carouselContainer = document.querySelector('.carousel-container');
                 featuredProductsCarouselInstance = new UniversalCarousel(carouselContainer);
             } catch (error) {
                 console.error('Error loading featured products:', error);
@@ -787,16 +1650,14 @@
                 
                 html += `
                     <div class="carousel-slide" data-product-id="${product._id}">
-                        <div class="carousel-slide-content">
-                            ${product.image ? 
-                                `<img src="${imageUrl}" alt="${product.name}" class="carousel-image" onerror="handleImageError(this)">` : 
-                                `<div class="image-placeholder"><i class="fas fa-image"></i> No Image</div>`
-                            }
-                            <div class="carousel-content">
-                                <h3>${product.name}</h3>
-                                <div class="price">${product.price}</div>
-                                <button class="carousel-cta view-details" data-product-id="${product._id}">View Details</button>
-                            </div>
+                        ${product.image ? 
+                            `<img src="${imageUrl}" alt="${product.name}" class="carousel-image" onerror="handleImageError(this)">` : 
+                            `<div class="image-placeholder"><i class="fas fa-image"></i> No Image</div>`
+                        }
+                        <div class="carousel-content">
+                            <h3>${product.name}</h3>
+                            <div class="price">${product.price}</div>
+                            <button class="carousel-cta view-details" data-product-id="${product._id}">View Details</button>
                         </div>
                     </div>
                 `;
@@ -834,11 +1695,11 @@
             }
         }
 
-        // Load products for grid
+        // Load products for horizontal scroll
         async function loadProducts() {
             try {
                 // Show loading state
-                productsGrid.innerHTML = `
+                productsScroll.innerHTML = `
                     <div class="loading-spinner">
                         <div class="spinner"></div>
                         <p>Loading products...</p>
@@ -853,7 +1714,7 @@
                 const products = data.products || data;
                 
                 if (products.length === 0) {
-                    productsGrid.innerHTML = `
+                    productsScroll.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-box-open"></i>
                             <p>No products available at the moment.</p>
@@ -862,11 +1723,11 @@
                     return;
                 }
                 
-                // Render products grid
-                renderProductsGrid(products);
+                // Render products scroll
+                renderProductsScroll(products);
             } catch (error) {
                 console.error('Error loading products:', error);
-                productsGrid.innerHTML = `
+                productsScroll.innerHTML = `
                     <div class="error-state">
                         <i class="fas fa-exclamation-triangle"></i>
                         <p>Failed to load products. Please try again later.</p>
@@ -876,8 +1737,8 @@
             }
         }
 
-        // Render products grid
-        function renderProductsGrid(products) {
+        // Render products horizontal scroll
+        function renderProductsScroll(products) {
             let html = '';
             
             products.forEach(product => {
@@ -899,8 +1760,6 @@
                         <div class="product-info">
                             <h3 class="product-title">${product.name}</h3>
                             <div class="product-price">${product.price}</div>
-                            <!-- Description is hidden on the card but will be shown in the modal -->
-                            <p class="product-description" style="display: none;">${product.description}</p>
                             <div class="product-actions">
                                 <button class="buy-now" data-product-id="${product._id}">Buy Now</button>
                             </div>
@@ -909,10 +1768,10 @@
                 `;
             });
             
-            productsGrid.innerHTML = html;
+            productsScroll.innerHTML = html;
             
             // Add event listeners to buy now buttons
-            productsGrid.querySelectorAll('.buy-now').forEach(button => {
+            productsScroll.querySelectorAll('.buy-now').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const productId = this.getAttribute('data-product-id');
@@ -921,7 +1780,7 @@
             });
             
             // Add event listeners to product cards
-            productsGrid.querySelectorAll('.product-card').forEach(card => {
+            productsScroll.querySelectorAll('.product-card').forEach(card => {
                 card.addEventListener('click', function() {
                     const productId = this.getAttribute('data-product-id');
                     openProductModal(productId);
@@ -929,120 +1788,11 @@
             });
         }
 
-        // Load featured services for carousel
-        async function loadFeaturedServices() {
-            try {
-                // Show loading state
-                featuredServicesCarousel.innerHTML = `
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading featured services...</p>
-                    </div>
-                `;
-                
-                // Fetch featured services from backend
-                const response = await fetch(API_ENDPOINTS.FEATURED_SERVICES);
-                if (!response.ok) throw new Error('Failed to fetch featured services');
-                
-                const services = await response.json();
-                
-                if (services.length === 0) {
-                    featuredServicesCarousel.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-concierge-bell"></i>
-                            <p>No featured services available.</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                // Render featured services carousel
-                renderFeaturedServicesCarousel(services);
-                
-                // Initialize carousel
-                if (featuredServicesCarouselInstance) {
-                    featuredServicesCarouselInstance.destroy();
-                }
-                
-                const carouselContainer = document.querySelector('#featured-services-carousel').closest('.carousel-container');
-                featuredServicesCarouselInstance = new UniversalCarousel(carouselContainer);
-            } catch (error) {
-                console.error('Error loading featured services:', error);
-                featuredServicesCarousel.innerHTML = `
-                    <div class="error-state">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>Failed to load featured services. Please try again later.</p>
-                        <button onclick="loadFeaturedServices()" class="retry-btn">Retry</button>
-                    </div>
-                `;
-            }
-        }
-
-        // Render featured services carousel
-        function renderFeaturedServicesCarousel(services) {
-            let html = '';
-            
-            services.forEach(service => {
-                // Ensure the image URL is properly formatted
-                let imageUrl = service.image;
-                if (imageUrl && !imageUrl.startsWith('http')) {
-                    imageUrl = API_BASE_URL + imageUrl;
-                }
-                
-                html += `
-                    <div class="carousel-slide" data-service-id="${service._id}">
-                        <div class="carousel-slide-content">
-                            ${service.image ? 
-                                `<img src="${imageUrl}" alt="${service.name}" class="carousel-image" onerror="handleImageError(this)">` : 
-                                `<div class="image-placeholder"><i class="fas fa-image"></i> No Image</div>`
-                            }
-                            <div class="carousel-content">
-                                <h3>${service.name}</h3>
-                                <div class="price">${service.price}</div>
-                                <button class="carousel-cta view-details" data-service-id="${service._id}">View Details</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            featuredServicesCarousel.innerHTML = html;
-            
-            // Add event listeners to view details buttons
-            featuredServicesCarousel.querySelectorAll('.view-details').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const serviceId = this.getAttribute('data-service-id');
-                    openServiceModal(serviceId);
-                });
-            });
-            
-            // Add event listeners to carousel slides
-            featuredServicesCarousel.querySelectorAll('.carousel-slide').forEach(slide => {
-                slide.addEventListener('click', function() {
-                    const serviceId = this.getAttribute('data-service-id');
-                    openServiceModal(serviceId);
-                });
-            });
-            
-            // Create carousel dots
-            const controlsContainer = document.getElementById('services-carousel-controls');
-            controlsContainer.innerHTML = '';
-            
-            for (let i = 0; i < services.length; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'carousel-dot';
-                if (i === 0) dot.classList.add('active');
-                dot.setAttribute('data-slide', i);
-                controlsContainer.appendChild(dot);
-            }
-        }
-
-        // Load services for grid
+        // Load services for horizontal scroll
         async function loadServices() {
             try {
                 // Show loading state
-                servicesGrid.innerHTML = `
+                servicesScroll.innerHTML = `
                     <div class="loading-spinner">
                         <div class="spinner"></div>
                         <p>Loading services...</p>
@@ -1056,7 +1806,7 @@
                 const services = await response.json();
                 
                 if (services.length === 0) {
-                    servicesGrid.innerHTML = `
+                    servicesScroll.innerHTML = `
                         <div class="empty-state">
                             <i class="fas fa-concierge-bell"></i>
                             <p>No services available at the moment.</p>
@@ -1065,11 +1815,11 @@
                     return;
                 }
                 
-                // Render services grid
-                renderServicesGrid(services);
+                // Render services scroll
+                renderServicesScroll(services);
             } catch (error) {
                 console.error('Error loading services:', error);
-                servicesGrid.innerHTML = `
+                servicesScroll.innerHTML = `
                     <div class="error-state">
                         <i class="fas fa-exclamation-triangle"></i>
                         <p>Failed to load services. Please try again later.</p>
@@ -1079,8 +1829,8 @@
             }
         }
 
-        // Render services grid
-        function renderServicesGrid(services) {
+        // Render services horizontal scroll
+        function renderServicesScroll(services) {
             let html = '';
             
             services.forEach(service => {
@@ -1101,8 +1851,6 @@
                         <div class="service-info">
                             <h3 class="service-title">${service.name}</h3>
                             <div class="service-price">${service.price}</div>
-                            <!-- Description is hidden on the card but will be shown in the modal -->
-                            <p class="service-description" style="display: none;">${service.description}</p>
                             <div class="service-actions">
                                 <button class="book-now" data-service-id="${service._id}">Book Now</button>
                             </div>
@@ -1111,10 +1859,10 @@
                 `;
             });
             
-            servicesGrid.innerHTML = html;
+            servicesScroll.innerHTML = html;
             
             // Add event listeners to book now buttons
-            servicesGrid.querySelectorAll('.book-now').forEach(button => {
+            servicesScroll.querySelectorAll('.book-now').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const serviceId = this.getAttribute('data-service-id');
@@ -1123,7 +1871,7 @@
             });
             
             // Add event listeners to service cards
-            servicesGrid.querySelectorAll('.service-card').forEach(card => {
+            servicesScroll.querySelectorAll('.service-card').forEach(card => {
                 card.addEventListener('click', function() {
                     const serviceId = this.getAttribute('data-service-id');
                     openServiceModal(serviceId);
