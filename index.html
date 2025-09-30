@@ -173,16 +173,19 @@
 
         .nav-container {
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .nav-links {
             display: none;
             flex-direction: column;
+            gap: 0;
             position: absolute;
-            top: 100%;
+            top: calc(100% + 0.5rem);
             left: 0;
             right: 0;
-            background: var(--dark);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             overflow: hidden;
@@ -190,7 +193,7 @@
         }
 
         .nav-links.active {
-            display: block;
+            display: flex;
         }
 
         .nav-links li {
@@ -202,13 +205,23 @@
             border-bottom: none;
         }
 
-        .nav-links a {
+        .nav-links a,
+        .nav-links button {
             display: block;
+            width: 100%;
             padding: 0.75rem 1rem;
             transition: var(--transition);
+            text-align: left;
+            background: transparent;
+            color: inherit;
+            border: none;
+            font: inherit;
+            cursor: pointer;
         }
 
-        .nav-links a:hover, .nav-links a.active {
+        .nav-links a:hover,
+        .nav-links a.active,
+        .nav-links button:hover {
             background: var(--primary);
             color: white;
         }
@@ -979,6 +992,30 @@
 
         /* Responsive Adjustments */
         @media (min-width: 768px) {
+            .nav-links {
+                position: static;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.5rem;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            .nav-links li {
+                border-bottom: none;
+            }
+
+            .nav-links a,
+            .nav-links button {
+                width: auto;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
             .footer-content {
                 flex-direction: row;
                 justify-content: space-between;
@@ -1026,11 +1063,11 @@
         </div>
         
         <div class="nav-container">
-            <div class="menu-toggle" id="menu-toggle">
+            <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
             
             <ul class="nav-links" id="nav-links">
                 <li><a href="#" class="active">Home</a></li>
@@ -1329,8 +1366,9 @@
         function setupEventListeners() {
             // Mobile menu toggle
             menuToggle.addEventListener('click', function() {
-                this.classList.toggle('active');
+                const isOpen = this.classList.toggle('active');
                 navLinks.classList.toggle('active');
+                this.setAttribute('aria-expanded', isOpen);
             });
             
             // Close menu when clicking outside
@@ -1338,6 +1376,7 @@
                 if (!event.target.closest('.nav-container')) {
                     menuToggle.classList.remove('active');
                     navLinks.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
                 }
             });
             
