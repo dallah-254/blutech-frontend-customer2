@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Technology - Our Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global-styles.css">
+    <style>
+        /* Additional styles for the services page */
+        .service-card .service-description {
+            display: none; /* Hide description on cards */
+        }
+        
+        .service-list-item .service-list-description {
+            display: none; /* Hide description on list items */
+        }
+        
+        /* Ensure images display properly */
+        .service-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            grid-column: 1 / -1;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .empty-state, .error-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state i, .error-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+        
+        .error-state i {
+            color: var(--error);
+        }
+        
+        .retry-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .image-placeholder {
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 14px;
+            width: 100%;
+            height: 100%;
+            min-height: 150px;
+        }
+        
+        .image-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="services-page">
+    <!-- Header -->
+    <header>
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">
+                <img src="http://bt-images-045854052038.s3-website-us-east-1.amazonaws.com/logo-b.png" alt="Blue Technology Logo" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <span class="logo-text">BLUE TECHNOLOGY</span>
+        </div>
+        
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">Blog/Tips</a></li>
+            </ul>
+            
+            <div class="header-actions">
+                <div class="cart-button" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+                <div class="profile-button" onclick="window.location.href='profile.html'">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="header-particles">
+            <div class="particle" style="top: 20%; left: 10%; width: 5px; height: 5px; animation-delay: 0s;"></div>
+            <div class="particle" style="top: 60%; left: 80%; width: 7px; height: 7px; animation-delay: 2s;"></div>
+            <div class="particle" style="top: 40%; left: 50%; width: 4px; height: 4px; animation-delay: 4s;"></div>
+            <div class="particle" style="top: 80%; left: 30%; width: 6px; height: 6px; animation-delay: 6s;"></div>
+        </div>
+    </header>
+
+    <main>
+        <br><h2>Our Service Categories</h2><br><br><br>
+
+        <!-- Service Categories -->
+        <section class="service-categories" id="all-services">
+            <div class="categories-container">
+                
+                <!-- Desktop Category Tabs -->
+                <div class="categories-tabs">
+                    <button class="category-tab active" data-category="phone-hardware">
+                        <i class="fas fa-mobile-alt"></i> Phone Hardware
+                    </button>
+                    <button class="category-tab" data-category="phone-software">
+                        <i class="fas fa-code"></i> Phone Software
+                    </button>
+                    <button class="category-tab" data-category="laptop-hardware">
+                        <i class="fas fa-laptop"></i> Laptop Hardware
+                    </button>
+                    <button class="category-tab" data-category="laptop-software">
+                        <i class="fas fa-desktop"></i> Laptop Software
+                    </button>
+                    <button class="category-tab" data-category="gaming-consoles">
+                        <i class="fas fa-gamepad"></i> General Electronic Repair
+                    </button>
+                </div>
+                
+                <!-- Category Content -->
+                <div class="category-content active" id="phone-hardware-content">
+                    <div class="services-columns" id="phone-hardware-services">
+                        <!-- Phone hardware services will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading phone hardware services...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-content" id="phone-software-content">
+                    <div class="services-columns" id="phone-software-services">
+                        <!-- Phone software services will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading phone software services...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-content" id="laptop-hardware-content">
+                    <div class="services-columns" id="laptop-hardware-services">
+                        <!-- Laptop hardware services will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading laptop hardware services...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-content" id="laptop-software-content">
+                    <div class="services-columns" id="laptop-software-services">
+                        <!-- Laptop software services will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading laptop software services...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-content" id="gaming-consoles-content">
+                    <div class="services-columns" id="gaming-consoles-services">
+                        <!-- Gaming console services will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading gaming console services...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            
+        </section>
+
+        <!-- Popular Services Section -->
+         <br><br><br>
+        <section class="services-section" id="popular-services">
+            <div class="page-content">
+                <div class="section-header">
+                    <h2>Popular Services</h2>
+                </div>
+                
+                <div class="services-grid" id="popular-services-grid">
+                    <!-- Popular services will be loaded here dynamically -->
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading popular services...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Service Modal -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalServiceTitle">Service Name</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="" alt="Service Image" class="modal-image" id="modalServiceImage">
+                <div class="modal-price" id="modalServicePrice">KSh 0.00</div>
+                <p class="modal-description" id="modalServiceDescription">Service description goes here.</p>
+                
+                <div class="modal-variations">
+                    <h4 class="variation-title">Service Options</h4>
+                    <div class="variation-options" id="modalServiceOptions">
+                        <!-- Service options will be loaded here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="modal-book-btn" id="modalBookBtn">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simple Service Modal (for category services) -->
+    <div class="simple-service-modal" id="simple-service-modal">
+        <div class="simple-service-modal-container">
+            <div class="simple-service-modal-header">
+                <h2 id="simple-modal-service-title">Service Title</h2>
+                <button class="close-simple-service-modal" id="close-simple-service-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="simple-service-modal-content">
+                <div class="simple-service-modal-price" id="simple-modal-service-price">KSh 0.00</div>
+                <div class="simple-service-modal-description" id="simple-modal-service-description">
+                    Service description will be loaded here.
+                </div>
+                <div class="simple-service-modal-features">
+                    <h4>Service Includes:</h4>
+                    <ul class="feature-list" id="simple-modal-service-features">
+                        <!-- Service features will be loaded here dynamically -->
+                    </ul>
+                </div>
+                <div class="simple-service-modal-actions">
+                    <button class="simple-modal-book-btn" id="simpleModalBookBtn">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="margin-left: -6%; margin-right: -6%; margin-bottom: -5%;">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Blue Tech</h3>
+                <p>Blue Tech provides cutting-edge technology solutions and services to businesses and individuals worldwide. We're committed to excellence and innovation.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <p>123 Tech Street Nairobi, Kenya</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <p>Mon-Fri, 9am-5pm EAT</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p>info@bluetech.co.ke</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Blue Tech. All rights reserved.</p>
+        </div>
+        
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+    </footer>
+
+    <script>
+        // API endpoints (using the same endpoints as the homepage)
+        const API_BASE_URL = 'https://blutech-backend2.onrender.com';
+        const API_ENDPOINTS = {
+            POPULAR_SERVICES: `${API_BASE_URL}/api/services/popular`,
+            CATEGORY_SERVICES: `${API_BASE_URL}/api/services/category/`,
+            SERVICE_DETAILS: `${API_BASE_URL}/api/services/`,
+            ALL_SERVICES: `${API_BASE_URL}/api/services`
+        };
+
+        // DOM elements
+        const popularServicesGrid = document.getElementById('popular-services-grid');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const categoryContents = document.querySelectorAll('.category-content');
+        const serviceModal = document.getElementById('serviceModal');
+        const simpleServiceModal = document.getElementById('simple-service-modal');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPopularServices();
+            setupCategoryTabs();
+            setupModals();
+            
+            // Load initial category services
+            const initialCategory = document.querySelector('.category-tab.active').getAttribute('data-category');
+            loadCategoryServices(initialCategory);
+        });
+
+        // Load popular services from backend (using the same endpoint as homepage)
+        async function loadPopularServices() {
+            try {
+                // Show loading state
+                popularServicesGrid.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading popular services...</p>
+                    </div>
+                `;
+                
+                // Fetch popular services from backend
+                const response = await fetch(API_ENDPOINTS.POPULAR_SERVICES);
+                if (!response.ok) throw new Error('Failed to fetch popular services');
+                
+                const services = await response.json();
+                
+                if (services.length === 0) {
+                    popularServicesGrid.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-concierge-bell"></i>
+                            <p>No popular services available at the moment.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Render popular services
+                renderPopularServices(services);
+            } catch (error) {
+                console.error('Error loading popular services:', error);
+                popularServicesGrid.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load popular services. Please try again later.</p>
+                        <button onclick="loadPopularServices()" class="retry-btn">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render popular services in the grid
+        function renderPopularServices(services) {
+            let html = '';
+            
+            services.forEach(service => {
+                // Ensure the image URL is properly formatted
+                let imageUrl = service.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                html += `
+                    <div class="service-card" data-service-id="${service._id}">
+                        <img src="${imageUrl}" alt="${service.name}" class="service-image" onerror="handleImageError(this)">
+                        <div class="service-info">
+                            <h3 class="service-title">${service.name}</h3>
+                            <div class="service-price">${service.price}</div>
+                            <!-- Description is hidden on the card but will be shown in the modal -->
+                            <p class="service-description" style="display: none;">${service.description}</p>
+                            <div class="service-actions">
+                                <button class="book-now" onclick="window.location.href='bookings.html'">Book Now</button>
+                                <button class="view-details" data-service-id="${service._id}">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            popularServicesGrid.innerHTML = html;
+            
+            // Add event listeners to view details buttons
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const serviceId = this.getAttribute('data-service-id');
+                    openServiceModal(serviceId);
+                });
+            });
+            
+            // Add event listeners to service cards
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const serviceId = this.getAttribute('data-service-id');
+                    openServiceModal(serviceId);
+                });
+            });
+        }
+
+        // Setup category tabs
+        function setupCategoryTabs() {
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // Update active tab
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    categoryContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `${category}-content`) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Load category services
+                    loadCategoryServices(category);
+                });
+            });
+        }
+
+        // Load services for a specific category
+        async function loadCategoryServices(category) {
+            const container = document.getElementById(`${category}-services`);
+            if (!container) return;
+            
+            try {
+                // Show loading state
+                container.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading ${category.replace('-', ' ')} services...</p>
+                    </div>
+                `;
+                
+                // Fetch category services from backend
+                const response = await fetch(API_ENDPOINTS.CATEGORY_SERVICES + category);
+                if (!response.ok) throw new Error(`Failed to fetch ${category} services`);
+                
+                const services = await response.json();
+                
+                if (services.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-concierge-bell"></i>
+                            <p>No services available in this category.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Render category services
+                renderCategoryServices(category, services);
+            } catch (error) {
+                console.error(`Error loading ${category} services:`, error);
+                container.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load services. Please try again later.</p>
+                        <button onclick="loadCategoryServices('${category}')" class="retry-btn">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render services for a specific category
+        function renderCategoryServices(category, services) {
+            const container = document.getElementById(`${category}-services`);
+            let html = '';
+            
+            services.forEach(service => {
+                html += `
+                    <div class="service-list-item" data-service-id="${service._id}">
+                        <i class="${service.icon || 'fas fa-cog'}"></i>
+                        <div class="service-list-info">
+                            <div class="service-list-title">${service.name}</div>
+                            <div class="service-list-price">${service.price}</div>
+                            <!-- Description is hidden on the list item but will be shown in the modal -->
+                            <div class="service-list-description" style="display: none;">${service.description}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // Add event listeners to service items
+            container.querySelectorAll('.service-list-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const serviceId = this.getAttribute('data-service-id');
+                    openSimpleServiceModal(serviceId);
+                });
+            });
+        }
+
+        // Setup modals
+        function setupModals() {
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === serviceModal) {
+                    closeServiceModal();
+                }
+                if (event.target === simpleServiceModal) {
+                    closeSimpleServiceModal();
+                }
+            });
+            
+            // Close modals with close buttons
+            document.querySelector('.close-modal').addEventListener('click', closeServiceModal);
+            document.getElementById('close-simple-service-modal').addEventListener('click', closeSimpleServiceModal);
+            
+            // Close modals with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeServiceModal();
+                    closeSimpleServiceModal();
+                }
+            });
+            
+            // Setup booking buttons
+            document.getElementById('modalBookBtn').addEventListener('click', function() {
+                const serviceId = this.getAttribute('data-service-id');
+                window.location.href = `bookings.html?service=${serviceId}`;
+            });
+            
+            document.getElementById('simpleModalBookBtn').addEventListener('click', function() {
+                const serviceId = this.getAttribute('data-service-id');
+                window.location.href = `bookings.html?service=${serviceId}`;
+            });
+        }
+
+        // Open service modal (for popular services)
+        async function openServiceModal(serviceId) {
+            try {
+                // Fetch service details from backend
+                const response = await fetch(API_ENDPOINTS.SERVICE_DETAILS + serviceId);
+                if (!response.ok) throw new Error('Failed to fetch service details');
+                
+                const service = await response.json();
+                
+                // Ensure the image URL is properly formatted
+                let imageUrl = service.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                // Populate modal with service data
+                document.getElementById('modalServiceTitle').textContent = service.name;
+                document.getElementById('modalServiceImage').src = imageUrl;
+                document.getElementById('modalServicePrice').textContent = service.price;
+                document.getElementById('modalServiceDescription').textContent = service.description;
+                
+                // Populate service options
+                const optionsContainer = document.getElementById('modalServiceOptions');
+                optionsContainer.innerHTML = '';
+                
+                if (service.options && service.options.length > 0) {
+                    service.options.forEach(option => {
+                        const optionElement = document.createElement('div');
+                        optionElement.className = 'variation-option';
+                        optionElement.textContent = option.name;
+                        optionElement.addEventListener('click', function() {
+                            document.querySelectorAll('.variation-option').forEach(opt => opt.classList.remove('active'));
+                            this.classList.add('active');
+                        });
+                        optionsContainer.appendChild(optionElement);
+                    });
+                    
+                    // Activate first option by default
+                    optionsContainer.querySelector('.variation-option').classList.add('active');
+                }
+                
+                // Set service ID on booking button
+                document.getElementById('modalBookBtn').setAttribute('data-service-id', serviceId);
+                
+                // Show modal
+                serviceModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } catch (error) {
+                console.error('Error loading service details:', error);
+                alert('Failed to load service details. Please try again.');
+            }
+        }
+
+        // Close service modal
+        function closeServiceModal() {
+            serviceModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Open simple service modal (for category services)
+        async function openSimpleServiceModal(serviceId) {
+            try {
+                // Fetch service details from backend
+                const response = await fetch(API_ENDPOINTS.SERVICE_DETAILS + serviceId);
+                if (!response.ok) throw new Error('Failed to fetch service details');
+                
+                const service = await response.json();
+                
+                // Populate modal with service data
+                document.getElementById('simple-modal-service-title').textContent = service.name;
+                document.getElementById('simple-modal-service-price').textContent = service.price;
+                document.getElementById('simple-modal-service-description').textContent = service.description;
+                
+                // Populate service features
+                const featuresContainer = document.getElementById('simple-modal-service-features');
+                featuresContainer.innerHTML = '';
+                
+                if (service.features && service.features.length > 0) {
+                    service.features.forEach(feature => {
+                        const featureElement = document.createElement('li');
+                        featureElement.innerHTML = `<i class="fas fa-check-circle"></i> ${feature}`;
+                        featuresContainer.appendChild(featureElement);
+                    });
+                }
+                
+                // Set service ID on booking button
+                document.getElementById('simpleModalBookBtn').setAttribute('data-service-id', serviceId);
+                
+                // Show modal
+                simpleServiceModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } catch (error) {
+                console.error('Error loading service details:', error);
+                alert('Failed to load service details. Please try again.');
+            }
+        }
+
+        // Close simple service modal
+        function closeSimpleServiceModal() {
+            simpleServiceModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Handle image loading errors
+        function handleImageError(img) {
+            img.style.display = 'none';
+            const placeholder = document.createElement('div');
+            placeholder.className = 'image-placeholder';
+            placeholder.innerHTML = '<i class="fas fa-image"></i> No Image Available';
+            img.parentNode.appendChild(placeholder);
+        }
+    </script>
+</body>
+</html>

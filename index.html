@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Technology - Advanced Tech Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global-styles.css">
+    <link rel="stylesheet" href="carousel.css">
+    <style>
+        /* Loading spinner styles */
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            grid-column: 1 / -1;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .empty-state, .error-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state i, .error-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+        
+        .error-state i {
+            color: var(--error);
+        }
+        
+        .retry-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10001;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.error {
+            background: var(--error);
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        /* Product and service image styles */
+        .product-image, .service-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        /* Hide descriptions on cards */
+        .product-card .product-description,
+        .service-card .service-description {
+            display: none;
+        }
+        
+        /* Placeholder styling */
+        .image-placeholder {
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 14px;
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+        }
+        
+        .image-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Carousel image styles */
+        .carousel-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">
+                <img src="http://bt-images-045854052038.s3-website-us-east-1.amazonaws.com/logo-b.png" alt="Blue Technology Logo" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <span class="logo-text">BLUE TECHNOLOGY</span>
+        </div>
+        
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">Blog/Tips</a></li>
+            </ul>
+            
+            <div class="header-actions">
+                <div class="cart-button" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+                <div class="profile-button" onclick="window.location.href='profile.html'">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="header-particles">
+            <div class="particle" style="top: 20%; left: 10%; width: 5px; height: 5px; animation-delay: 0s;"></div>
+            <div class="particle" style="top: 60%; left: 80%; width: 7px; height: 7px; animation-delay: 2s;"></div>
+            <div class="particle" style="top: 40%; left: 50%; width: 4px; height: 4px; animation-delay: 4s;"></div>
+            <div class="particle" style="top: 80%; left: 30%; width: 6px; height: 6px; animation-delay: 6s;"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Advanced Technology Solutions for Modern Businesses</h1>
+                <p>Discover our premium range of tech products and professional services designed to elevate your business to the next level.</p>
+                <div class="hero-buttons">
+                    <button class="secondary-button" onclick="window.location.href='products.html'">Explore Products</button>
+                    <button class="secondary-button" onclick="window.location.href='services.html'">View Services</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products Carousel Section -->
+        <section class="universal-carousel">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="carousel-container">
+                <div class="carousel-track" id="featured-products-carousel">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading featured products...</p>
+                    </div>
+                </div>
+                <button class="carousel-nav prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-nav next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-controls" id="products-carousel-controls">
+                    <!-- Backend will populate this with dots based on product count -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Grid Section -->
+        <section class="products-section">
+            <div class="section-header">
+                <h2 class="section-title">Our Products</h2>
+                <a href="products.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="products-grid" id="homepage-products-grid">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
+                </div>
+            </div>
+        </section>
+        <br><br>
+ 
+        <!-- Services Grid Section -->
+        <section class="services-section">
+            <div class="section-header">
+                <h2 class="section-title">Our Services</h2>
+                <a href="services.html" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="services-grid" id="homepage-services-grid">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading services...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="reviews-section">
+            <h2 class="section-title">Customer Reviews</h2>
+            <div class="reviews-grid" id="reviews-container">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading reviews...</p>
+                </div>
+            </div>
+            
+            <button class="show-more-btn" id="show-more-reviews" style="display: none;">Show More Reviews</button>
+            
+            <!-- Add Review Form -->
+            <div class="add-review">
+                <h3>Add Your Review</h3>
+                <form class="review-form" id="review-form">
+                    <div class="form-group">
+                        <label for="reviewer-name">Your Name</label>
+                        <input type="text" id="reviewer-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewer-email">Email Address</label>
+                        <input type="email" id="reviewer-email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-rating">Rating</label>
+                        <select id="review-rating" class="form-control" required>
+                            <option value="">Select Rating</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="2">2 Stars</option>
+                            <option value="1">1 Star</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-content">Your Review</label>
+                        <textarea id="review-content" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-review">Submit Review</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Blue Tech</h3>
+                <p>Blue Tech provides cutting-edge technology solutions and services to businesses and individuals worldwide. We're committed to excellence and innovation.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <p>123 Tech Street Nairobi, Kenya</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <p>Mon-Fri, 9am-5pm EAT</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p>info@bluetech.co.ke</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Blue Tech. All rights reserved.</p>
+        </div>
+        
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+    </footer>
+
+    <!-- Product/Service Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalProductTitle"></h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image-container">
+                    <img src="" alt="Product Image" class="modal-image" id="modalProductImage">
+                    <div class="image-placeholder" id="modalProductImagePlaceholder">No Image Available</div>
+                </div>
+                <div class="modal-price" id="modalProductPrice"></div>
+                <div class="modal-discount" id="modalProductDiscount" style="display: none;"></div>
+                <p class="modal-description" id="modalProductDescription"></p>
+                
+                <div class="modal-variations" id="modalProductVariations">
+                    <h4 class="variation-title">Available Variations</h4>
+                    <div class="variation-options" id="modalProductVariationOptions">
+                        <!-- Backend will populate variation options -->
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="modal-buy-btn" id="modalBuyBtn">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Modal -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalServiceTitle"></h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image-container">
+                    <img src="" alt="Service Image" class="modal-image" id="modalServiceImage">
+                    <div class="image-placeholder" id="modalServiceImagePlaceholder">No Image Available</div>
+                </div>
+                <div class="modal-price" id="modalServicePrice"></div>
+                <p class="modal-description" id="modalServiceDescription"></p>
+                
+                <div class="modal-variations" id="modalServiceVariations">
+                    <h4 class="variation-title">Service Options</h4>
+                    <div class="variation-options" id="modalServiceVariationOptions">
+                        <!-- Backend will populate service options -->
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="modal-book-btn" id="modalBookBtn">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon"><i class="fas fa-info-circle"></i></span>
+        <span class="toast-message" id="toast-message"></span>
+    </div>
+    <script>
+        // Generate a session ID for cart if not exists
+        function getSessionId() {
+            let sessionId = localStorage.getItem('sessionId');
+            if (!sessionId) {
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('sessionId', sessionId);
+            }
+            return sessionId;
+        }
+
+        // Universal Carousel Class (from carousel.js)
+        class UniversalCarousel {
+            constructor(container, options = {}) {
+                this.container = container;
+                this.track = container.querySelector('.carousel-track');
+                this.slides = container.querySelectorAll('.carousel-slide');
+                this.dots = container.querySelectorAll('.carousel-dot');
+                this.prevBtn = container.querySelector('.carousel-nav.prev');
+                this.nextBtn = container.querySelector('.carousel-nav.next');
+                
+                // Options with defaults
+                this.options = {
+                    autoplay: options.autoplay || true,
+                    interval: options.interval || 5000,
+                    loop: options.loop !== undefined ? options.loop : true,
+                    ...options
+                };
+                
+                this.currentIndex = 0;
+                this.timer = null;
+                this.isTransitioning = false;
+                
+                this.init();
+            }
+            
+            init() {
+                // Set up event listeners
+                if (this.prevBtn) {
+                    this.prevBtn.addEventListener('click', () => this.prev());
+                }
+                
+                if (this.nextBtn) {
+                    this.nextBtn.addEventListener('click', () => this.next());
+                }
+                
+                // Dot navigation
+                if (this.dots.length) {
+                    this.dots.forEach((dot, index) => {
+                        dot.addEventListener('click', () => this.goTo(index));
+                    });
+                }
+                
+                // Keyboard navigation
+                this.container.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.prev();
+                    if (e.key === 'ArrowRight') this.next();
+                });
+                
+                // Swipe support for touch devices
+                this.setupSwipe();
+                
+                // Start autoplay if enabled
+                if (this.options.autoplay) {
+                    this.startAutoplay();
+                }
+                
+                // Pause autoplay when hovering over carousel
+                this.container.addEventListener('mouseenter', () => {
+                    if (this.options.autoplay) {
+                        this.stopAutoplay();
+                    }
+                });
+                
+                this.container.addEventListener('mouseleave', () => {
+                    if (this.options.autoplay) {
+                        this.startAutoplay();
+                    }
+                });
+                
+                // Make carousel focusable for keyboard navigation
+                this.container.setAttribute('tabindex', '0');
+                
+                // Initialize first slide
+                this.update();
+            }
+            
+            setupSwipe() {
+                let startX = 0;
+                let endX = 0;
+                
+                this.container.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                }, { passive: true });
+                
+                this.container.addEventListener('touchmove', (e) => {
+                    endX = e.touches[0].clientX;
+                }, { passive: true });
+                
+                this.container.addEventListener('touchend', () => {
+                    const diffX = startX - endX;
+                    
+                    if (Math.abs(diffX) > 50) { // Minimum swipe distance
+                        if (diffX > 0) {
+                            this.next();
+                        } else {
+                            this.prev();
+                        }
+                    }
+                });
+            }
+            
+            startAutoplay() {
+                if (this.timer) clearInterval(this.timer);
+                
+                this.timer = setInterval(() => {
+                    this.next();
+                }, this.options.interval);
+            }
+            
+            stopAutoplay() {
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+            }
+            
+            next() {
+                if (this.isTransitioning) return;
+                
+                this.isTransitioning = true;
+                
+                if (this.currentIndex >= this.slides.length - 1 && this.options.loop) {
+                    this.currentIndex = 0;
+                } else if (this.currentIndex < this.slides.length - 1) {
+                    this.currentIndex++;
+                }
+                
+                this.update();
+                
+                // Reset transitioning flag after animation completes
+                setTimeout(() => {
+                    this.isTransitioning = false;
+                }, 500);
+            }
+            
+            prev() {
+                if (this.isTransitioning) return;
+                
+                this.isTransitioning = true;
+                
+                if (this.currentIndex <= 0 && this.options.loop) {
+                    this.currentIndex = this.slides.length - 1;
+                } else if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                }
+                
+                this.update();
+                
+                // Reset transitioning flag after animation completes
+                setTimeout(() => {
+                    this.isTransitioning = false;
+                }, 500);
+            }
+            
+            goTo(index) {
+                if (this.isTransitioning || index === this.currentIndex) return;
+                
+                this.isTransitioning = true;
+                this.currentIndex = index;
+                this.update();
+                
+                // Reset transitioning flag after animation completes
+                setTimeout(() => {
+                    this.isTransitioning = false;
+                }, 500);
+            }
+            
+            update() {
+                // Update track position
+                this.track.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+                
+                // Update dots
+                if (this.dots.length) {
+                    this.dots.forEach((dot, index) => {
+                        if (index === this.currentIndex) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                }
+                
+                // Dispatch custom event
+                this.container.dispatchEvent(new CustomEvent('carouselChange', {
+                    detail: { currentIndex: this.currentIndex }
+                }));
+            }
+            
+            destroy() {
+                this.stopAutoplay();
+                
+                if (this.prevBtn) {
+                    this.prevBtn.removeEventListener('click', () => this.prev());
+                }
+                
+                if (this.nextBtn) {
+                    this.nextBtn.removeEventListener('click', () => this.next());
+                }
+                
+                if (this.dots.length) {
+                    this.dots.forEach((dot, index) => {
+                        dot.removeEventListener('click', () => this.goTo(index));
+                    });
+                }
+            }
+        }
+        
+        // API endpoints - updated to connect to our backend
+        const API_BASE_URL = 'https://blutech-backend2.onrender.com'; // Change this to your backend URL
+        const API_ENDPOINTS = {
+            FEATURED_PRODUCTS: `${API_BASE_URL}/api/products/carousel`,
+            FEATURED_SERVICES: `${API_BASE_URL}/api/services/carousel`,
+            PRODUCTS: `${API_BASE_URL}/api/products?limit=10`,
+            SERVICES: `${API_BASE_URL}/api/services?limit=10`,
+            REVIEWS: `${API_BASE_URL}/api/reviews`,
+            SUBMIT_REVIEW: `${API_BASE_URL}/api/reviews/submit`,
+            PRODUCT_DETAILS: `${API_BASE_URL}/api/products/`,
+            SERVICE_DETAILS: `${API_BASE_URL}/api/services/`,
+            ADD_TO_CART: `${API_BASE_URL}/api/cart/`
+        };
+
+        // DOM elements
+        const featuredProductsCarousel = document.getElementById('featured-products-carousel');
+        const featuredServicesCarousel = document.getElementById('featured-services-carousel');
+        const productsGrid = document.getElementById('homepage-products-grid');
+        const servicesGrid = document.getElementById('homepage-services-grid');
+        const reviewsContainer = document.getElementById('reviews-container');
+        const showMoreReviewsBtn = document.getElementById('show-more-reviews');
+        const reviewForm = document.getElementById('review-form');
+        const productModal = document.getElementById('productModal');
+        const serviceModal = document.getElementById('serviceModal');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const cartCount = document.querySelector('.cart-count');
+
+        // State variables
+        let currentReviewsPage = 1;
+        let hasMoreReviews = true;
+        let featuredProductsCarouselInstance = null;
+        let featuredServicesCarouselInstance = null;
+        const sessionId = getSessionId();
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadFeaturedProducts();
+            loadProducts();
+            loadFeaturedServices();
+            loadServices();
+            loadReviews();
+            updateCartCount();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Review form submission
+            reviewForm.addEventListener('submit', handleReviewSubmit);
+            
+            // Show more reviews button
+            showMoreReviewsBtn.addEventListener('click', loadMoreReviews);
+            
+            // Modal close buttons
+            document.querySelectorAll('.close-modal').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === productModal) {
+                    productModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+                if (event.target === serviceModal) {
+                    serviceModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        // Update cart count
+        async function updateCartCount() {
+            try {
+                const response = await fetch(`${API_ENDPOINTS.ADD_TO_CART}${sessionId}`);
+                if (!response.ok) throw new Error('Failed to fetch cart');
+                
+                const cart = await response.json();
+                const totalItems = cart.items.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+            }
+        }
+
+        // Load featured products for carousel
+        async function loadFeaturedProducts() {
+            try {
+                // Show loading state
+                featuredProductsCarousel.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading featured products...</p>
+                    </div>
+                `;
+                
+                // Fetch featured products from backend
+                const response = await fetch(API_ENDPOINTS.FEATURED_PRODUCTS);
+                if (!response.ok) throw new Error('Failed to fetch featured products');
+                
+                const products = await response.json();
+                
+                if (products.length === 0) {
+                    featuredProductsCarousel.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>No featured products available.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Render featured products carousel
+                renderFeaturedProductsCarousel(products);
+                
+                // Initialize carousel
+                if (featuredProductsCarouselInstance) {
+                    featuredProductsCarouselInstance.destroy();
+                }
+                
+                const carouselContainer = document.querySelector('#featured-products-carousel').closest('.carousel-container');
+                featuredProductsCarouselInstance = new UniversalCarousel(carouselContainer);
+            } catch (error) {
+                console.error('Error loading featured products:', error);
+                featuredProductsCarousel.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load featured products. Please try again later.</p>
+                        <button onclick="loadFeaturedProducts()" class="retry-btn">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render featured products carousel
+        function renderFeaturedProductsCarousel(products) {
+            let html = '';
+            
+            products.forEach(product => {
+                // Ensure the image URL is properly formatted
+                let imageUrl = product.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                html += `
+                    <div class="carousel-slide" data-product-id="${product._id}">
+                        <div class="carousel-slide-content">
+                            ${product.image ? 
+                                `<img src="${imageUrl}" alt="${product.name}" class="carousel-image" onerror="handleImageError(this)">` : 
+                                `<div class="image-placeholder"><i class="fas fa-image"></i> No Image</div>`
+                            }
+                            <div class="carousel-content">
+                                <h3>${product.name}</h3>
+                                <div class="price">${product.price}</div>
+                                <button class="carousel-cta view-details" data-product-id="${product._id}">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            featuredProductsCarousel.innerHTML = html;
+            
+            // Add event listeners to view details buttons
+            featuredProductsCarousel.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const productId = this.getAttribute('data-product-id');
+                    openProductModal(productId);
+                });
+            });
+            
+            // Add event listeners to carousel slides
+            featuredProductsCarousel.querySelectorAll('.carousel-slide').forEach(slide => {
+                slide.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    openProductModal(productId);
+                });
+            });
+            
+            // Create carousel dots
+            const controlsContainer = document.getElementById('products-carousel-controls');
+            controlsContainer.innerHTML = '';
+            
+            for (let i = 0; i < products.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'carousel-dot';
+                if (i === 0) dot.classList.add('active');
+                dot.setAttribute('data-slide', i);
+                controlsContainer.appendChild(dot);
+            }
+        }
+
+        // Load products for grid
+        async function loadProducts() {
+            try {
+                // Show loading state
+                productsGrid.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading products...</p>
+                    </div>
+                `;
+                
+                // Fetch products from backend
+                const response = await fetch(API_ENDPOINTS.PRODUCTS);
+                if (!response.ok) throw new Error('Failed to fetch products');
+                
+                const data = await response.json();
+                const products = data.products || data;
+                
+                if (products.length === 0) {
+                    productsGrid.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>No products available at the moment.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Render products grid
+                renderProductsGrid(products);
+            } catch (error) {
+                console.error('Error loading products:', error);
+                productsGrid.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load products. Please try again later.</p>
+                        <button onclick="loadProducts()" class="retry-btn">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render products grid
+        function renderProductsGrid(products) {
+            let html = '';
+            
+            products.forEach(product => {
+                // Ensure the image URL is properly formatted
+                let imageUrl = product.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                html += `
+                    <div class="product-card" data-product-id="${product._id}">
+                        ${product.discount ? `<div class="discount-badge">${product.discount}% OFF</div>` : ''}
+                        <div class="image-container">
+                            ${product.image ? 
+                                `<img src="${imageUrl}" alt="${product.name}" class="product-image" onerror="handleImageError(this)">` : 
+                                `<div class="image-placeholder"><i class="fas fa-image"></i> No Image</div>`
+                            }
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">${product.price}</div>
+                            <!-- Description is hidden on the card but will be shown in the modal -->
+                            <p class="product-description" style="display: none;">${product.description}</p>
+                            <div class="product-actions">
+                                <button class="buy-now" data-product-id="${product._id}">Buy Now</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            productsGrid.innerHTML = html;
+            
+            // Add event listeners to buy now buttons
+            productsGrid.querySelectorAll('.buy-now').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const productId = this.getAttribute('data-product-id');
+                    openProductModal(productId);
+                });
+            });
+            
+            // Add event listeners to product cards
+            productsGrid.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    openProductModal(productId);
+                });
+            });
+        }
+
+        // Load featured services for carousel
+        async function loadFeaturedServices() {
+            try {
+                // Show loading state
+                featuredServicesCarousel.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading featured services...</p>
+                    </div>
+                `;
+                
+                // Fetch featured services from backend
+                const response = await fetch(API_ENDPOINTS.FEATURED_SERVICES);
+                if (!response.ok) throw new Error('Failed to fetch featured services');
+                
+                const services = await response.json();
+                
+                if (services.length === 0) {
+                    featuredServicesCarousel.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-concierge-bell"></i>
+                            <p>No featured services available.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Render featured services carousel
+                renderFeaturedServicesCarousel(services);
+                
+                // Initialize carousel
+                if (featuredServicesCarouselInstance) {
+                    featuredServicesCarouselInstance.destroy();
+                }
+                
+                const carouselContainer = document.querySelector('#featured-services-carousel').closest('.carousel-container');
+                featuredServicesCarouselInstance = new UniversalCarousel(carouselContainer);
+            } catch (error) {
+                console.error('Error loading featured services:', error);
+                featuredServicesCarousel.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load featured services. Please try again later.</p>
+                        <button onclick="loadFeaturedServices()" class="retry-btn">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render featured services carousel
+        function renderFeaturedServicesCarousel(services) {
+            let html = '';
+            
+            services.forEach(service => {
+                // Ensure the image URL is properly formatted
+                let imageUrl = service.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                html += `
+                    <div class="carousel-slide" data-service-id="${service._id}">
+                        <div class="carousel-slide-content">
+                            ${service.image ? 
+                                `<img src="${imageUrl}" alt="${service.name}" class="carousel-image" onerror="handleImageError(this)">` : 
+                                `<div class="image-placeholder"><i class="fas fa-image"></i> No Image</div>`
+                            }
+                            <div class="carousel-content">
+                                <h3>${service.name}</h3>
+                                <div class="price">${service.price}</div>
+                                <button class="carousel-cta view-details" data-service-id="${service._id}">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            featuredServicesCarousel.innerHTML = html;
+            
+            // Add event listeners to view details buttons
+            featuredServicesCarousel.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const serviceId = this.getAttribute('data-service-id');
+                    openServiceModal(serviceId);
+                });
+            });
+            
+            // Add event listeners to carousel slides
+            featuredServicesCarousel.querySelectorAll('.carousel-slide').forEach(slide => {
+                slide.addEventListener('click', function() {
+                    const serviceId = this.getAttribute('data-service-id');
+                    openServiceModal(serviceId);
+                });
+            });
+            
+            // Create carousel dots
+            const controlsContainer = document.getElementById('services-carousel-controls');
+            controlsContainer.innerHTML = '';
+            
+            for (let i = 0; i < services.length; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'carousel-dot';
+                if (i === 0) dot.classList.add('active');
+                dot.setAttribute('data-slide', i);
+                controlsContainer.appendChild(dot);
+            }
+        }
+
+        // Load services for grid
+        async function loadServices() {
+            try {
+                // Show loading state
+                servicesGrid.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading services...</p>
+                    </div>
+                `;
+                
+                // Fetch services from backend
+                const response = await fetch(API_ENDPOINTS.SERVICES);
+                if (!response.ok) throw new Error('Failed to fetch services');
+                
+                const services = await response.json();
+                
+                if (services.length === 0) {
+                    servicesGrid.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-concierge-bell"></i>
+                            <p>No services available at the moment.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Render services grid
+                renderServicesGrid(services);
+            } catch (error) {
+                console.error('Error loading services:', error);
+                servicesGrid.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load services. Please try again later.</p>
+                        <button onclick="loadServices()" class="retry-btn">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render services grid
+        function renderServicesGrid(services) {
+            let html = '';
+            
+            services.forEach(service => {
+                // Ensure the image URL is properly formatted
+                let imageUrl = service.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                html += `
+                    <div class="service-card" data-service-id="${service._id}">
+                        <div class="image-container">
+                            ${service.image ? 
+                                `<img src="${imageUrl}" alt="${service.name}" class="service-image" onerror="handleImageError(this)">` : 
+                                `<div class="image-placeholder"><i class="fas fa-image"></i> No Image</div>`
+                            }
+                        </div>
+                        <div class="service-info">
+                            <h3 class="service-title">${service.name}</h3>
+                            <div class="service-price">${service.price}</div>
+                            <!-- Description is hidden on the card but will be shown in the modal -->
+                            <p class="service-description" style="display: none;">${service.description}</p>
+                            <div class="service-actions">
+                                <button class="book-now" data-service-id="${service._id}">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            servicesGrid.innerHTML = html;
+            
+            // Add event listeners to book now buttons
+            servicesGrid.querySelectorAll('.book-now').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const serviceId = this.getAttribute('data-service-id');
+                    openServiceModal(serviceId);
+                });
+            });
+            
+            // Add event listeners to service cards
+            servicesGrid.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const serviceId = this.getAttribute('data-service-id');
+                    openServiceModal(serviceId);
+                });
+            });
+        }
+
+        // Load reviews
+        async function loadReviews() {
+            try {
+                // Show loading state
+                reviewsContainer.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading reviews...</p>
+                    </div>
+                `;
+                
+                // Fetch reviews from backend
+                const response = await fetch(`${API_ENDPOINTS.REVIEWS}?page=${currentReviewsPage}&limit=3`);
+                if (!response.ok) throw new Error('Failed to fetch reviews');
+                
+                const data = await response.json();
+                const reviews = data.reviews || [];
+                hasMoreReviews = data.hasMore || false;
+                
+                if (reviews.length === 0) {
+                    reviewsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-comments"></i>
+                            <p>No reviews yet. Be the first to review!</p>
+                        </div>
+                    `;
+                    showMoreReviewsBtn.style.display = 'none';
+                    return;
+                }
+                
+                // Render reviews
+                renderReviews(reviews);
+                
+                // Show or hide "Show More" button
+                showMoreReviewsBtn.style.display = hasMoreReviews ? 'block' : 'none';
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                reviewsContainer.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load reviews. Please try again later.</p>
+                        <button onclick="loadReviews()" class="retry-btn">Retry</button>
+                    </div>
+                `;
+                showMoreReviewsBtn.style.display = 'none';
+            }
+        }
+
+        // Load more reviews
+        async function loadMoreReviews() {
+            currentReviewsPage++;
+            
+            try {
+                // Fetch more reviews from backend
+                const response = await fetch(`${API_ENDPOINTS.REVIEWS}?page=${currentReviewsPage}&limit=3`);
+                if (!response.ok) throw new Error('Failed to fetch more reviews');
+                
+                const data = await response.json();
+                const reviews = data.reviews || [];
+                hasMoreReviews = data.hasMore || false;
+                
+                if (reviews.length > 0) {
+                    // Append new reviews
+                    renderReviews(reviews, true);
+                }
+                
+                // Show or hide "Show More" button
+                showMoreReviewsBtn.style.display = hasMoreReviews ? 'block' : 'none';
+            } catch (error) {
+                console.error('Error loading more reviews:', error);
+                showToast('Failed to load more reviews', 'error');
+                currentReviewsPage--; // Revert page number on error
+            }
+        }
+
+        // Render reviews
+        function renderReviews(reviews, append = false) {
+            let html = '';
+            
+            reviews.forEach(review => {
+                // Generate star rating HTML
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += `<i class="fas fa-star${i <= review.rating ? ' active' : ''}"></i>`;
+                }
+                
+                html += `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">${review.name}</div>
+                                <div class="review-date">${new Date(review.date).toLocaleDateString()}</div>
+                            </div>
+                            <div class="review-rating">
+                                ${starsHtml}
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>${review.content}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (append) {
+                reviewsContainer.innerHTML += html;
+            } else {
+                reviewsContainer.innerHTML = html;
+            }
+        }
+
+        // Handle review form submission
+        async function handleReviewSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('reviewer-name').value;
+            const email = document.getElementById('reviewer-email').value;
+            const rating = document.getElementById('review-rating').value;
+            const content = document.getElementById('review-content').value;
+            
+            // Validate form
+            if (!name || !email || !rating || !content) {
+                showToast('Please fill all fields', 'error');
+                return;
+            }
+            
+            try {
+                // Submit review to backend
+                const response = await fetch(API_ENDPOINTS.SUBMIT_REVIEW, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        rating: parseInt(rating),
+                        content
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to submit review');
+                }
+                
+                // Clear form and show success message
+                reviewForm.reset();
+                showToast('Review submitted successfully! It will appear after approval.', 'success');
+                
+                // Reload reviews if it's the first review
+                if (currentReviewsPage === 1) {
+                    loadReviews();
+                }
+            } catch (error) {
+                console.error('Error submitting review:', error);
+                showToast(error.message || 'Failed to submit review', 'error');
+            }
+        }
+
+        // Open product modal
+        async function openProductModal(productId) {
+            try {
+                // Show loading state in modal
+                document.getElementById('modalProductTitle').textContent = 'Loading...';
+                document.getElementById('modalProductDescription').textContent = 'Loading product details...';
+                document.getElementById('modalProductPrice').textContent = '';
+                document.getElementById('modalProductDiscount').style.display = 'none';
+                document.getElementById('modalProductVariationOptions').innerHTML = '';
+                
+                // Show modal
+                productModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Fetch product details from backend
+                const response = await fetch(`${API_ENDPOINTS.PRODUCT_DETAILS}${productId}`);
+                if (!response.ok) throw new Error('Failed to fetch product details');
+                
+                const product = await response.json();
+                
+                // Populate modal with product details
+                document.getElementById('modalProductTitle').textContent = product.name;
+                document.getElementById('modalProductDescription').textContent = product.description;
+                document.getElementById('modalProductPrice').textContent = product.price;
+                
+                // Show discount if available
+                if (product.discount && product.discount > 0) {
+                    document.getElementById('modalProductDiscount').style.display = 'block';
+                    document.getElementById('modalProductDiscount').textContent = `${product.discount}% OFF`;
+                } else {
+                    document.getElementById('modalProductDiscount').style.display = 'none';
+                }
+                
+                // Set product image
+                const productImage = document.getElementById('modalProductImage');
+                const productImagePlaceholder = document.getElementById('modalProductImagePlaceholder');
+                
+                // Ensure the image URL is properly formatted
+                let imageUrl = product.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                if (product.image) {
+                    productImage.src = imageUrl;
+                    productImage.style.display = 'block';
+                    productImagePlaceholder.style.display = 'none';
+                } else {
+                    productImage.style.display = 'none';
+                    productImagePlaceholder.style.display = 'flex';
+                }
+                
+                // Populate variations if available
+                const variationsContainer = document.getElementById('modalProductVariationOptions');
+                if (product.variations && product.variations.length > 0) {
+                    document.getElementById('modalProductVariations').style.display = 'block';
+                    
+                    let variationsHtml = '';
+                    product.variations.forEach((variation, index) => {
+                        variationsHtml += `
+                            <div class="variation-option">
+                                <input type="radio" id="variation-${index}" name="product-variation" value="${variation.name}" data-price="${variation.price}" ${index === 0 ? 'checked' : ''}>
+                                <label for="variation-${index}">${variation.name} - ${variation.price}</label>
+                            </div>
+                        `;
+                    });
+                    
+                    variationsContainer.innerHTML = variationsHtml;
+                } else {
+                    document.getElementById('modalProductVariations').style.display = 'none';
+                }
+                
+                // Set up buy now button
+                const buyNowBtn = document.getElementById('modalBuyBtn');
+                buyNowBtn.onclick = function() {
+                    addProductToCart(product);
+                };
+            } catch (error) {
+                console.error('Error opening product modal:', error);
+                showToast('Failed to load product details', 'error');
+                productModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Open service modal
+        async function openServiceModal(serviceId) {
+            try {
+                // Show loading state in modal
+                document.getElementById('modalServiceTitle').textContent = 'Loading...';
+                document.getElementById('modalServiceDescription').textContent = 'Loading service details...';
+                document.getElementById('modalServicePrice').textContent = '';
+                document.getElementById('modalServiceVariationOptions').innerHTML = '';
+                
+                // Show modal
+                serviceModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Fetch service details from backend
+                const response = await fetch(`${API_ENDPOINTS.SERVICE_DETAILS}${serviceId}`);
+                if (!response.ok) throw new Error('Failed to fetch service details');
+                
+                const service = await response.json();
+                
+                // Populate modal with service details
+                document.getElementById('modalServiceTitle').textContent = service.name;
+                document.getElementById('modalServiceDescription').textContent = service.description;
+                document.getElementById('modalServicePrice').textContent = service.price;
+                
+                // Set service image
+                const serviceImage = document.getElementById('modalServiceImage');
+                const serviceImagePlaceholder = document.getElementById('modalServiceImagePlaceholder');
+                
+                // Ensure the image URL is properly formatted
+                let imageUrl = service.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                if (service.image) {
+                    serviceImage.src = imageUrl;
+                    serviceImage.style.display = 'block';
+                    serviceImagePlaceholder.style.display = 'none';
+                } else {
+                    serviceImage.style.display = 'none';
+                    serviceImagePlaceholder.style.display = 'flex';
+                }
+                
+                // Populate options if available
+                const optionsContainer = document.getElementById('modalServiceVariationOptions');
+                if (service.options && service.options.length > 0) {
+                    document.getElementById('modalServiceVariations').style.display = 'block';
+                    
+                    let optionsHtml = '';
+                    service.options.forEach((option, index) => {
+                        optionsHtml += `
+                            <div class="variation-option">
+                                <input type="radio" id="option-${index}" name="service-option" value="${option.name}" data-price="${option.price}" ${index === 0 ? 'checked' : ''}>
+                                <label for="option-${index}">${option.name} - ${option.price}</label>
+                            </div>
+                        `;
+                    });
+                    
+                    optionsContainer.innerHTML = optionsHtml;
+                } else {
+                    document.getElementById('modalServiceVariations').style.display = 'none';
+                }
+                
+                // Set up book now button
+                const bookNowBtn = document.getElementById('modalBookBtn');
+                bookNowBtn.onclick = function() {
+                    window.location.href = 'bookings.html';
+                };
+            } catch (error) {
+                console.error('Error opening service modal:', error);
+                showToast('Failed to load service details', 'error');
+                serviceModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Add product to cart
+        async function addProductToCart(product) {
+            try {
+                // Get selected variation if available
+                let selectedVariation = '';
+                let selectedPrice = product.price;
+                
+                if (product.variations && product.variations.length > 0) {
+                    const selectedOption = document.querySelector('input[name="product-variation"]:checked');
+                    if (selectedOption) {
+                        selectedVariation = selectedOption.value;
+                        selectedPrice = selectedOption.getAttribute('data-price');
+                    }
+                }
+                
+                // Add to cart via backend API
+                const response = await fetch(`${API_ENDPOINTS.ADD_TO_CART}${sessionId}/add`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId: product._id,
+                        quantity: 1,
+                        variation: selectedVariation,
+                        price: selectedPrice,
+                        name: product.name,
+                        image: product.image
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to add to cart');
+                }
+                
+                // Close modal and show success message
+                productModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                
+                showToast('Product added to cart successfully!', 'success');
+                
+                // Update cart count
+                updateCartCount();
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showToast(error.message || 'Failed to add to cart', 'error');
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            toast.className = 'toast';
+            toast.classList.add(type);
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Handle image loading errors
+        function handleImageError(img) {
+            img.style.display = 'none';
+            const placeholder = document.createElement('div');
+            placeholder.className = 'image-placeholder';
+            placeholder.innerHTML = '<i class="fas fa-image"></i> No Image Available';
+            img.parentNode.appendChild(placeholder);
+        }
+    </script>
+</body>
+</html>

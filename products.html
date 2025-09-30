@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Blue Technology</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global-styles.css">
+    <style>
+        /* Additional styles for the products page */
+        .product-card .product-description {
+            display: none; /* Hide description on cards */
+        }
+        
+        /* Ensure images display properly */
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            grid-column: 1 / -1;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .empty-state, .error-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-state i, .error-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+        
+        .error-state i {
+            color: var(--error);
+        }
+        
+        .retry-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .image-placeholder {
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 14px;
+            width: 100%;
+            height: 100%;
+            min-height: 150px;
+        }
+        
+        .image-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Product Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            overflow-y: auto;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-discount {
+            display: inline-block;
+            background: var(--error);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+        
+        .modal-variations {
+            margin-bottom: 1.5rem;
+        }
+        
+        .variation-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .variation-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .variation-option {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .variation-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .variation-option.active {
+            border-color: var(--primary);
+            background-color: rgba(0, 102, 204, 0.1);
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .modal-buy-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .modal-buy-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10001;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.error {
+            background: var(--error);
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo" onclick="window.location.href='index.html'">
+            <div class="logo-icon">
+                <img src="http://bt-images-045854052038.s3-website-us-east-1.amazonaws.com/logo-b.png" alt="Blue Technology Logo" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <span class="logo-text">BLUE TECHNOLOGY</span>
+        </div>
+        
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">Blog/Tips</a></li>
+            </ul>
+            
+            <div class="header-actions">
+                <div class="cart-button" id="cartButton" onclick="window.location.href='cart.html'">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+                <div class="profile-button" onclick="window.location.href='profile.html'">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="header-particles">
+            <div class="particle" style="top: 20%; left: 10%; width: 5px; height: 5px; animation-delay: 0s;"></div>
+            <div class="particle" style="top: 60%; left: 80%; width: 7px; height: 7px; animation-delay: 2s;"></div>
+            <div class="particle" style="top: 40%; left: 50%; width: 4px; height: 4px; animation-delay: 4s;"></div>
+            <div class="particle" style="top: 80%; left: 30%; width: 6px; height: 6px; animation-delay: 6s;"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <h1>Our Products</h1>
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li>Products</li>
+            </ul>
+        </section>
+
+        <!-- Product Categories -->
+        <section class="product-categories" id="all-products">
+            <div class="categories-container">
+                
+                <!-- Desktop Category Tabs -->
+                <div class="categories-tabs">
+                    <button class="category-tab active" data-category="laptops">
+                        <i class="fas fa-laptop"></i> Laptops & Computers
+                    </button>
+                    <button class="category-tab" data-category="smartphones">
+                        <i class="fas fa-mobile-alt"></i> Smartphones & Tablets
+                    </button>
+                    <button class="category-tab" data-category="audio">
+                        <i class="fas fa-headphones"></i> Audio & Headphones
+                    </button>
+                    <button class="category-tab" data-category="smart-home">
+                        <i class="fas fa-home"></i> Smart Home Devices
+                    </button>
+                    <button class="category-tab" data-category="accessories">
+                        <i class="fas fa-keyboard"></i> Accessories
+                    </button>
+                </div>
+                
+                <!-- Category Content -->
+                <div class="category-content active" id="laptops-content">
+                    <div class="products-grid" id="laptops-products-grid">
+                        <!-- Laptops products will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading laptops and computers...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-content" id="smartphones-content">
+                    <div class="products-grid" id="smartphones-products-grid">
+                        <!-- Smartphones products will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading smartphones and tablets...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-content" id="audio-content">
+                    <div class="products-grid" id="audio-products-grid">
+                        <!-- Audio products will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading audio products...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-content" id="smart-home-content">
+                    <div class="products-grid" id="smart-home-products-grid">
+                        <!-- Smart home products will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading smart home devices...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-content" id="accessories-content">
+                    <div class="products-grid" id="accessories-products-grid">
+                        <!-- Accessories products will be loaded here dynamically -->
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading accessories...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalProductTitle">Product Name</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="" alt="Product Image" class="modal-image" id="modalProductImage">
+                <div class="modal-price" id="modalProductPrice">KSh 0.00</div>
+                <div class="modal-discount" id="modalProductDiscount" style="display: none;"></div>
+                <p class="modal-description" id="modalProductDescription">Product description goes here.</p>
+                
+                <div class="modal-variations">
+                    <h4 class="variation-title">Product Options</h4>
+                    <div class="variation-options" id="modalProductOptions">
+                        <!-- Product options will be loaded here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="modal-buy-btn" id="modalBuyBtn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon"><i class="fas fa-info-circle"></i></span>
+        <span class="toast-message" id="toast-message"></span>
+    </div>
+
+    <footer style="margin-left: -6%; margin-right: -6%; margin-bottom: -5%;">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Blue Tech</h3>
+                <p>Blue Tech provides cutting-edge technology solutions and services to businesses and individuals worldwide. We're committed to excellence and innovation.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <p>123 Tech Street Nairobi, Kenya</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <p>Mon-Fri, 9am-5pm EAT</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p>info@bluetech.co.ke</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2025 Blue Tech. All rights reserved.</p>
+        </div>
+        
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+    </footer>
+
+    <script>
+        // Generate a session ID for cart if not exists
+        function getSessionId() {
+            let sessionId = localStorage.getItem('sessionId');
+            if (!sessionId) {
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('sessionId', sessionId);
+            }
+            return sessionId;
+        }
+
+        // API endpoints - same as homepage
+        const API_BASE_URL = 'https://blutech-backend2.onrender.com';
+        const API_ENDPOINTS = {
+            POPULAR_PRODUCTS: `${API_BASE_URL}/api/products/popular`,
+            CATEGORY_PRODUCTS: `${API_BASE_URL}/api/products/category/`,
+            PRODUCT_DETAILS: `${API_BASE_URL}/api/products/`,
+            ADD_TO_CART: `${API_BASE_URL}/api/cart/`,
+            CART: `${API_BASE_URL}/api/cart/`
+        };
+
+        // DOM elements
+        const popularProductsGrid = document.getElementById('popular-products-grid');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const categoryContents = document.querySelectorAll('.category-content');
+        const productModal = document.getElementById('productModal');
+        const cartCount = document.querySelector('.cart-count');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        // State variables
+        const sessionId = getSessionId();
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPopularProducts();
+            setupCategoryTabs();
+            setupModals();
+            updateCartCount();
+            
+            // Load initial category products
+            const initialCategory = document.querySelector('.category-tab.active').getAttribute('data-category');
+            loadCategoryProducts(initialCategory);
+        });
+
+        // Load popular products from backend
+        async function loadPopularProducts() {
+            try {
+                // Show loading state
+                popularProductsGrid.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading popular products...</p>
+                    </div>
+                `;
+                
+                // Fetch popular products from backend
+                const response = await fetch(API_ENDPOINTS.POPULAR_PRODUCTS);
+                if (!response.ok) throw new Error('Failed to fetch popular products');
+                
+                const products = await response.json();
+                
+                if (products.length === 0) {
+                    popularProductsGrid.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>No popular products available at the moment.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Render popular products
+                renderPopularProducts(products);
+            } catch (error) {
+                console.error('Error loading popular products:', error);
+                popularProductsGrid.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load popular products. Please try again later.</p>
+                        <button onclick="loadPopularProducts()" class="retry-btn">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render popular products in the grid
+        function renderPopularProducts(products) {
+            let html = '';
+            
+            products.forEach(product => {
+                // Ensure the image URL is properly formatted
+                let imageUrl = product.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                html += `
+                    <div class="product-card" data-product-id="${product._id}">
+                        ${product.discount ? `<div class="discount-badge">${product.discount}% OFF</div>` : ''}
+                        <img src="${imageUrl}" alt="${product.name}" class="product-image" onerror="handleImageError(this)">
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">${product.price}</div>
+                            <!-- Description is hidden on the card but will be shown in the modal -->
+                            <p class="product-description" style="display: none;">${product.description}</p>
+                            <div class="product-actions">
+                                <button class="buy-now" data-product-id="${product._id}">Buy Now</button>
+                                <button class="view-details" data-product-id="${product._id}">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            popularProductsGrid.innerHTML = html;
+            
+            // Add event listeners to view details buttons
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const productId = this.getAttribute('data-product-id');
+                    openProductModal(productId);
+                });
+            });
+            
+            // Add event listeners to buy now buttons
+            document.querySelectorAll('.buy-now').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const productId = this.getAttribute('data-product-id');
+                    addToCart(productId);
+                });
+            });
+            
+            // Add event listeners to product cards
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    openProductModal(productId);
+                });
+            });
+        }
+
+        // Setup category tabs
+        function setupCategoryTabs() {
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // Update active tab
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    categoryContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `${category}-content`) {
+                            content.classList.add('active');
+                        }
+                    });
+                    
+                    // Load category products
+                    loadCategoryProducts(category);
+                });
+            });
+        }
+
+        // Load products for a specific category
+        async function loadCategoryProducts(category) {
+            const container = document.getElementById(`${category}-products-grid`);
+            if (!container) return;
+            
+            try {
+                // Show loading state
+                container.innerHTML = `
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading ${category.replace('-', ' ')}...</p>
+                    </div>
+                `;
+                
+                // Fetch category products from backend
+                const response = await fetch(API_ENDPOINTS.CATEGORY_PRODUCTS + category);
+                if (!response.ok) throw new Error(`Failed to fetch ${category} products`);
+                
+                const products = await response.json();
+                
+                if (products.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <p>No products available in this category.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Render category products
+                renderCategoryProducts(category, products);
+            } catch (error) {
+                console.error(`Error loading ${category} products:`, error);
+                container.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Failed to load products. Please try again later.</p>
+                        <button onclick="loadCategoryProducts('${category}')" class="retry-btn">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render products for a specific category
+        function renderCategoryProducts(category, products) {
+            const container = document.getElementById(`${category}-products-grid`);
+            let html = '';
+            
+            products.forEach(product => {
+                // Ensure the image URL is properly formatted
+                let imageUrl = product.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                html += `
+                    <div class="product-card" data-product-id="${product._id}">
+                        ${product.discount ? `<div class="discount-badge">${product.discount}% OFF</div>` : ''}
+                        <img src="${imageUrl}" alt="${product.name}" class="product-image" onerror="handleImageError(this)">
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">${product.price}</div>
+                            <!-- Description is hidden on the card but will be shown in the modal -->
+                            <p class="product-description" style="display: none;">${product.description}</p>
+                            <div class="product-actions">
+                                <button class="buy-now" data-product-id="${product._id}">Buy Now</button>
+                                <button class="view-details" data-product-id="${product._id}">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // Add event listeners to view details buttons
+            container.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const productId = this.getAttribute('data-product-id');
+                    openProductModal(productId);
+                });
+            });
+            
+            // Add event listeners to buy now buttons
+            container.querySelectorAll('.buy-now').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const productId = this.getAttribute('data-product-id');
+                    addToCart(productId);
+                });
+            });
+            
+            // Add event listeners to product cards
+            container.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    openProductModal(productId);
+                });
+            });
+        }
+
+        // Setup modals
+        function setupModals() {
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === productModal) {
+                    closeProductModal();
+                }
+            });
+            
+            // Close modals with close buttons
+            document.querySelector('.close-modal').addEventListener('click', closeProductModal);
+            
+            // Close modals with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeProductModal();
+                }
+            });
+            
+            // Setup buy button
+            document.getElementById('modalBuyBtn').addEventListener('click', function() {
+                const productId = this.getAttribute('data-product-id');
+                addToCart(productId);
+            });
+        }
+
+        // Open product modal
+        async function openProductModal(productId) {
+            try {
+                // Fetch product details from backend
+                const response = await fetch(API_ENDPOINTS.PRODUCT_DETAILS + productId);
+                if (!response.ok) throw new Error('Failed to fetch product details');
+                
+                const product = await response.json();
+                
+                // Ensure the image URL is properly formatted
+                let imageUrl = product.image;
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    imageUrl = API_BASE_URL + imageUrl;
+                }
+                
+                // Populate modal with product data
+                document.getElementById('modalProductTitle').textContent = product.name;
+                document.getElementById('modalProductImage').src = imageUrl;
+                document.getElementById('modalProductPrice').textContent = product.price;
+                
+                // Show discount if available
+                const discountElement = document.getElementById('modalProductDiscount');
+                if (product.discount) {
+                    discountElement.textContent = `${product.discount}% OFF`;
+                    discountElement.style.display = 'block';
+                } else {
+                    discountElement.style.display = 'none';
+                }
+                
+                document.getElementById('modalProductDescription').textContent = product.description;
+                
+                // Populate product options
+                const optionsContainer = document.getElementById('modalProductOptions');
+                optionsContainer.innerHTML = '';
+                
+                if (product.variations && product.variations.length > 0) {
+                    product.variations.forEach(option => {
+                        const optionElement = document.createElement('div');
+                        optionElement.className = 'variation-option';
+                        optionElement.textContent = `${option.name} - ${option.price}`;
+                        optionElement.setAttribute('data-price', option.price);
+                        optionElement.addEventListener('click', function() {
+                            document.querySelectorAll('.variation-option').forEach(opt => opt.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            // Update price in modal
+                            document.getElementById('modalProductPrice').textContent = option.price;
+                        });
+                        optionsContainer.appendChild(optionElement);
+                    });
+                    
+                    // Activate first option by default
+                    optionsContainer.querySelector('.variation-option').classList.add('active');
+                }
+                
+                // Set product ID on buy button
+                document.getElementById('modalBuyBtn').setAttribute('data-product-id', productId);
+                
+                // Show modal
+                productModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } catch (error) {
+                console.error('Error loading product details:', error);
+                showToast('Failed to load product details. Please try again.', 'error');
+            }
+        }
+
+        // Close product modal
+        function closeProductModal() {
+            productModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Add product to cart
+        async function addToCart(productId) {
+            try {
+                // Fetch product details from backend
+                const response = await fetch(API_ENDPOINTS.PRODUCT_DETAILS + productId);
+                if (!response.ok) throw new Error('Failed to fetch product details');
+                
+                const product = await response.json();
+                
+                // Get selected variation if available
+                let selectedVariation = '';
+                let selectedPrice = product.price;
+                
+                if (product.variations && product.variations.length > 0) {
+                    const selectedOption = document.querySelector('.variation-option.active');
+                    if (selectedOption) {
+                        selectedVariation = selectedOption.textContent.split(' - ')[0];
+                        selectedPrice = selectedOption.getAttribute('data-price');
+                    }
+                }
+                
+                // Add to cart via backend API
+                const cartResponse = await fetch(`${API_ENDPOINTS.ADD_TO_CART}${sessionId}/add`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId: product._id,
+                        quantity: 1,
+                        variation: selectedVariation,
+                        price: selectedPrice,
+                        name: product.name,
+                        image: product.image
+                    })
+                });
+                
+                if (!cartResponse.ok) {
+                    const errorData = await cartResponse.json();
+                    throw new Error(errorData.error || 'Failed to add to cart');
+                }
+                
+                // Close modal and show success message
+                productModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                
+                showToast('Product added to cart successfully!', 'success');
+                
+                // Update cart count
+                updateCartCount();
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showToast(error.message || 'Failed to add to cart', 'error');
+            }
+        }
+
+        // Update cart count
+        async function updateCartCount() {
+            try {
+                const response = await fetch(`${API_ENDPOINTS.CART}${sessionId}`);
+                if (!response.ok) throw new Error('Failed to fetch cart');
+                
+                const cart = await response.json();
+                const totalItems = cart.items.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            toast.className = 'toast';
+            toast.classList.add(type);
+            
+            const icon = toast.querySelector('.toast-icon i');
+            icon.className = 'fas fa-info-circle';
+            
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            }
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Handle image loading errors
+        function handleImageError(img) {
+            img.style.display = 'none';
+            const placeholder = document.createElement('div');
+            placeholder.className = 'image-placeholder';
+            placeholder.innerHTML = '<i class="fas fa-image"></i> No Image Available';
+            img.parentNode.appendChild(placeholder);
+        }
+    </script>
+</body>
+</html>
