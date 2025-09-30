@@ -181,11 +181,44 @@
             background: var(--primary-dark);
         }
 
-        .nav-container {
+        /* Desktop Navigation */
+        .desktop-nav {
+            display: none;
+        }
+
+        .desktop-nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .desktop-nav-links a {
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .desktop-nav-links a:hover, .desktop-nav-links a.active {
+            color: var(--accent);
+        }
+
+        .desktop-nav-links a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav-container {
             position: relative;
         }
 
-        .nav-links {
+        .mobile-nav-links {
             display: none;
             position: absolute;
             top: 100%;
@@ -198,26 +231,26 @@
             z-index: 1000;
         }
 
-        .nav-links.active {
+        .mobile-nav-links.active {
             display: block;
         }
 
-        .nav-links li {
+        .mobile-nav-links li {
             list-style: none;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .nav-links li:last-child {
+        .mobile-nav-links li:last-child {
             border-bottom: none;
         }
 
-        .nav-links a {
+        .mobile-nav-links a {
             display: block;
             padding: 0.75rem 1rem;
             transition: var(--transition);
         }
 
-        .nav-links a:hover, .nav-links a.active {
+        .mobile-nav-links a:hover, .mobile-nav-links a.active {
             background: var(--primary);
             color: white;
         }
@@ -270,45 +303,41 @@
             overflow: hidden;
         }
 
+        /* Page Header - Jumia Style */
         .page-header {
-            background: linear-gradient(to right, rgba(0, 102, 204, 0.8), rgba(0, 168, 255, 0.7)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80') center/cover no-repeat;
-            color: white;
-            text-align: center;
-            padding: 3rem 1rem;
-            margin: -1rem -1rem 2rem -1rem;
-            border-radius: 0;
+            background: var(--dark);
+            padding: 1.5rem 1rem;
+            margin: -1rem -1rem 1rem -1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .page-header h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(to right, white, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--light);
         }
 
         .breadcrumb {
             display: flex;
-            justify-content: center;
             list-style: none;
             padding: 0;
-            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--gray);
         }
 
         .breadcrumb li {
             display: inline;
-            font-size: 0.9rem;
         }
 
         .breadcrumb li:not(:last-child):after {
-            content: '/';
-            margin: 0 10px;
-            color: var(--accent);
+            content: '>';
+            margin: 0 8px;
+            color: var(--gray);
         }
 
         .breadcrumb a {
-            color: var(--accent);
+            color: var(--primary);
             text-decoration: none;
         }
 
@@ -316,12 +345,12 @@
             text-decoration: underline;
         }
 
-        /* Category Tabs */
+        /* Category Tabs - Jumia Style */
         .categories-tabs {
             display: flex;
             overflow-x: auto;
             gap: 0.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             scrollbar-width: none;
             -ms-overflow-style: none;
@@ -334,8 +363,8 @@
         .category-tab {
             padding: 0.75rem 1rem;
             background: var(--dark);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
             cursor: pointer;
             transition: var(--transition);
             white-space: nowrap;
@@ -343,6 +372,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            color: var(--light);
         }
 
         .category-tab.active, .category-tab:hover {
@@ -353,17 +383,12 @@
 
         /* Category Content */
         .category-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .category-content.active {
             display: block;
+            margin-bottom: 2rem;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .category-content.hidden {
+            display: none;
         }
 
         /* Category Carousel */
@@ -480,43 +505,73 @@
             transform: scale(1.2);
         }
 
-        /* Products Grid */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+        /* Products Horizontal Scroll - Jumia Style */
+        .products-section {
             margin-bottom: 2rem;
         }
 
-        @media (min-width: 768px) {
-            .products-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
         }
 
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--light);
+        }
+
+        .view-all {
+            font-size: 0.9rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            cursor: pointer;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 0.5rem 0.5rem 1rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Product Card - Jumia Style */
         .product-card {
+            min-width: 160px;
             background: var(--dark);
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: var(--box-shadow);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
+            flex-shrink: 0;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .image-container {
             position: relative;
-            height: 150px;
+            height: 140px;
             overflow: hidden;
+            background: white;
         }
 
         .product-image {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            padding: 0.5rem;
             transition: var(--transition);
         }
 
@@ -527,7 +582,7 @@
         .discount-badge {
             position: absolute;
             top: 8px;
-            right: 8px;
+            left: 8px;
             background: var(--error);
             color: white;
             font-size: 0.7rem;
@@ -541,18 +596,45 @@
         }
 
         .product-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 0.5rem;
-            white-space: nowrap;
+            height: 2.5rem;
             overflow: hidden;
-            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            color: var(--light);
         }
 
         .product-price {
-            font-weight: 600;
-            color: var(--accent);
+            font-weight: 700;
+            color: var(--primary);
             margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            font-size: 1rem;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating-stars {
+            color: var(--warning);
+            font-size: 0.8rem;
+        }
+
+        .rating-count {
+            font-size: 0.75rem;
+            color: var(--gray);
         }
 
         .product-actions {
@@ -565,52 +647,137 @@
             background: var(--primary);
             color: white;
             padding: 0.5rem;
-            border-radius: var(--border-radius);
+            border-radius: 4px;
             font-size: 0.8rem;
             text-align: center;
             transition: var(--transition);
+            font-weight: 600;
         }
 
         .buy-now:hover {
             background: var(--primary-dark);
         }
 
-        .view-details {
-            flex: 1;
-            background: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
+        /* Products Grid View */
+        .products-grid {
+            display: none;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .products-grid.active {
+            display: grid;
+        }
+
+        @media (min-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .grid-product-card {
+            background: var(--dark);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .grid-product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .grid-image-container {
+            position: relative;
+            height: 160px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .grid-product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             padding: 0.5rem;
-            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .grid-product-card:hover .grid-product-image {
+            transform: scale(1.05);
+        }
+
+        .grid-product-info {
+            padding: 0.75rem;
+        }
+
+        .grid-product-title {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            height: 2.5rem;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            color: var(--light);
+        }
+
+        .grid-product-price {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .grid-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grid-product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .grid-buy-now {
+            flex: 1;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 4px;
             font-size: 0.8rem;
             text-align: center;
             transition: var(--transition);
+            font-weight: 600;
         }
 
-        .view-details:hover {
+        .grid-buy-now:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Back to Categories Button */
+        .back-to-categories {
+            display: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
             background: var(--primary);
             color: white;
-        }
-
-        /* Load More Button */
-        .load-more-container {
-            display: flex;
-            justify-content: center;
-            margin: 2rem 0;
-        }
-
-        .load-more-btn {
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            color: var(--secondary);
-            border: 1px solid var(--secondary);
             border-radius: var(--border-radius);
-            font-weight: 600;
+            font-weight: 500;
             transition: var(--transition);
         }
 
-        .load-more-btn:hover {
-            background: rgba(0, 168, 255, 0.1);
+        .back-btn:hover {
+            background: var(--primary-dark);
         }
 
         /* Footer */
@@ -792,12 +959,14 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             margin-bottom: 1rem;
+            background: white;
         }
 
         .modal-image {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            padding: 1rem;
         }
 
         .image-placeholder {
@@ -818,7 +987,7 @@
         .modal-price {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary);
             margin-bottom: 0.5rem;
         }
 
@@ -931,7 +1100,6 @@
             justify-content: center;
             padding: 2rem;
             width: 100%;
-            grid-column: 1 / -1;
         }
 
         .spinner {
@@ -957,7 +1125,6 @@
             padding: 2rem;
             text-align: center;
             width: 100%;
-            grid-column: 1 / -1;
         }
 
         .empty-state i, .error-state i {
@@ -996,7 +1163,26 @@
             }
             
             .image-container {
-                height: 200px;
+                height: 180px;
+            }
+            
+            .product-card {
+                min-width: 180px;
+            }
+            
+            /* Show desktop nav, hide mobile nav */
+            .desktop-nav {
+                display: block;
+            }
+            
+            .mobile-nav-container {
+                display: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .product-card {
+                min-width: 200px;
             }
         }
     </style>
@@ -1031,14 +1217,26 @@
             <button><i class="fas fa-search"></i></button>
         </div>
         
-        <div class="nav-container">
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+            <ul class="desktop-nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">Blog/Tips</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav-container">
             <div class="menu-toggle" id="menu-toggle">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
             
-            <ul class="nav-links" id="nav-links">
+            <ul class="mobile-nav-links" id="mobile-nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="products.html" class="active">Products</a></li>
                 <li><a href="services.html">Services</a></li>
@@ -1052,100 +1250,58 @@
     <main>
         <!-- Page Header -->
         <section class="page-header">
-            <h1>Our Products</h1>
+            <h1>All Products</h1>
             <ul class="breadcrumb">
                 <li><a href="index.html">Home</a></li>
                 <li>Products</li>
             </ul>
         </section>
 
-        <!-- Product Categories -->
-        <section class="product-categories">
-            <div class="categories-tabs">
-                <button class="category-tab active" data-category="laptops">
-                    <i class="fas fa-laptop"></i> Laptops
-                </button>
-                <button class="category-tab" data-category="smartphones">
-                    <i class="fas fa-mobile-alt"></i> Smartphones
-                </button>
-                <button class="category-tab" data-category="audio">
-                    <i class="fas fa-headphones"></i> Audio
-                </button>
-                <button class="category-tab" data-category="smart-home">
-                    <i class="fas fa-home"></i> Smart Home
-                </button>
-                <button class="category-tab" data-category="accessories">
-                    <i class="fas fa-keyboard"></i> Accessories
-                </button>
-                <button class="category-tab" data-category="gaming">
-                    <i class="fas fa-gamepad"></i> Gaming
-                </button>
-                <button class="category-tab" data-category="cameras">
-                    <i class="fas fa-camera"></i> Cameras
-                </button>
-                <button class="category-tab" data-category="wearables">
-                    <i class="fas fa-clock"></i> Wearables
-                </button>
-            </div>
-            
-            <!-- Laptops Category -->
-            <div class="category-content active" id="laptops-content">
-                <div class="category-carousel">
-                    <h2>Featured Laptops</h2>
-                    <div class="carousel-container" id="laptops-carousel">
-                        <div class="carousel-track">
-                            <!-- Demo products for carousel only -->
-                            <div class="carousel-slide">
-                                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Premium Laptop" class="carousel-image">
-                                <div class="carousel-content">
-                                    <h3>Premium Laptop Pro</h3>
-                                    <div class="price">KSh 89,999</div>
-                                    <button class="carousel-cta">View Details</button>
-                                </div>
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gaming Laptop" class="carousel-image">
-                                <div class="carousel-content">
-                                    <h3>Gaming Laptop X</h3>
-                                    <div class="price">KSh 129,999</div>
-                                    <button class="carousel-cta">View Details</button>
-                                </div>
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ultrabook" class="carousel-image">
-                                <div class="carousel-content">
-                                    <h3>Ultrabook Slim</h3>
-                                    <div class="price">KSh 74,999</div>
-                                    <button class="carousel-cta">View Details</button>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="carousel-nav prev"><i class="fas fa-chevron-left"></i></button>
-                        <button class="carousel-nav next"><i class="fas fa-chevron-right"></i></button>
-                        <div class="carousel-controls">
-                            <div class="carousel-dot active"></div>
-                            <div class="carousel-dot"></div>
-                            <div class="carousel-dot"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="products-grid" id="laptops-products-grid">
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading laptops and computers...</p>
-                    </div>
-                </div>
-                
-                <div class="load-more-container">
-                    <button class="load-more-btn" id="laptops-load-more">Load More Products</button>
-                </div>
-            </div>
-            
+        <!-- Category Tabs -->
+        <div class="categories-tabs">
+            <button class="category-tab active" data-category="smartphones">
+                <i class="fas fa-mobile-alt"></i> Smartphones
+            </button>
+            <button class="category-tab" data-category="laptops">
+                <i class="fas fa-laptop"></i> Laptops
+            </button>
+            <button class="category-tab" data-category="audio">
+                <i class="fas fa-headphones"></i> Audio
+            </button>
+            <button class="category-tab" data-category="smart-home">
+                <i class="fas fa-home"></i> Smart Home
+            </button>
+            <button class="category-tab" data-category="accessories">
+                <i class="fas fa-keyboard"></i> Accessories
+            </button>
+            <button class="category-tab" data-category="gaming">
+                <i class="fas fa-gamepad"></i> Gaming
+            </button>
+            <button class="category-tab" data-category="cameras">
+                <i class="fas fa-camera"></i> Cameras
+            </button>
+            <button class="category-tab" data-category="wearables">
+                <i class="fas fa-clock"></i> Wearables
+            </button>
+        </div>
+
+        <!-- Back to Categories Button (Hidden by default) -->
+        <div class="back-to-categories" id="back-to-categories">
+            <button class="back-btn" id="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to All Categories
+            </button>
+        </div>
+
+        <!-- Products Grid View (Hidden by default) -->
+        <div class="products-grid" id="products-grid-view">
+            <!-- Grid products will be loaded here dynamically -->
+        </div>
+
+        <!-- All Categories Content (Visible by default) -->
+        <div id="all-categories-view">
             <!-- Smartphones Category -->
             <div class="category-content" id="smartphones-content">
                 <div class="category-carousel">
-                    <h2>Featured Smartphones</h2>
                     <div class="carousel-container" id="smartphones-carousel">
                         <div class="carousel-track">
                             <!-- Demo products for carousel only -->
@@ -1184,97 +1340,166 @@
                     </div>
                 </div>
                 
-                <div class="products-grid" id="smartphones-products-grid">
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading smartphones and tablets...</p>
+                <div class="products-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Smartphones & Tablets</h2>
+                        <a class="view-all" data-category="smartphones">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="scroll-container" id="smartphones-products-scroll">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading smartphones and tablets...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Laptops Category -->
+            <div class="category-content" id="laptops-content">
+                <div class="category-carousel">
+                    <div class="carousel-container" id="laptops-carousel">
+                        <div class="carousel-track">
+                            <!-- Demo products for carousel only -->
+                            <div class="carousel-slide">
+                                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Premium Laptop" class="carousel-image">
+                                <div class="carousel-content">
+                                    <h3>Premium Laptop Pro</h3>
+                                    <div class="price">KSh 89,999</div>
+                                    <button class="carousel-cta">View Details</button>
+                                </div>
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gaming Laptop" class="carousel-image">
+                                <div class="carousel-content">
+                                    <h3>Gaming Laptop X</h3>
+                                    <div class="price">KSh 129,999</div>
+                                    <button class="carousel-cta">View Details</button>
+                                </div>
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ultrabook" class="carousel-image">
+                                <div class="carousel-content">
+                                    <h3>Ultrabook Slim</h3>
+                                    <div class="price">KSh 74,999</div>
+                                    <button class="carousel-cta">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-nav prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="carousel-nav next"><i class="fas fa-chevron-right"></i></button>
+                        <div class="carousel-controls">
+                            <div class="carousel-dot active"></div>
+                            <div class="carousel-dot"></div>
+                            <div class="carousel-dot"></div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="load-more-container">
-                    <button class="load-more-btn" id="smartphones-load-more">Load More Products</button>
+                <div class="products-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Laptops & Computers</h2>
+                        <a class="view-all" data-category="laptops">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="scroll-container" id="laptops-products-scroll">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading laptops and computers...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <!-- Other categories would follow the same pattern -->
             <div class="category-content" id="audio-content">
-                <div class="products-grid" id="audio-products-grid">
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading audio products...</p>
+                <div class="products-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Audio & Headphones</h2>
+                        <a class="view-all" data-category="audio">View All <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
-                
-                <div class="load-more-container">
-                    <button class="load-more-btn" id="audio-load-more">Load More Products</button>
+                    <div class="scroll-container" id="audio-products-scroll">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading audio products...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="category-content" id="smart-home-content">
-                <div class="products-grid" id="smart-home-products-grid">
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading smart home devices...</p>
+                <div class="products-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Smart Home Devices</h2>
+                        <a class="view-all" data-category="smart-home">View All <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
-                
-                <div class="load-more-container">
-                    <button class="load-more-btn" id="smart-home-load-more">Load More Products</button>
+                    <div class="scroll-container" id="smart-home-products-scroll">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading smart home devices...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="category-content" id="accessories-content">
-                <div class="products-grid" id="accessories-products-grid">
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading accessories...</p>
+                <div class="products-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Accessories</h2>
+                        <a class="view-all" data-category="accessories">View All <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
-                
-                <div class="load-more-container">
-                    <button class="load-more-btn" id="accessories-load-more">Load More Products</button>
+                    <div class="scroll-container" id="accessories-products-scroll">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading accessories...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="category-content" id="gaming-content">
-                <div class="products-grid" id="gaming-products-grid">
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading gaming products...</p>
+                <div class="products-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Gaming</h2>
+                        <a class="view-all" data-category="gaming">View All <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
-                
-                <div class="load-more-container">
-                    <button class="load-more-btn" id="gaming-load-more">Load More Products</button>
+                    <div class="scroll-container" id="gaming-products-scroll">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading gaming products...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="category-content" id="cameras-content">
-                <div class="products-grid" id="cameras-products-grid">
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading cameras...</p>
+                <div class="products-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Cameras</h2>
+                        <a class="view-all" data-category="cameras">View All <i class="fas fa-arrow-right"></i></a>
                     </div>
-                </div>
-                
-                <div class="load-more-container">
-                    <button class="load-more-btn" id="cameras-load-more">Load More Products</button>
+                    <div class="scroll-container" id="cameras-products-scroll">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading cameras...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="category-content" id="wearables-content">
-                <div class="products-grid" id="wearables-products-grid">
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading wearables...</p>
+                <div class="products-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Wearables</h2>
+                        <a class="view-all" data-category="wearables">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="scroll-container" id="wearables-products-scroll">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading wearables...</p>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="load-more-container">
-                    <button class="load-more-btn" id="wearables-load-more">Load More Products</button>
-                </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer>
@@ -1398,10 +1623,14 @@
 
         // DOM elements
         const menuToggle = document.getElementById('menu-toggle');
-        const navLinks = document.getElementById('nav-links');
+        const mobileNavLinks = document.getElementById('mobile-nav-links');
         const themeToggle = document.getElementById('theme-toggle');
         const categoryTabs = document.querySelectorAll('.category-tab');
-        const categoryContents = document.querySelectorAll('.category-content');
+        const viewAllButtons = document.querySelectorAll('.view-all');
+        const backToCategories = document.getElementById('back-to-categories');
+        const backBtn = document.getElementById('back-btn');
+        const allCategoriesView = document.getElementById('all-categories-view');
+        const productsGridView = document.getElementById('products-grid-view');
         const productModal = document.getElementById('productModal');
         const cartCount = document.querySelector('.cart-count');
         const toast = document.getElementById('toast');
@@ -1409,17 +1638,7 @@
 
         // State variables
         const sessionId = getSessionId();
-        const productsPerPage = 8;
-        const currentPage = {
-            laptops: 1,
-            smartphones: 1,
-            audio: 1,
-            'smart-home': 1,
-            accessories: 1,
-            gaming: 1,
-            cameras: 1,
-            wearables: 1
-        };
+        let currentCategory = 'smartphones';
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
@@ -1430,8 +1649,7 @@
             updateCartCount();
             
             // Load initial category products
-            const initialCategory = document.querySelector('.category-tab.active').getAttribute('data-category');
-            loadCategoryProducts(initialCategory);
+            loadAllCategories();
         });
 
         // Setup event listeners
@@ -1439,14 +1657,14 @@
             // Mobile menu toggle
             menuToggle.addEventListener('click', function() {
                 this.classList.toggle('active');
-                navLinks.classList.toggle('active');
+                mobileNavLinks.classList.toggle('active');
             });
             
             // Close menu when clicking outside
             document.addEventListener('click', function(event) {
-                if (!event.target.closest('.nav-container')) {
+                if (!event.target.closest('.mobile-nav-container')) {
                     menuToggle.classList.remove('active');
-                    navLinks.classList.remove('active');
+                    mobileNavLinks.classList.remove('active');
                 }
             });
             
@@ -1470,6 +1688,11 @@
                 document.body.setAttribute('data-theme', 'light');
                 themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
             }
+            
+            // Back to categories button
+            backBtn.addEventListener('click', function() {
+                showAllCategoriesView();
+            });
         }
 
         // Setup category tabs
@@ -1477,32 +1700,29 @@
             categoryTabs.forEach(tab => {
                 tab.addEventListener('click', function() {
                     const category = this.getAttribute('data-category');
+                    currentCategory = category;
                     
                     // Update active tab
                     categoryTabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Show corresponding content
-                    categoryContents.forEach(content => {
-                        content.classList.remove('active');
-                        if (content.id === `${category}-content`) {
-                            content.classList.add('active');
-                        }
-                    });
-                    
-                    // Load category products if not already loaded
-                    const container = document.getElementById(`${category}-products-grid`);
-                    if (container.querySelector('.loading-spinner')) {
-                        loadCategoryProducts(category);
-                    }
+                    // Show grid view for this category
+                    showGridView(category);
                 });
             });
             
-            // Setup load more buttons
-            document.querySelectorAll('.load-more-btn').forEach(button => {
+            // Setup view all buttons
+            viewAllButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const category = this.id.replace('-load-more', '');
-                    loadMoreProducts(category);
+                    const category = this.getAttribute('data-category');
+                    currentCategory = category;
+                    
+                    // Update active tab
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    document.querySelector(`.category-tab[data-category="${category}"]`).classList.add('active');
+                    
+                    // Show grid view for this category
+                    showGridView(category);
                 });
             });
         }
@@ -1628,22 +1848,43 @@
             }
         }
 
+        // Load all categories with horizontal scrolling products
+        async function loadAllCategories() {
+            const categories = ['smartphones', 'laptops', 'audio', 'smart-home', 'accessories', 'gaming', 'cameras', 'wearables'];
+            
+            for (const category of categories) {
+                await loadCategoryProducts(category, 'scroll');
+            }
+        }
+
         // Load products for a specific category
-        async function loadCategoryProducts(category) {
-            const container = document.getElementById(`${category}-products-grid`);
+        async function loadCategoryProducts(category, viewType = 'scroll') {
+            const container = viewType === 'scroll' 
+                ? document.getElementById(`${category}-products-scroll`)
+                : document.getElementById('products-grid-view');
+                
             if (!container) return;
             
             try {
                 // Show loading state
-                container.innerHTML = `
-                    <div class="loading-spinner">
-                        <div class="spinner"></div>
-                        <p>Loading ${category.replace('-', ' ')}...</p>
-                    </div>
-                `;
+                if (viewType === 'scroll') {
+                    container.innerHTML = `
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading ${category.replace('-', ' ')}...</p>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Loading ${category.replace('-', ' ')}...</p>
+                        </div>
+                    `;
+                }
                 
                 // Fetch category products from backend
-                const response = await fetch(`${API_ENDPOINTS.CATEGORY_PRODUCTS}${category}?limit=${productsPerPage}&page=${currentPage[category]}`);
+                const response = await fetch(`${API_ENDPOINTS.CATEGORY_PRODUCTS}${category}`);
                 if (!response.ok) throw new Error(`Failed to fetch ${category} products`);
                 
                 const products = await response.json();
@@ -1655,19 +1896,14 @@
                             <p>No products available in this category.</p>
                         </div>
                     `;
-                    document.getElementById(`${category}-load-more`).style.display = 'none';
                     return;
                 }
                 
                 // Render category products
-                renderCategoryProducts(category, products);
-                
-                // Show/hide load more button
-                const loadMoreBtn = document.getElementById(`${category}-load-more`);
-                if (products.length < productsPerPage) {
-                    loadMoreBtn.style.display = 'none';
+                if (viewType === 'scroll') {
+                    renderScrollProducts(category, products);
                 } else {
-                    loadMoreBtn.style.display = 'block';
+                    renderGridProducts(category, products);
                 }
             } catch (error) {
                 console.error(`Error loading ${category} products:`, error);
@@ -1675,44 +1911,15 @@
                     <div class="error-state">
                         <i class="fas fa-exclamation-triangle"></i>
                         <p>Failed to load products. Please try again later.</p>
-                        <button onclick="loadCategoryProducts('${category}')" class="retry-btn">Retry</button>
+                        <button onclick="loadCategoryProducts('${category}', '${viewType}')" class="retry-btn">Retry</button>
                     </div>
                 `;
-                document.getElementById(`${category}-load-more`).style.display = 'none';
             }
         }
 
-        // Load more products for a category
-        async function loadMoreProducts(category) {
-            currentPage[category]++;
-            
-            try {
-                // Fetch more category products from backend
-                const response = await fetch(`${API_ENDPOINTS.CATEGORY_PRODUCTS}${category}?limit=${productsPerPage}&page=${currentPage[category]}`);
-                if (!response.ok) throw new Error(`Failed to fetch more ${category} products`);
-                
-                const products = await response.json();
-                
-                if (products.length > 0) {
-                    // Append new products
-                    appendCategoryProducts(category, products);
-                }
-                
-                // Show/hide load more button
-                const loadMoreBtn = document.getElementById(`${category}-load-more`);
-                if (products.length < productsPerPage) {
-                    loadMoreBtn.style.display = 'none';
-                }
-            } catch (error) {
-                console.error(`Error loading more ${category} products:`, error);
-                showToast('Failed to load more products', 'error');
-                currentPage[category]--; // Revert page number on error
-            }
-        }
-
-        // Render products for a specific category
-        function renderCategoryProducts(category, products) {
-            const container = document.getElementById(`${category}-products-grid`);
+        // Render products in horizontal scroll view
+        function renderScrollProducts(category, products) {
+            const container = document.getElementById(`${category}-products-scroll`);
             let html = '';
             
             products.forEach(product => {
@@ -1721,6 +1928,10 @@
                 if (imageUrl && !imageUrl.startsWith('http')) {
                     imageUrl = API_BASE_URL + imageUrl;
                 }
+                
+                // Generate random rating for demo (in real app, this would come from API)
+                const rating = (Math.random() * 2 + 3).toFixed(1); // Random rating between 3.0 and 5.0
+                const ratingCount = Math.floor(Math.random() * 100) + 10; // Random count between 10 and 110
                 
                 html += `
                     <div class="product-card" data-product-id="${product._id}">
@@ -1734,9 +1945,14 @@
                         <div class="product-info">
                             <h3 class="product-title">${product.name}</h3>
                             <div class="product-price">${product.price}</div>
+                            <div class="rating">
+                                <div class="rating-stars">
+                                    ${generateStarRating(rating)}
+                                </div>
+                                <span class="rating-count">(${ratingCount})</span>
+                            </div>
                             <div class="product-actions">
                                 <button class="buy-now" data-product-id="${product._id}">Buy Now</button>
-                                <button class="view-details" data-product-id="${product._id}">Details</button>
                             </div>
                         </div>
                     </div>
@@ -1744,15 +1960,6 @@
             });
             
             container.innerHTML = html;
-            
-            // Add event listeners to view details buttons
-            container.querySelectorAll('.view-details').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const productId = this.getAttribute('data-product-id');
-                    openProductModal(productId);
-                });
-            });
             
             // Add event listeners to buy now buttons
             container.querySelectorAll('.buy-now').forEach(button => {
@@ -1772,9 +1979,9 @@
             });
         }
 
-        // Append more products to a category
-        function appendCategoryProducts(category, products) {
-            const container = document.getElementById(`${category}-products-grid`);
+        // Render products in grid view
+        function renderGridProducts(category, products) {
+            const container = document.getElementById('products-grid-view');
             let html = '';
             
             products.forEach(product => {
@@ -1784,53 +1991,102 @@
                     imageUrl = API_BASE_URL + imageUrl;
                 }
                 
+                // Generate random rating for demo (in real app, this would come from API)
+                const rating = (Math.random() * 2 + 3).toFixed(1); // Random rating between 3.0 and 5.0
+                const ratingCount = Math.floor(Math.random() * 100) + 10; // Random count between 10 and 110
+                
                 html += `
-                    <div class="product-card" data-product-id="${product._id}">
+                    <div class="grid-product-card" data-product-id="${product._id}">
                         ${product.discount ? `<div class="discount-badge">${product.discount}% OFF</div>` : ''}
-                        <div class="image-container">
+                        <div class="grid-image-container">
                             ${product.image ? 
-                                `<img src="${imageUrl}" alt="${product.name}" class="product-image" onerror="handleImageError(this)">` : 
+                                `<img src="${imageUrl}" alt="${product.name}" class="grid-product-image" onerror="handleImageError(this)">` : 
                                 `<div class="image-placeholder"><i class="fas fa-image"></i> No Image</div>`
                             }
                         </div>
-                        <div class="product-info">
-                            <h3 class="product-title">${product.name}</h3>
-                            <div class="product-price">${product.price}</div>
-                            <div class="product-actions">
-                                <button class="buy-now" data-product-id="${product._id}">Buy Now</button>
-                                <button class="view-details" data-product-id="${product._id}">Details</button>
+                        <div class="grid-product-info">
+                            <h3 class="grid-product-title">${product.name}</h3>
+                            <div class="grid-product-price">${product.price}</div>
+                            <div class="grid-rating">
+                                <div class="rating-stars">
+                                    ${generateStarRating(rating)}
+                                </div>
+                                <span class="rating-count">(${ratingCount})</span>
+                            </div>
+                            <div class="grid-product-actions">
+                                <button class="grid-buy-now" data-product-id="${product._id}">Buy Now</button>
                             </div>
                         </div>
                     </div>
                 `;
             });
             
-            container.innerHTML += html;
+            container.innerHTML = html;
             
-            // Add event listeners to new elements
-            const newCards = container.querySelectorAll('.product-card:not([data-initialized])');
-            newCards.forEach(card => {
-                card.setAttribute('data-initialized', 'true');
-                
-                const productId = card.getAttribute('data-product-id');
-                
-                // Add event listeners to view details buttons
-                card.querySelector('.view-details').addEventListener('click', function(e) {
+            // Add event listeners to buy now buttons
+            container.querySelectorAll('.grid-buy-now').forEach(button => {
+                button.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    openProductModal(productId);
-                });
-                
-                // Add event listeners to buy now buttons
-                card.querySelector('.buy-now').addEventListener('click', function(e) {
-                    e.stopPropagation();
+                    const productId = this.getAttribute('data-product-id');
                     addToCart(productId);
                 });
-                
-                // Add event listeners to product cards
+            });
+            
+            // Add event listeners to product cards
+            container.querySelectorAll('.grid-product-card').forEach(card => {
                 card.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
                     openProductModal(productId);
                 });
             });
+        }
+
+        // Show grid view for a specific category
+        function showGridView(category) {
+            // Hide all categories view
+            allCategoriesView.style.display = 'none';
+            
+            // Show grid view and back button
+            productsGridView.classList.add('active');
+            backToCategories.style.display = 'block';
+            
+            // Update page title
+            document.querySelector('.page-header h1').textContent = `${category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}`;
+            
+            // Load products in grid view
+            loadCategoryProducts(category, 'grid');
+        }
+
+        // Show all categories view
+        function showAllCategoriesView() {
+            // Show all categories view
+            allCategoriesView.style.display = 'block';
+            
+            // Hide grid view and back button
+            productsGridView.classList.remove('active');
+            backToCategories.style.display = 'none';
+            
+            // Reset page title
+            document.querySelector('.page-header h1').textContent = 'All Products';
+        }
+
+        // Generate star rating HTML
+        function generateStarRating(rating) {
+            let starsHtml = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    starsHtml += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    starsHtml += '<i class="far fa-star"></i>';
+                }
+            }
+            
+            return starsHtml;
         }
 
         // Open product modal
