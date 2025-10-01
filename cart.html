@@ -159,34 +159,7 @@
         }
 
         .search-bar {
-            display: flex;
-            margin-bottom: 0.5rem;
-        }
-
-        .search-bar input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border: none;
-            border-radius: var(--border-radius) 0 0 var(--border-radius);
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            font-size: 0.9rem;
-        }
-
-        .search-bar input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .search-bar button {
-            padding: 0 1rem;
-            background: var(--primary);
-            color: white;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-            transition: var(--transition);
-        }
-
-        .search-bar button:hover {
-            background: var(--primary-dark);
+            display: none;
         }
 
         /* Desktop Navigation */
@@ -198,6 +171,7 @@
             display: flex;
             list-style: none;
             gap: 1.5rem;
+            justify-content: center;
         }
 
         .desktop-nav-links a {
@@ -775,6 +749,476 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--gray);
         }
+
+        /* New Styles for Checkout Flow */
+        .checkout-flow {
+            display: none;
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2rem;
+        }
+
+        .checkout-step {
+            display: none;
+        }
+
+        .checkout-step.active {
+            display: block;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: 600;
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            color: var(--light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius);
+            color: var(--light);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .radio-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .radio-option.selected {
+            border-color: var(--primary);
+            background: rgba(0, 102, 204, 0.1);
+        }
+
+        .radio-option input {
+            margin-right: 0.75rem;
+        }
+
+        .radio-content {
+            flex: 1;
+        }
+
+        .radio-title {
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 0.25rem;
+        }
+
+        .radio-description {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .address-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .address-card {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .address-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .address-card.selected {
+            border-color: var(--primary);
+            background: rgba(0, 102, 204, 0.1);
+        }
+
+        .address-type {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .address-details {
+            color: var(--light);
+        }
+
+        .address-default {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--success);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .payment-method:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary);
+            background: rgba(0, 102, 204, 0.1);
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--accent);
+        }
+
+        .payment-details {
+            flex: 1;
+        }
+
+        .payment-title {
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 0.25rem;
+        }
+
+        .payment-description {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .order-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .order-items {
+            margin-bottom: 1rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-item-name {
+            color: var(--light);
+        }
+
+        .order-item-price {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .order-totals {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1rem;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .success-checkmark {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .success-message {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .order-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .order-detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-detail-label {
+            color: var(--gray);
+        }
+
+        .order-detail-value {
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            color: var(--light);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--light);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--gray);
+        }
+
+        .form-footer a {
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .form-footer a:hover {
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
@@ -785,7 +1229,7 @@
                 <div class="logo-icon">
                     <img src="https://s6.imgcdn.dev/YNRxhl.png" alt="Blue Technology">
                 </div>
-                <span class="logo-text">Blue Tech</span>
+                <span class="logo-text">bluetechnology</span>
             </div>
             <div class="header-actions">
                 <button class="header-action-btn" id="theme-toggle" title="Toggle Theme">
@@ -795,7 +1239,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" id="cart-count">0</span>
                 </button>
-                <button class="header-action-btn" onclick="window.location.href='profile.html'" title="Profile">
+                <button class="header-action-btn" id="user-btn" title="Profile">
                     <i class="fas fa-user"></i>
                 </button>
             </div>
@@ -835,7 +1279,7 @@
         </div>
     </header>
 
-
+    <!-- Page Header -->
 
     <!-- Main Content -->
     <main>
@@ -844,7 +1288,214 @@
                 <div class="loading-spinner"></div>
             </div>
         </div>
+
+        <!-- Checkout Flow -->
+        <div class="checkout-flow" id="checkout-flow">
+            <!-- Step 1: Delivery Method -->
+            <div class="checkout-step active" id="step-1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h2 class="step-title">Delivery Method</h2>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option" onclick="selectDeliveryMethod('door')">
+                        <input type="radio" name="delivery-method" id="door-delivery" value="door">
+                        <div class="radio-content">
+                            <div class="radio-title">Door Delivery</div>
+                            <div class="radio-description">Get your order delivered to your doorstep</div>
+                        </div>
+                    </div>
+                    <div class="radio-option" onclick="selectDeliveryMethod('pickup')">
+                        <input type="radio" name="delivery-method" id="pickup-station" value="pickup">
+                        <div class="radio-content">
+                            <div class="radio-title">Pickup Station</div>
+                            <div class="radio-description">Collect your order from our nearest pickup station</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="hideCheckoutFlow()">Back to Cart</button>
+                    <button class="btn btn-primary" id="step-1-next" onclick="goToStep(2)" disabled>Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Address -->
+            <div class="checkout-step" id="step-2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h2 class="step-title">Delivery Address</h2>
+                </div>
+                <div id="address-list-container">
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToStep(1)">Back</button>
+                    <button class="btn btn-primary" id="step-2-next" onclick="goToStep(3)" disabled>Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Payment -->
+            <div class="checkout-step" id="step-3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h2 class="step-title">Payment Method</h2>
+                </div>
+                <div class="payment-method" onclick="selectPaymentMethod('mpesa')">
+                    <div class="payment-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="payment-details">
+                        <div class="payment-title">M-Pesa</div>
+                        <div class="payment-description">Pay securely with M-Pesa</div>
+                    </div>
+                </div>
+                <div class="order-summary">
+                    <div class="order-items" id="order-summary-items"></div>
+                    <div class="order-totals">
+                        <div class="order-total">
+                            <span>Total:</span>
+                            <span id="order-summary-total">KSh 0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToStep(2)">Back</button>
+                    <button class="btn btn-primary" id="step-3-next" onclick="processPayment()" disabled>Complete Payment</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Confirmation -->
+            <div class="checkout-step" id="step-4">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <h2 class="step-title">Order Confirmation</h2>
+                </div>
+                <div class="success-checkmark">
+                    <div class="success-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="success-message">
+                    <h3>Thank You for Your Order!</h3>
+                    <p>Your order has been placed successfully. You will receive a confirmation email shortly.</p>
+                </div>
+                <div class="order-details" id="order-confirmation-details">
+                    <!-- Order details will be populated here -->
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="completeOrder()">Continue Shopping</button>
+                </div>
+            </div>
+        </div>
     </main>
+
+    <!-- Login/Register Modal -->
+    <div class="modal" id="auth-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Login or Register</h3>
+                <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                    <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+                </div>
+                <form class="auth-form active" id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="login-email">Email</label>
+                        <input type="email" class="form-control" id="login-email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="login-password">Password</label>
+                        <input type="password" class="form-control" id="login-password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                    <div class="form-footer">
+                        <p>Don't have an account? <a href="#" onclick="switchAuthTab('register')">Register here</a></p>
+                    </div>
+                </form>
+                <form class="auth-form" id="register-form">
+                    <div class="form-group">
+                        <label class="form-label" for="register-name">Full Name</label>
+                        <input type="text" class="form-control" id="register-name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="register-email">Email</label>
+                        <input type="email" class="form-control" id="register-email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="register-password">Password</label>
+                        <input type="password" class="form-control" id="register-password" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="register-confirm-password">Confirm Password</label>
+                        <input type="password" class="form-control" id="register-confirm-password" placeholder="Confirm your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+                    <div class="form-footer">
+                        <p>Already have an account? <a href="#" onclick="switchAuthTab('login')">Login here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Address Modal -->
+    <div class="modal" id="address-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Address</h3>
+                <button class="modal-close" onclick="closeAddressModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="address-form">
+                    <div class="form-group">
+                        <label class="form-label" for="address-type">Address Type</label>
+                        <select class="form-control" id="address-type" required>
+                            <option value="">Select address type</option>
+                            <option value="home">Home</option>
+                            <option value="work">Work</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="address-line1">Address Line 1</label>
+                        <input type="text" class="form-control" id="address-line1" placeholder="Street address" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="address-line2">Address Line 2 (Optional)</label>
+                        <input type="text" class="form-control" id="address-line2" placeholder="Apartment, suite, unit, etc.">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="address-city">City</label>
+                            <input type="text" class="form-control" id="address-city" placeholder="City" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="address-postal-code">Postal Code</label>
+                            <input type="text" class="form-control" id="address-postal-code" placeholder="Postal code" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="address-country">Country</label>
+                        <input type="text" class="form-control" id="address-country" value="Kenya" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="address-default"> Set as default address
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAddressModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveAddress()">Save Address</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -930,12 +1581,20 @@
         // Global state
         let cart = [];
         let authToken = localStorage.getItem('authToken');
+        let currentUser = null;
+        let userAddresses = [];
+        let checkoutData = {
+            deliveryMethod: null,
+            selectedAddress: null,
+            paymentMethod: null
+        };
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             initializeTheme();
             loadCart();
             setupEventListeners();
+            checkAuthStatus();
         });
 
         // Theme Toggle
@@ -974,6 +1633,66 @@
                     }
                 }
             });
+
+            // User button
+            document.getElementById('user-btn').addEventListener('click', function() {
+                if (authToken) {
+                    window.location.href = 'profile.html';
+                } else {
+                    openAuthModal();
+                }
+            });
+
+            // Auth forms
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                login();
+            });
+
+            document.getElementById('register-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                register();
+            });
+        }
+
+        // Check Authentication Status
+        function checkAuthStatus() {
+            if (authToken) {
+                fetchUserProfile();
+            }
+        }
+
+        // Fetch User Profile
+        function fetchUserProfile() {
+            fetch(API_ENDPOINTS.AUTH_ME, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user profile');
+                }
+                return response.json();
+            })
+            .then(user => {
+                currentUser = user;
+                updateUserButton();
+            })
+            .catch(error => {
+                console.error('Error fetching user profile:', error);
+                // If token is invalid, clear it
+                localStorage.removeItem('authToken');
+                authToken = null;
+            });
+        }
+
+        // Update User Button
+        function updateUserButton() {
+            const userBtn = document.getElementById('user-btn');
+            if (currentUser) {
+                userBtn.title = `Welcome, ${currentUser.name || currentUser.email}`;
+            }
         }
 
         // Load Cart
@@ -1053,7 +1772,7 @@
                             <span>Total:</span>
                             <span>KSh ${total.toLocaleString()}</span>
                         </div>
-                        <button class="checkout-btn" onclick="proceedToCheckout()">
+                        <button class="checkout-btn" onclick="startCheckout()">
                             <i class="fas fa-lock"></i> Proceed to Checkout
                         </button>
                         <a href="products.html" class="continue-shopping">
@@ -1086,8 +1805,8 @@
             showToast(`${itemName} removed from cart`, 'info');
         }
 
-        // Proceed to Checkout
-        function proceedToCheckout() {
+        // Start Checkout Process
+        function startCheckout() {
             if (cart.length === 0) {
                 showToast('Your cart is empty', 'error');
                 return;
@@ -1096,19 +1815,463 @@
             // Check if user is logged in
             if (!authToken) {
                 showToast('Please login to proceed to checkout', 'info');
-                setTimeout(() => {
-                    window.location.href = 'profile.html';
-                }, 1500);
+                openAuthModal();
                 return;
             }
 
-            // Redirect to checkout page (you can create a separate checkout page)
-            showToast('Redirecting to checkout...', 'success');
-            setTimeout(() => {
-                // For now, redirect to profile page
-                // You can create a dedicated checkout.html page
-                window.location.href = 'profile.html?tab=orders';
-            }, 1500);
+            // Show checkout flow
+            document.getElementById('checkout-flow').style.display = 'block';
+            document.querySelector('.cart-content').style.display = 'none';
+            
+            // Reset checkout data
+            checkoutData = {
+                deliveryMethod: null,
+                selectedAddress: null,
+                paymentMethod: null
+            };
+            
+            // Go to first step
+            goToStep(1);
+        }
+
+        // Hide Checkout Flow
+        function hideCheckoutFlow() {
+            document.getElementById('checkout-flow').style.display = 'none';
+            document.querySelector('.cart-content').style.display = 'grid';
+        }
+
+        // Go to Step
+        function goToStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.checkout-step').forEach(stepEl => {
+                stepEl.classList.remove('active');
+            });
+            
+            // Show selected step
+            document.getElementById(`step-${step}`).classList.add('active');
+            
+            // Load data for specific steps
+            if (step === 2) {
+                loadUserAddresses();
+            } else if (step === 3) {
+                updateOrderSummary();
+            }
+        }
+
+        // Select Delivery Method
+        function selectDeliveryMethod(method) {
+            checkoutData.deliveryMethod = method;
+            
+            // Update UI
+            document.querySelectorAll('.radio-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            if (method === 'door') {
+                document.getElementById('door-delivery').parentElement.classList.add('selected');
+            } else {
+                document.getElementById('pickup-station').parentElement.classList.add('selected');
+            }
+            
+            // Enable next button
+            document.getElementById('step-1-next').disabled = false;
+        }
+
+        // Load User Addresses
+        function loadUserAddresses() {
+            const container = document.getElementById('address-list-container');
+            container.innerHTML = '<div class="loading-container"><div class="loading-spinner"></div></div>';
+            
+            fetch(API_ENDPOINTS.USER_ADDRESSES, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch addresses');
+                }
+                return response.json();
+            })
+            .then(addresses => {
+                userAddresses = addresses;
+                renderAddressList();
+            })
+            .catch(error => {
+                console.error('Error fetching addresses:', error);
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>No Addresses Found</h3>
+                        <p>Please add an address to continue with your order.</p>
+                        <button class="shop-now-btn" onclick="openAddressModal()">Add Address</button>
+                    </div>
+                `;
+            });
+        }
+
+        // Render Address List
+        function renderAddressList() {
+            const container = document.getElementById('address-list-container');
+            
+            if (userAddresses.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>No Addresses Found</h3>
+                        <p>Please add an address to continue with your order.</p>
+                        <button class="shop-now-btn" onclick="openAddressModal()">Add Address</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="address-list">
+                    ${userAddresses.map(address => `
+                        <div class="address-card ${address.isDefault ? 'selected' : ''}" onclick="selectAddress('${address._id}')">
+                            <span class="address-type">${address.type}</span>
+                            <div class="address-details">
+                                <p>${address.addressLine1}</p>
+                                ${address.addressLine2 ? `<p>${address.addressLine2}</p>` : ''}
+                                <p>${address.city}, ${address.postalCode}</p>
+                                <p>${address.country}</p>
+                            </div>
+                            ${address.isDefault ? '<span class="address-default">Default</span>' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="btn btn-secondary" onclick="openAddressModal()" style="width: 100%;">
+                    <i class="fas fa-plus"></i> Add New Address
+                </button>
+            `;
+            
+            // Auto-select default address if available
+            const defaultAddress = userAddresses.find(addr => addr.isDefault);
+            if (defaultAddress) {
+                selectAddress(defaultAddress._id);
+            }
+        }
+
+        // Select Address
+        function selectAddress(addressId) {
+            checkoutData.selectedAddress = userAddresses.find(addr => addr._id === addressId);
+            
+            // Update UI
+            document.querySelectorAll('.address-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            document.querySelector(`.address-card[onclick="selectAddress('${addressId}')"]`).classList.add('selected');
+            
+            // Enable next button
+            document.getElementById('step-2-next').disabled = false;
+        }
+
+        // Update Order Summary
+        function updateOrderSummary() {
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const shipping = subtotal > 5000 ? 0 : 200;
+            const total = subtotal + shipping;
+            
+            document.getElementById('order-summary-items').innerHTML = `
+                ${cart.map(item => `
+                    <div class="order-item">
+                        <span class="order-item-name">${item.name} x ${item.quantity}</span>
+                        <span class="order-item-price">KSh ${(item.price * item.quantity).toLocaleString()}</span>
+                    </div>
+                `).join('')}
+                <div class="order-item">
+                    <span class="order-item-name">Shipping</span>
+                    <span class="order-item-price">${shipping === 0 ? 'FREE' : 'KSh ' + shipping.toLocaleString()}</span>
+                </div>
+            `;
+            
+            document.getElementById('order-summary-total').textContent = `KSh ${total.toLocaleString()}`;
+        }
+
+        // Select Payment Method
+        function selectPaymentMethod(method) {
+            checkoutData.paymentMethod = method;
+            
+            // Update UI
+            document.querySelectorAll('.payment-method').forEach(payment => {
+                payment.classList.remove('selected');
+            });
+            
+            document.querySelector('.payment-method').classList.add('selected');
+            
+            // Enable next button
+            document.getElementById('step-3-next').disabled = false;
+        }
+
+        // Process Payment
+        function processPayment() {
+            // Calculate order total
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const shipping = subtotal > 5000 ? 0 : 200;
+            const total = subtotal + shipping;
+            
+            // Prepare order data
+            const orderData = {
+                items: cart.map(item => ({
+                    product: item.id || item._id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    image: item.image
+                })),
+                totalAmount: total,
+                shippingAddress: checkoutData.selectedAddress,
+                deliveryMethod: checkoutData.deliveryMethod,
+                paymentMethod: checkoutData.paymentMethod
+            };
+            
+            // Show loading state
+            document.getElementById('step-3-next').disabled = true;
+            document.getElementById('step-3-next').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+            // Simulate M-Pesa payment
+            fetch(API_ENDPOINTS.PAYMENT_SIMULATE, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify({
+                    amount: total,
+                    phoneNumber: currentUser.phone || '+254700000000' // Default phone if not available
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Payment simulation failed');
+                }
+                return response.json();
+            })
+            .then(paymentResult => {
+                // Create order after successful payment
+                return fetch(API_ENDPOINTS.ORDERS, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(orderData)
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Order creation failed');
+                }
+                return response.json();
+            })
+            .then(order => {
+                // Show success message
+                showToast('Payment successful! Order placed.', 'success');
+                
+                // Update order confirmation details
+                document.getElementById('order-confirmation-details').innerHTML = `
+                    <div class="order-detail-item">
+                        <span class="order-detail-label">Order ID:</span>
+                        <span class="order-detail-value">#${order.orderNumber || order._id}</span>
+                    </div>
+                    <div class="order-detail-item">
+                        <span class="order-detail-label">Total Amount:</span>
+                        <span class="order-detail-value">KSh ${total.toLocaleString()}</span>
+                    </div>
+                    <div class="order-detail-item">
+                        <span class="order-detail-label">Delivery Method:</span>
+                        <span class="order-detail-value">${checkoutData.deliveryMethod === 'door' ? 'Door Delivery' : 'Pickup Station'}</span>
+                    </div>
+                    <div class="order-detail-item">
+                        <span class="order-detail-label">Payment Method:</span>
+                        <span class="order-detail-value">M-Pesa</span>
+                    </div>
+                `;
+                
+                // Clear cart
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+                
+                // Go to confirmation step
+                goToStep(4);
+            })
+            .catch(error => {
+                console.error('Error processing payment:', error);
+                showToast('Payment failed. Please try again.', 'error');
+                
+                // Reset button
+                document.getElementById('step-3-next').disabled = false;
+                document.getElementById('step-3-next').innerHTML = 'Complete Payment';
+            });
+        }
+
+        // Complete Order
+        function completeOrder() {
+            // Redirect to products page
+            window.location.href = 'products.html';
+        }
+
+        // Auth Modal Functions
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.add('active');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.remove('active');
+        }
+
+        function switchAuthTab(tab) {
+            // Update tabs
+            document.querySelectorAll('.auth-tab').forEach(tabEl => {
+                tabEl.classList.remove('active');
+            });
+            document.querySelector(`.auth-tab[onclick="switchAuthTab('${tab}')"]`).classList.add('active');
+            
+            // Update forms
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById(`${tab}-form`).classList.add('active');
+        }
+
+        // Login Function
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            fetch(API_ENDPOINTS.AUTH_LOGIN, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Login failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                authToken = data.token;
+                localStorage.setItem('authToken', authToken);
+                currentUser = data.user;
+                
+                showToast('Login successful!', 'success');
+                closeAuthModal();
+                updateUserButton();
+                
+                // If we were trying to checkout, restart the process
+                if (document.getElementById('checkout-flow').style.display === 'block') {
+                    startCheckout();
+                }
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+                showToast('Login failed. Please check your credentials.', 'error');
+            });
+        }
+
+        // Register Function
+        function register() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+            
+            fetch(API_ENDPOINTS.AUTH_REGISTER, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Registration failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                authToken = data.token;
+                localStorage.setItem('authToken', authToken);
+                currentUser = data.user;
+                
+                showToast('Registration successful!', 'success');
+                closeAuthModal();
+                updateUserButton();
+                
+                // If we were trying to checkout, restart the process
+                if (document.getElementById('checkout-flow').style.display === 'block') {
+                    startCheckout();
+                }
+            })
+            .catch(error => {
+                console.error('Registration error:', error);
+                showToast('Registration failed. Please try again.', 'error');
+            });
+        }
+
+        // Address Modal Functions
+        function openAddressModal() {
+            document.getElementById('address-modal').classList.add('active');
+        }
+
+        function closeAddressModal() {
+            document.getElementById('address-modal').classList.remove('active');
+            document.getElementById('address-form').reset();
+        }
+
+        function saveAddress() {
+            const type = document.getElementById('address-type').value;
+            const addressLine1 = document.getElementById('address-line1').value;
+            const addressLine2 = document.getElementById('address-line2').value;
+            const city = document.getElementById('address-city').value;
+            const postalCode = document.getElementById('address-postal-code').value;
+            const country = document.getElementById('address-country').value;
+            const isDefault = document.getElementById('address-default').checked;
+            
+            const addressData = {
+                type,
+                addressLine1,
+                addressLine2,
+                city,
+                postalCode,
+                country,
+                isDefault
+            };
+            
+            fetch(API_ENDPOINTS.USER_ADDRESS, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify(addressData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to save address');
+                }
+                return response.json();
+            })
+            .then(address => {
+                showToast('Address saved successfully!', 'success');
+                closeAddressModal();
+                loadUserAddresses(); // Refresh the address list
+            })
+            .catch(error => {
+                console.error('Error saving address:', error);
+                showToast('Failed to save address. Please try again.', 'error');
+            });
         }
 
         // Show Toast
