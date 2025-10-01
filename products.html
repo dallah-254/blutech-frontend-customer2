@@ -34,6 +34,19 @@
             --gray-light: #343a40;
         }
 
+        /* Blue theme variables */
+        [data-theme="blue"] {
+            --primary: #0052cc;
+            --primary-dark: #003d99;
+            --secondary: #0080ff;
+            --accent: #00b8ff;
+            --dark: #e6f2ff;
+            --darker: #cce5ff;
+            --light: #003366;
+            --gray: #0066cc;
+            --gray-light: #b3d9ff;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -79,6 +92,7 @@
             background: linear-gradient(135deg, var(--dark), var(--darker));
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             padding: 0.75rem 1rem;
+            transition: background-color 0.3s ease;
         }
 
         .header-top {
@@ -92,6 +106,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            cursor: pointer;
         }
 
         .logo-icon {
@@ -112,16 +127,18 @@
             background: linear-gradient(to right, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            display: none;
         }
 
         .header-actions {
             display: flex;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            align-items: center;
         }
 
         .header-action-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
             display: flex;
@@ -129,6 +146,7 @@
             justify-content: center;
             position: relative;
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .header-action-btn:hover {
@@ -148,6 +166,25 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            color: var(--light);
+            font-size: 1.1rem;
+            transition: var(--transition);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .search-bar {
@@ -181,119 +218,57 @@
             background: var(--primary-dark);
         }
 
-        /* Desktop Navigation */
-        .desktop-nav {
-            display: none;
-        }
-
-        .desktop-nav-links {
+        .nav-container {
             display: flex;
-            list-style: none;
-            gap: 1.5rem;
+            align-items: center;
+            justify-content: center;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
-        .desktop-nav-links a {
-            font-weight: 500;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .desktop-nav-links a:hover, .desktop-nav-links a.active {
-            color: var(--accent);
-        }
-
-        .desktop-nav-links a.active:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--accent);
-        }
-
-        /* Mobile Navigation */
-        .mobile-nav-container {
-            position: relative;
-        }
-
-        .mobile-nav-links {
+        .nav-container::-webkit-scrollbar {
             display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--dark);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            z-index: 1000;
         }
 
-        .mobile-nav-links.active {
-            display: block;
-        }
-
-        .mobile-nav-links li {
+        .nav-links {
+            display: flex;
+            flex-direction: row;
+            gap: 0.25rem;
             list-style: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 0;
+            padding: 0;
+            flex-wrap: nowrap;
+            align-items: center;
         }
 
-        .mobile-nav-links li:last-child {
-            border-bottom: none;
+        .nav-links li {
+            list-style: none;
+            flex-shrink: 0;
         }
 
-        .mobile-nav-links a {
+        .nav-links a {
             display: block;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 0.75rem;
             transition: var(--transition);
+            text-align: center;
+            background: transparent;
+            color: var(--light);
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-radius: var(--border-radius);
         }
 
-        .mobile-nav-links a:hover, .mobile-nav-links a.active {
+        .nav-links a:hover,
+        .nav-links a.active {
             background: var(--primary);
             color: white;
         }
 
         .menu-toggle {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 24px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .menu-toggle span {
-            display: block;
-            height: 2px;
-            width: 100%;
-            background: var(--light);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
-        .theme-toggle {
-            background: none;
-            color: var(--light);
-            font-size: 1.2rem;
-            transition: var(--transition);
-        }
-
-        .theme-toggle:hover {
-            color: var(--accent);
+            display: none;
         }
 
         /* Main Content */
@@ -1149,6 +1124,15 @@
 
         /* Responsive Adjustments */
         @media (min-width: 768px) {
+            .logo-text {
+                display: block;
+            }
+
+            .nav-links a {
+                font-size: 0.95rem;
+                padding: 0.5rem 1rem;
+            }
+
             .footer-content {
                 flex-direction: row;
                 justify-content: space-between;
@@ -1168,15 +1152,6 @@
             
             .product-card {
                 min-width: 180px;
-            }
-            
-            /* Show desktop nav, hide mobile nav */
-            .desktop-nav {
-                display: block;
-            }
-            
-            .mobile-nav-container {
-                display: none;
             }
         }
 
@@ -1217,31 +1192,13 @@
             <button><i class="fas fa-search"></i></button>
         </div>
         
-        <!-- Desktop Navigation -->
-        <nav class="desktop-nav">
-            <ul class="desktop-nav-links">
+        <div class="nav-container">
+            <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="products.html" class="active">Products</a></li>
                 <li><a href="services.html">Services</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="blog.html">Blog/Tips</a></li>
-            </ul>
-        </nav>
-        
-        <!-- Mobile Navigation -->
-        <div class="mobile-nav-container">
-            <div class="menu-toggle" id="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            
-            <ul class="mobile-nav-links" id="mobile-nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html" class="active">Products</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="blog.html">Blog/Tips</a></li>
+                <li><a href="blog.html">Blog</a></li>
             </ul>
         </div>
     </header>
@@ -1647,45 +1604,55 @@
 
         // Setup event listeners
         function setupEventListeners() {
-            // Mobile menu toggle
-            menuToggle.addEventListener('click', function() {
-                this.classList.toggle('active');
-                mobileNavLinks.classList.toggle('active');
-            });
-            
-            // Close menu when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!event.target.closest('.mobile-nav-container')) {
-                    menuToggle.classList.remove('active');
-                    mobileNavLinks.classList.remove('active');
-                }
-            });
-            
-            // Theme toggle
-            themeToggle.addEventListener('click', function() {
-                const currentTheme = document.body.getAttribute('data-theme');
-                if (currentTheme === 'light') {
-                    document.body.removeAttribute('data-theme');
-                    localStorage.setItem('theme', 'dark');
-                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-                } else {
-                    document.body.setAttribute('data-theme', 'light');
-                    localStorage.setItem('theme', 'light');
-                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-                }
-            });
-            
+            // Theme toggle with 3 themes
+            const themes = ['dark', 'light', 'blue'];
+            let currentThemeIndex = 0;
+
             // Load saved theme
-            const savedTheme = localStorage.getItem('theme');
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            currentThemeIndex = themes.indexOf(savedTheme);
+            if (currentThemeIndex === -1) currentThemeIndex = 0;
+            
             if (savedTheme === 'light') {
                 document.body.setAttribute('data-theme', 'light');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else if (savedTheme === 'blue') {
+                document.body.setAttribute('data-theme', 'blue');
+            } else {
+                document.body.removeAttribute('data-theme');
             }
+            updateThemeIcon(savedTheme);
+
+            // Theme toggle click handler
+            themeToggle.addEventListener('click', function() {
+                currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+                const newTheme = themes[currentThemeIndex];
+                
+                if (newTheme === 'dark') {
+                    document.body.removeAttribute('data-theme');
+                } else {
+                    document.body.setAttribute('data-theme', newTheme);
+                }
+                
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
             
             // Back to categories button
             backBtn.addEventListener('click', function() {
                 showAllCategoriesView();
             });
+        }
+
+        // Update theme icon based on current theme
+        function updateThemeIcon(theme) {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (theme === 'light') {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else if (theme === 'blue') {
+                themeToggle.innerHTML = '<i class="fas fa-tint"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
         }
 
         // Setup category tabs
