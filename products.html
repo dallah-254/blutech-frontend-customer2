@@ -647,6 +647,12 @@
 
         @media (min-width: 768px) {
             .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .products-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
@@ -1205,11 +1211,21 @@
 
     <!-- Main Content -->
     <main>
-
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 id="page-title">All Products</h1>
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li>Products</li>
+            </ul>
+        </div>
 
         <!-- Category Tabs -->
         <div class="categories-tabs">
-            <button class="category-tab active" data-category="smartphones">
+            <button class="category-tab active" data-category="all">
+                <i class="fas fa-th"></i> All Products
+            </button>
+            <button class="category-tab" data-category="smartphones">
                 <i class="fas fa-mobile-alt"></i> Smartphones
             </button>
             <button class="category-tab" data-category="laptops">
@@ -1585,10 +1601,11 @@
         const cartCount = document.querySelector('.cart-count');
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
+        const pageTitle = document.getElementById('page-title');
 
         // State variables
         const sessionId = getSessionId();
-        let currentCategory = 'smartphones';
+        let currentCategory = 'all';
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
@@ -1666,8 +1683,12 @@
                     categoryTabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Show grid view for this category
-                    showGridView(category);
+                    if (category === 'all') {
+                        showAllCategoriesView();
+                    } else {
+                        // Show grid view for this category
+                        showGridView(category);
+                    }
                 });
             });
             
@@ -2011,7 +2032,7 @@
             backToCategories.style.display = 'block';
             
             // Update page title
-            document.querySelector('.page-header h1').textContent = `${category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}`;
+            pageTitle.textContent = `${category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}`;
             
             // Load products in grid view
             loadCategoryProducts(category, 'grid');
@@ -2027,7 +2048,11 @@
             backToCategories.style.display = 'none';
             
             // Reset page title
-            document.querySelector('.page-header h1').textContent = 'All Products';
+            pageTitle.textContent = 'All Products';
+            
+            // Reset active tab to "All Products"
+            categoryTabs.forEach(t => t.classList.remove('active'));
+            document.querySelector('.category-tab[data-category="all"]').classList.add('active');
         }
 
         // Generate star rating HTML
