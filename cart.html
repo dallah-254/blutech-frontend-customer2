@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - Blue Technology</title>
+    <title>Cart - Blue Technology</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global-styles.css">
     <style>
         :root {
             --primary: #0066cc;
@@ -750,7 +751,7 @@
             color: var(--gray);
         }
 
-        /* New Styles for Checkout Flow */
+        /* Checkout Flow */
         .checkout-flow {
             display: none;
             background: var(--dark);
@@ -1219,6 +1220,192 @@
         .form-footer a:hover {
             color: var(--accent);
         }
+
+        /* User Info Bar */
+        .user-info-bar {
+            background: rgba(0, 102, 204, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 4px solid var(--primary);
+        }
+
+        .user-info-bar.active {
+            display: flex;
+        }
+
+        .user-welcome {
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-logout {
+            background: var(--error);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .btn-logout:hover {
+            background: #b02a37;
+        }
+
+        /* Checkout Steps */
+        .checkout-steps {
+            display: none;
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2rem;
+        }
+
+        .checkout-steps.active {
+            display: block;
+        }
+
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .step.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .step.completed {
+            color: var(--success);
+        }
+
+        .step-number {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .step.active .step-number {
+            background: var(--primary);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background: var(--success);
+            color: white;
+        }
+
+        .step-content {
+            margin-bottom: 2rem;
+        }
+
+        .step-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-section-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-section-title i {
+            color: var(--primary);
+        }
+
+        .step-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .step-navigation {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .step-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .step-summary-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .step-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .step-summary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .step-summary-label {
+            color: var(--gray);
+        }
+
+        .step-summary-value {
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        .step-summary-total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
@@ -1280,6 +1467,30 @@
     </header>
 
     <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-content">
+            <div class="breadcrumb">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Shopping Cart</span>
+            </div>
+            <h1 class="page-title">Shopping Cart</h1>
+            <p class="page-description">Review your items and proceed to checkout</p>
+        </div>
+    </div>
+
+    <!-- User Info Bar -->
+    <div class="user-info-bar" id="user-info-bar">
+        <div class="user-welcome">
+            <i class="fas fa-user-circle"></i>
+            <span id="welcome-text">Welcome back!</span>
+        </div>
+        <div class="user-actions">
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <main>
@@ -1323,7 +1534,7 @@
             <div class="checkout-step" id="step-2">
                 <div class="step-header">
                     <div class="step-number">2</div>
-                    <h2 class="step-title">Delivery Address</h2>
+                    <h2 class="step-title">Delivery Address</h2> 
                 </div>
                 <div id="address-list-container">
                     <div class="loading-container">
@@ -1583,11 +1794,22 @@
         let authToken = localStorage.getItem('authToken');
         let currentUser = null;
         let userAddresses = [];
+        let sessionId = getOrCreateSessionId();
         let checkoutData = {
             deliveryMethod: null,
             selectedAddress: null,
             paymentMethod: null
         };
+
+        // Get or create session ID
+        function getOrCreateSessionId() {
+            let sessionId = localStorage.getItem('sessionId');
+            if (!sessionId) {
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('sessionId', sessionId);
+            }
+            return sessionId;
+        }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -1678,6 +1900,7 @@
             .then(user => {
                 currentUser = user;
                 updateUserButton();
+                updateUserInfoBar();
             })
             .catch(error => {
                 console.error('Error fetching user profile:', error);
@@ -1695,11 +1918,45 @@
             }
         }
 
+        // Update User Info Bar
+        function updateUserInfoBar() {
+            const userInfoBar = document.getElementById('user-info-bar');
+            const welcomeText = document.getElementById('welcome-text');
+            
+            if (currentUser) {
+                userInfoBar.classList.add('active');
+                welcomeText.textContent = `Welcome back, ${currentUser.name || currentUser.email}!`;
+            } else {
+                userInfoBar.classList.remove('active');
+            }
+        }
+
+        // Logout Function
+        function logout() {
+            localStorage.removeItem('authToken');
+            authToken = null;
+            currentUser = null;
+            updateUserButton();
+            updateUserInfoBar();
+            showToast('Logged out successfully', 'success');
+        }
+
         // Load Cart
-        function loadCart() {
-            cart = JSON.parse(localStorage.getItem('cart')) || [];
-            updateCartCount();
-            renderCart();
+        async function loadCart() {
+            try {
+                const response = await fetch(`${API_ENDPOINTS.CART}${sessionId}`);
+                if (!response.ok) throw new Error('Failed to fetch cart');
+                
+                const cartData = await response.json();
+                cart = cartData.items || [];
+                updateCartCount();
+                renderCart();
+            } catch (error) {
+                console.error('Error loading cart:', error);
+                cart = [];
+                updateCartCount();
+                renderCart();
+            }
         }
 
         // Update Cart Count
@@ -2163,6 +2420,7 @@
                 showToast('Login successful!', 'success');
                 closeAuthModal();
                 updateUserButton();
+                updateUserInfoBar();
                 
                 // If we were trying to checkout, restart the process
                 if (document.getElementById('checkout-flow').style.display === 'block') {
@@ -2208,6 +2466,7 @@
                 showToast('Registration successful!', 'success');
                 closeAuthModal();
                 updateUserButton();
+                updateUserInfoBar();
                 
                 // If we were trying to checkout, restart the process
                 if (document.getElementById('checkout-flow').style.display === 'block') {
