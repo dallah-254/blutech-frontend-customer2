@@ -1211,6 +1211,51 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--gray);
         }
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Auth buttons in header */
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .auth-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .register-btn {
+            background: var(--primary);
+            border: 1px solid var(--primary);
+            color: white;
+        }
+        
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -1234,6 +1279,11 @@
                 <button class="header-action-btn" onclick="window.location.href='profile.html'" title="Profile">
                     <i class="fas fa-user"></i>
                 </button>
+                <!-- Auth buttons - always visible -->
+                <div class="auth-buttons" id="authButtons">
+                    <button class="auth-btn login-btn" onclick="openAuthModal('login')">Login</button>
+                    <button class="auth-btn register-btn" onclick="openAuthModal('register')">Register</button>
+                </div>
             </div>
         </div>
         <div class="search-bar">
@@ -1315,7 +1365,7 @@
                     <i class="fas fa-user-clock"></i>
                     <p>You are currently browsing as a guest</p>
                     <p>Login or register to access your profile, orders, and bookings</p>
-                    <button class="btn-primary" onclick="openAuthModal()">
+                    <button class="btn-primary" onclick="openAuthModal('login')">
                         <i class="fas fa-sign-in-alt"></i> Login / Register
                     </button>
                 </div>
@@ -1561,7 +1611,9 @@
                         <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
                     </div>
                     
-                    <button type="submit" class="auth-submit-btn">Login</button>
+                    <button type="submit" class="auth-submit-btn" id="loginSubmitBtn">
+                        <span class="btn-text">Login</span>
+                    </button>
                 </form>
                 
                 <form class="auth-form" id="registerForm">
@@ -1585,7 +1637,9 @@
                         <input type="password" id="registerPassword" class="form-control" placeholder="Create a password" required>
                     </div>
                     
-                    <button type="submit" class="auth-submit-btn">Register</button>
+                    <button type="submit" class="auth-submit-btn" id="registerSubmitBtn">
+                        <span class="btn-text">Register</span>
+                    </button>
                 </form>
                 
                 <div class="guest-option">
@@ -1743,6 +1797,9 @@
 
         // Check authentication status
         async function checkAuthStatus() {
+            // Update auth buttons visibility
+            updateAuthButtons();
+            
             if (authToken) {
                 if (isGuest) {
                     showGuestView();
@@ -1763,6 +1820,7 @@
                             // Token is invalid
                             localStorage.removeItem('authToken');
                             localStorage.removeItem('isGuest');
+                            localStorage.removeItem('currentUser');
                             authToken = null;
                             isGuest = false;
                             showGuestView();
@@ -1774,6 +1832,18 @@
                 }
             } else {
                 showGuestView();
+            }
+        }
+
+        // Update auth buttons visibility
+        function updateAuthButtons() {
+            const authButtons = document.getElementById('authButtons');
+            if (authToken && !isGuest) {
+                // User is logged in, hide auth buttons
+                authButtons.style.display = 'none';
+            } else {
+                // User is not logged in or is guest, show auth buttons
+                authButtons.style.display = 'flex';
             }
         }
 
@@ -2065,8 +2135,24 @@
         }
 
         // Authentication functions
-        function openAuthModal() {
-            document.getElementById('authModal').classList.add('active');
+        function openAuthModal(defaultTab = 'login') {
+            const modal = document.getElementById('authModal');
+            modal.classList.add('active');
+            
+            // Set the default tab
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === defaultTab) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            document.querySelectorAll('.auth-form').forEach(form => {
+                form.classList.remove('active');
+                if (form.id === `${defaultTab}Form`) {
+                    form.classList.add('active');
+                }
+            });
         }
 
         async function handleLogin(e) {
@@ -2074,6 +2160,11 @@
             
             const phone = document.getElementById('loginPhone').value;
             const password = document.getElementById('loginPassword').value;
+            const submitBtn = document.getElementById('loginSubmitBtn');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Logging in...';
             
             try {
                 const response = await fetch(API_ENDPOINTS.AUTH_LOGIN, {
@@ -2111,6 +2202,10 @@
             } catch (error) {
                 console.error('Login error:', error);
                 showToast(error.message, 'error');
+                
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="btn-text">Login</span>';
             }
         }
 
@@ -2121,6 +2216,11 @@
             const email = document.getElementById('registerEmail').value;
             const phone = document.getElementById('registerPhone').value;
             const password = document.getElementById('registerPassword').value;
+            const submitBtn = document.getElementById('registerSubmitBtn');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Registering...';
             
             try {
                 const response = await fetch(API_ENDPOINTS.AUTH_REGISTER, {
@@ -2158,6 +2258,10 @@
             } catch (error) {
                 console.error('Registration error:', error);
                 showToast(error.message, 'error');
+                
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="btn-text">Register</span>';
             }
         }
 
@@ -2211,10 +2315,28 @@
             const phone = document.getElementById('phone').value;
             
             try {
+                const response = await fetch(API_ENDPOINTS.USER_UPDATE, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        name: `${firstName} ${lastName}`,
+                        email: email,
+                        phone: phone
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to update personal information');
+                }
+                
+                const data = await response.json();
+                
                 // Update current user
-                currentUser.name = `${firstName} ${lastName}`;
-                currentUser.email = email;
-                currentUser.phone = phone;
+                currentUser = data.user;
                 
                 // Update localStorage
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -2226,8 +2348,40 @@
                 showToast('Personal information updated successfully', 'success');
             } catch (error) {
                 console.error('Error updating personal info:', error);
-                showToast('Failed to update personal information', 'error');
+                showToast(error.message || 'Failed to update personal information', 'error');
             }
+        }
+
+        // Address management functions
+        async function editAddress(addressId) {
+            showToast('Edit address feature coming soon', 'info');
+            // In a real implementation, you would show an edit modal
+        }
+
+        async function setDefaultAddress(addressId) {
+            try {
+                const response = await fetch(`${API_ENDPOINTS.USER_ADDRESS}/${addressId}/default`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to set default address');
+                }
+                
+                showToast('Default address updated successfully', 'success');
+                loadAddresses();
+            } catch (error) {
+                console.error('Error setting default address:', error);
+                showToast('Failed to set default address', 'error');
+            }
+        }
+
+        async function addAddress() {
+            showToast('Add address feature coming soon', 'info');
+            // In a real implementation, you would show an add address modal
         }
 
         // Search functions
