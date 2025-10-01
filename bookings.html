@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        /* Authentication Modal - Fixed styles */
+        
         :root {
             --primary: #0066cc;
             --primary-dark: #0052a3;
@@ -26,6 +28,7 @@
             --transition: all 0.3s ease;
         }
 
+        /* Light theme variables */
         [data-theme="light"] {
             --dark: #f8f9fa;
             --darker: #e9ecef;
@@ -34,6 +37,20 @@
             --gray-light: #343a40;
         }
 
+        /* Blue theme variables */
+        [data-theme="blue"] {
+            --primary: #0052cc;
+            --primary-dark: #003d99;
+            --secondary: #0080ff;
+            --accent: #00b8ff;
+            --dark: #e6f2ff;
+            --darker: #cce5ff;
+            --light: #003366;
+            --gray: #0066cc;
+            --gray-light: #b3d9ff;
+        }
+
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -46,7 +63,6 @@
             color: var(--light);
             line-height: 1.6;
             overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -79,6 +95,7 @@
             background: linear-gradient(135deg, var(--dark), var(--darker));
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             padding: 0.75rem 1rem;
+            transition: background-color 0.3s ease;
         }
 
         .header-top {
@@ -106,12 +123,6 @@
             justify-content: center;
         }
 
-        .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .logo-text {
             font-family: 'Orbitron', sans-serif;
             font-weight: 800;
@@ -119,16 +130,18 @@
             background: linear-gradient(to right, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            display: none;
         }
 
         .header-actions {
             display: flex;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            align-items: center;
         }
 
         .header-action-btn {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
             display: flex;
@@ -158,6 +171,25 @@
             justify-content: center;
         }
 
+        .theme-toggle {
+            background: none;
+            color: var(--light);
+            font-size: 1.1rem;
+            transition: var(--transition);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         .search-bar {
             display: flex;
             margin-bottom: 0.5rem;
@@ -169,7 +201,7 @@
             border: none;
             border-radius: var(--border-radius) 0 0 var(--border-radius);
             background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
+            color: white;
             font-size: 0.9rem;
         }
 
@@ -189,92 +221,47 @@
             background: var(--primary-dark);
         }
 
-        /* Desktop Navigation */
-        .desktop-nav {
-            display: none;
-        }
-
-        .desktop-nav-links {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-        }
-
-        .desktop-nav-links a {
-            font-weight: 500;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .desktop-nav-links a:hover,
-        .desktop-nav-links a.active {
-            color: var(--accent);
-        }
-
-        .desktop-nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .desktop-nav-links a:hover::after,
-        .desktop-nav-links a.active::after {
-            width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            .desktop-nav {
-                display: block;
-            }
-        }
-
-        /* Mobile Navigation */
         .nav-container {
-            position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .nav-container::-webkit-scrollbar {
+            display: none;
         }
 
         .nav-links {
-            display: none;
-            flex-direction: column;
-            gap: 0;
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, var(--dark), var(--darker));
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            z-index: 1000;
-        }
-
-        .nav-links.active {
             display: flex;
+            flex-direction: row;
+            gap: 0.25rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: nowrap;
+            align-items: center;
         }
 
         .nav-links li {
             list-style: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-links li:last-child {
-            border-bottom: none;
+            flex-shrink: 0;
         }
 
         .nav-links a {
             display: block;
-            width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 0.75rem;
             transition: var(--transition);
+            text-align: center;
+            background: transparent;
+            color: var(--light);
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-radius: var(--border-radius);
         }
 
         .nav-links a:hover,
@@ -284,370 +271,97 @@
         }
 
         .menu-toggle {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 24px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .menu-toggle span {
-            display: block;
-            height: 2px;
-            width: 100%;
-            background: white;
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
-        @media (min-width: 768px) {
-            .nav-container {
-                display: none;
-            }
-        }
-
-        /* Page Header */
-        .page-header {
-            background: linear-gradient(135deg, var(--dark), var(--darker));
-            padding: 2rem 1rem 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .page-header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            color: var(--gray);
-        }
-
-        .breadcrumb a {
-            color: var(--accent);
-            transition: var(--transition);
-        }
-
-        .breadcrumb a:hover {
-            color: var(--primary);
-        }
-
-        .page-title {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .page-description {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        /* Main Content */
-        main {
-            padding: 0 1rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .booking-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        @media (min-width: 992px) {
-            .booking-content {
-                grid-template-columns: 2fr 1fr;
-            }
-        }
-
-        /* Booking Form */
-        .booking-form-container {
-            background: var(--dark);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            box-shadow: var(--box-shadow);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .form-section {
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .form-section:last-child {
-            border-bottom: none;
-        }
-
-        .section-title {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: var(--light);
-        }
-
-        .form-control {
-            padding: 0.8rem 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: var(--transition);
-            font-family: 'Montserrat', sans-serif;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--light);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        @media (min-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* Location Selection */
-        .location-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .location-btn {
-            flex: 1;
-            min-width: 150px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--border-radius);
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .location-btn.active {
-            border-color: var(--primary);
-            background: rgba(0, 102, 204, 0.1);
-        }
-
-        .location-btn i {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .location-btn span {
-            font-weight: 600;
-            color: var(--light);
-        }
-
-        .location-option {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-top: 1rem;
         }
 
-        .location-option.active {
+        .cart-button, .profile-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            color: var(--light);
+        }
+
+        .cart-button:hover, .profile-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--dark);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 0.5rem;
+            box-shadow: var(--box-shadow);
+            min-width: 150px;
+            z-index: 1001;
+        }
+
+        .profile-menu.active {
             display: block;
         }
 
-        .map-container {
-            height: 250px;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        #shop-map, #customer-map {
+        .header-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            width: 100%;
+            pointer-events: none;
+            overflow: hidden;
         }
 
-        .map-instructions {
-            font-size: 0.85rem;
-            color: var(--gray);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .location-action-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .location-action-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Booking Info Sidebar */
-        .booking-info {
-            background: var(--dark);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            box-shadow: var(--box-shadow);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-        }
-
-        .info-title {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            color: var(--light);
-            text-align: center;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .info-item:last-child {
-            border-bottom: none;
-        }
-
-        .info-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+        .particle {
+            position: absolute;
+            background: var(--accent);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            flex-shrink: 0;
+            opacity: 0.3;
+            animation: float 8s infinite ease-in-out;
         }
 
-        .info-content h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: var(--light);
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(10px);
+            }
         }
 
-        .info-content p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Submit Button */
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 1.1rem;
-            margin-top: 1rem;
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
-        }
-
-        .submit-btn:disabled {
-            background: var(--gray);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Toast */
+        /* Toast Notification */
         .toast {
             position: fixed;
-            bottom: 20px;
+            top: 100px;
             right: 20px;
             background: var(--dark);
-            color: var(--light);
+            border-radius: 8px;
             padding: 1rem 1.5rem;
-            border-radius: var(--border-radius);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            color: var(--light);
             z-index: 10000;
             transform: translateX(150%);
             transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .toast.show {
             transform: translateX(0);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--primary);
         }
 
         .toast.success {
@@ -658,43 +372,721 @@
             border-left: 4px solid var(--error);
         }
 
-        .toast.info {
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        .toast-icon {
+            font-size: 1.2rem;
+        }
+
+        .toast.info .toast-icon {
+            color: var(--primary);
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--error);
+        }
+
+        .toast.warning .toast-icon {
+            color: var(--warning);
+        }
+
+        /* Loading Animation */
+        .loading {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Main Content */
+        main {
+            padding: 1rem;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        /* Booking Page Specific Styles */
+        .booking-page {
+            padding: 2rem 0;
+            min-height: 80vh;
+        }
+        
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .booking-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .booking-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .booking-header p {
+            font-size: 1.1rem;
+            color: var(--gray-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .booking-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 992px) {
+            .booking-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .booking-form-container {
+            background: var(--dark);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .booking-info {
+            background: var(--dark);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .info-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            text-align: center;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .info-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+        
+        .info-content p {
+            color: var(--gray-light);
+            font-size: 0.9rem;
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-title i {
+            color: var(--primary);
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: var(--light);
+        }
+        
+        .form-control {
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Location Section */
+        .location-section {
+            margin-bottom: 2rem;
+        }
+        
+        .location-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .location-btn {
+            flex: 1;
+            min-width: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .location-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 102, 255, 0.1);
+        }
+        
+        .location-btn i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .location-btn span {
+            font-weight: 600;
+            color: var(--light);
+        }
+        
+        .location-option {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .location-option.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .map-container {
+            height: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+        }
+        
+        #shop-map, #customer-map {
+            height: 100%;
+            width: 100%;
+        }
+        
+        .map-instructions {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .location-action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .location-action-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .location-success {
+            color: var(--success);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Authentication Bar */
+        .auth-bar {
+            background: rgba(0, 102, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             border-left: 4px solid var(--primary);
+        }
+        
+        .auth-info {
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .auth-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-login, .btn-register, .btn-guest {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-login:hover, .btn-register:hover, .btn-guest:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-logout {
+            background: var(--error);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-logout:hover {
+            background: #b02a37;
+        }
+        
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Authentication Modal */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .auth-modal.active {
+            display: flex;
+        }
+        
+        .auth-modal-content {
+            background: var(--dark);
+            border-radius: 15px;
+            max-width: 450px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .auth-modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .auth-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .close-auth-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-auth-modal:hover {
+            transform: scale(1.1);
+        }
+        
+        .auth-modal-body {
+            padding: 1.5rem;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray-light);
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .auth-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--primary);
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .auth-submit-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .auth-submit-btn:hover {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .guest-option {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .guest-option p {
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+        
+        .guest-btn {
+            background: #f0f0f0;
+            color: var(--dark);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .guest-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .success-modal.active {
+            display: flex;
+        }
+        
+        .success-modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 1.5rem;
+        }
+        
+        .success-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .booking-id {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: inline-block;
+            font-family: monospace;
+        }
+        
+        .success-message {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+        
+        .success-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-track, .btn-home {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-track:hover, .btn-home:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-home {
+            background: #f0f0f0;
+            color: var(--dark);
+        }
+        
+        .btn-home:hover {
+            background: #e0e0e0;
+        }
+        
+        /* Guest Instructions */
+        .guest-instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .guest-instructions h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .guest-instructions p {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+        
+        .guest-instructions ol {
+            text-align: left;
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .guest-instructions li {
+            color: #856404;
+            margin-bottom: 0.25rem;
         }
 
         /* Footer */
         footer {
             background: var(--dark);
-            padding: 3rem 1rem 1rem;
-            margin-top: 3rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 1rem 1rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 2rem;
             margin-bottom: 2rem;
         }
 
-        @media (min-width: 768px) {
-            .footer-content {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
         .footer-section h3 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 1rem;
             color: var(--accent);
         }
 
         .footer-section p {
-            color: var(--gray);
-            line-height: 1.6;
+            font-size: 0.9rem;
             margin-bottom: 1rem;
+            color: var(--gray-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
         }
 
         .footer-section ul {
@@ -706,64 +1098,119 @@
         }
 
         .footer-section ul li a {
-            color: var(--gray);
+            font-size: 0.9rem;
+            color: var(--gray-light);
             transition: var(--transition);
         }
 
         .footer-section ul li a:hover {
             color: var(--accent);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            color: white;
+            padding-left: 5px;
         }
 
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 1rem;
         }
 
         .contact-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.75rem;
-            color: var(--gray);
         }
 
         .contact-icon {
-            width: 30px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .contact-item p {
+            margin: 0;
+            font-size: 0.9rem;
         }
 
         .copyright {
             text-align: center;
-            padding-top: 2rem;
+            padding-top: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
             color: var(--gray);
+        }
+
+        .floating-element {
+            position: absolute;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Form Group Spacing Fix */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Submit Button Alignment Fix */
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .logo-text {
+                display: block;
+            }
+            
+            .header-top {
+                margin-bottom: 0;
+            }
+            
+            .search-bar {
+                display: none;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-links a {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -773,268 +1220,474 @@
         <div class="header-top">
             <div class="logo" onclick="window.location.href='index.html'">
                 <div class="logo-icon">
-                    <img src="https://s6.imgcdn.dev/YNRxhl.png" alt="Blue Technology">
+                    <img src="http://bt-images-045854052038.s3-website-us-east-1.amazonaws.com/logo-b.png" alt="Blue Technology Logo" style="width: 100%; height: 100%; object-fit: contain;">
                 </div>
-                <span class="logo-text">Blue Tech</span>
+                <span class="logo-text">BLUE TECHNOLOGY</span>
             </div>
+            
             <div class="header-actions">
-                <button class="header-action-btn" id="theme-toggle" title="Toggle Theme">
+                <button class="theme-toggle" id="theme-toggle" title="Change Theme">
                     <i class="fas fa-moon"></i>
                 </button>
-                <button class="header-action-btn" onclick="window.location.href='cart.html'" title="Cart">
+                <div class="header-action-btn cart-button" onclick="window.location.href='cart.html'">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="cart-count">0</span>
-                </button>
-                <button class="header-action-btn" onclick="window.location.href='profile.html'" title="Profile">
+                    <span class="cart-count">0</span>
+                </div>
+                <div class="header-action-btn profile-button" id="profileButton">
                     <i class="fas fa-user"></i>
-                </button>
+                </div>
+                <div class="profile-menu" id="profileMenu">
+                    <div id="userInfo" style="display: none;">
+                        <p>Welcome, <span id="userName"></span></p>
+                        <a href="#" id="logoutBtn">Logout</a>
+                    </div>
+                    <div id="guestInfo">
+                        <a href="#" id="loginBtn" style="color: white;">Login/</a>
+                        <a href="#" id="registerBtn" style="color: white;">Register</a>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="search-bar">
-            <input type="text" placeholder="Search services..." id="search-input">
-            <button><i class="fas fa-search"></i></button>
         </div>
         
-        <!-- Desktop Navigation -->
-        <nav class="desktop-nav">
-            <ul class="desktop-nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-
-        <!-- Mobile Navigation -->
         <div class="nav-container">
-            <div class="menu-toggle" id="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html">Services</a></li>
                 <li><a href="products.html">Products</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html">Contact</a></li>
             </ul>
         </div>
     </header>
 
-
-
     <!-- Main Content -->
     <main>
-        <div class="booking-content">
-            <div class="booking-form-container">
-                <form id="booking-form">
-                    <!-- Personal Information -->
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <i class="fas fa-user"></i> Personal Information
-                        </h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Full Name *</label>
-                                <input type="text" class="form-control" id="name" required>
+        <section class="booking-page">
+            <div class="booking-container">
+                <!-- Authentication Bar -->
+                <div class="auth-bar" id="authBar">
+                    <div class="auth-info" id="authInfo">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="authMessage">Please login or register to save your booking to your profile, or continue as guest.</span>
+                    </div>
+                    <div class="auth-actions" id="authActions">
+                        <button class="btn-login" onclick="openAuthModal()">Login</button>
+                        <button class="btn-register" onclick="openAuthModal('register')">Register</button>
+                        <button class="btn-guest" onclick="continueAsGuest()">Continue as Guest</button>
+                    </div>
+                </div>
+
+                <div class="booking-header">
+                    <h1>Book Your Service</h1>
+                    <p>Schedule your device repair with our expert technicians. Fill out the form below to get started.</p>
+                </div>
+                
+                <div class="booking-content">
+                    <div class="booking-form-container">
+                        <form id="bookingForm">
+                            <!-- Personal Information Section -->
+                            <div class="form-section">
+                                <h2 class="section-title"><i class="fas fa-user"></i> Personal Information</h2>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fullName">Full Name *</label>
+                                        <input type="text" id="fullName" class="form-control" placeholder="Your full name" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="email">Email Address *</label>
+                                        <input type="email" id="email" class="form-control" placeholder="your.email@example.com" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number *</label>
+                                        <input type="tel" id="phone" class="form-control" placeholder="+254700000000" required>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Email Address *</label>
-                                <input type="email" class="form-control" id="email" required>
+                            
+                            <!-- Device Information Section -->
+                            <div class="form-section">
+                                <h2 class="section-title"><i class="fas fa-laptop"></i> Device Information</h2>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="deviceType">Device Type *</label>
+                                        <select id="deviceType" class="form-control" required>
+                                            <option value="">Select device type</option>
+                                            <option value="smartphone">Smartphone</option>
+                                            <option value="tablet">Tablet</option>
+                                            <option value="laptop">Laptop</option>
+                                            <option value="desktop">Desktop Computer</option>
+                                            <option value="gaming-console">Gaming Console</option>
+                                            <option value="other">Other Device</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="deviceBrand">Device Brand *</label>
+                                        <input type="text" id="deviceBrand" class="form-control" placeholder="E.g., Samsung, Apple, Dell" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="deviceModel">Device Model *</label>
+                                        <input type="text" id="deviceModel" class="form-control" placeholder="E.g., iPhone 12, Galaxy S21" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="operatingSystem">Operating System *</label>
+                                        <input type="text" id="operatingSystem" class="form-control" placeholder="E.g., iOS 15, Android 12, Windows 11" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="issueCategory">Issue Category *</label>
+                                    <select id="issueCategory" class="form-control" required>
+                                        <option value="">Select issue category</option>
+                                        <option value="screen-replacement">Screen Replacement</option>
+                                        <option value="battery-replacement">Battery Replacement</option>
+                                        <option value="software-issue">Software Issue</option>
+                                        <option value="hardware-repair">Hardware Repair</option>
+                                        <option value="virus-removal">Virus/Malware Removal</option>
+                                        <option value="data-recovery">Data Recovery</option>
+                                        <option value="network-issue">Network Issue</option>
+                                        <option value="other">Other Issue</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="problemDescription">Problem Description *</label>
+                                    <textarea id="problemDescription" class="form-control" placeholder="Please describe the issue you're experiencing in detail..." required></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Service Details Section -->
+                            <div class="form-section">
+                                <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Service Details</h2>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="preferredDate">Preferred Date *</label>
+                                        <input type="date" id="preferredDate" class="form-control" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="preferredTime">Preferred Time *</label>
+                                        <select id="preferredTime" class="form-control" required>
+                                            <option value="">Select preferred time</option>
+                                            <option value="09:00-11:00">9:00 AM - 11:00 AM</option>
+                                            <option value="11:00-13:00">11:00 AM - 1:00 PM</option>
+                                            <option value="13:00-15:00">1:00 PM - 3:00 PM</option>
+                                            <option value="15:00-17:00">3:00 PM - 5:00 PM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Location Section -->
+                            <div class="form-section location-section">
+                                <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Service Location</h2>
+                                
+                                <div class="location-selector">
+                                    <div class="location-btn active" data-location="shop">
+                                        <i class="fas fa-store"></i>
+                                        <span>Visit Our Shop</span>
+                                    </div>
+                                    <div class="location-btn" data-location="technician">
+                                        <i class="fas fa-tools"></i>
+                                        <span>Technician Visit</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Shop Location Option -->
+                                <div class="location-option active" id="shopOption">
+                                    <p class="map-instructions">Our shop location at KM behind Kenyatta University, Nairobi</p>
+                                    <div class="map-container">
+                                        <div id="shop-map"></div>
+                                    </div>
+                                    <p>Bring your device to our physical location for service. Our technicians will diagnose and repair your device on-site.</p>
+                                </div>
+                                
+                                <!-- Technician Visit Option -->
+                                <div class="location-option" id="technicianOption">
+                                    <p class="map-instructions">Share your location for technician visit</p>
+                                    <button type="button" class="location-action-btn" id="shareLocationBtn">
+                                        <i class="fas fa-location-arrow"></i> Share My Location
+                                    </button>
+                                    <div class="map-container">
+                                        <div id="customer-map"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="customerLocation">Your Location *</label>
+                                        <input type="text" id="customerLocation" class="form-control" placeholder="Your location will appear here after selection" readonly required>
+                                    </div>
+                                    <div class="location-success" id="locationSuccess" style="display: none;">
+                                        <i class="fas fa-check-circle"></i> Location detected successfully!
+                                    </div>
+                                    <p>Our technician will come to your location to service your device. Please ensure you're available at the selected time.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Consent Section -->
+                            <div class="form-section">
+                                <h2 class="section-title"><i class="fas fa-check-circle"></i> Consent & Agreements</h2>
+                                
+                                <div class="form-group">
+                                    <div style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                                        <input type="checkbox" id="termsConsent" required>
+                                        <label for="termsConsent" style="font-weight: normal;">
+                                            I agree to the <a href="#" style="color: var(--primary);">Terms of Service</a> and <a href="#" style="color: var(--primary);">Privacy Policy</a> *
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                                        <input type="checkbox" id="diagnosticConsent" required>
+                                        <label for="diagnosticConsent" style="font-weight: normal;">
+                                            I consent to diagnostic procedures on my device *
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div style="display: flex; align-items: flex-start; gap: 0.5rem;">
+                                        <input type="checkbox" id="dataBackup">
+                                        <label for="dataBackup" style="font-weight: normal;">
+                                            I would like to request data backup service (additional charges may apply)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn" id="submitBookingBtn">
+                                <i class="fas fa-calendar-check"></i> Submit Booking
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="booking-info">
+                        <h3 class="info-title">Booking Information</h3>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3>Service Hours</h3>
+                                <p>Monday - Saturday: 8:00 AM - 6:00 PM</p>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Phone Number *</label>
-                                <input type="tel" class="form-control" id="phone" placeholder="+254 700 000 000" required>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-wrench"></i>
                             </div>
-                            <div class="form-group">
-                                <label>Preferred Date *</label>
-                                <input type="date" class="form-control" id="date" required>
+                            <div class="info-content">
+                                <h3>Expert Technicians</h3>
+                                <p>Our certified technicians have years of experience in device repair.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3>Quality Guarantee</h3>
+                                <p>All repairs come with a 30-day warranty for your peace of mind.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3>Our Location</h3>
+                                <p>KM behind Kenyatta University, Nairobi</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3>Need Help?</h3>
+                                <p>Contact us at <strong>0707 454 182</strong> for assistance with your booking.</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Service Details -->
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <i class="fas fa-tools"></i> Service Details
-                        </h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Service Type *</label>
-                                <select class="form-control" id="service-type" required>
-                                    <option value="">Select Service</option>
-                                    <option value="Phone Repair">Phone Repair</option>
-                                    <option value="Laptop Repair">Laptop Repair</option>
-                                    <option value="Screen Replacement">Screen Replacement</option>
-                                    <option value="Battery Replacement">Battery Replacement</option>
-                                    <option value="Software Issues">Software Issues</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Device Brand</label>
-                                <input type="text" class="form-control" id="device-brand" placeholder="e.g., Apple, Samsung">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Problem Description *</label>
-                            <textarea class="form-control" id="description" placeholder="Describe the issue with your device..." required></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Location Selection -->
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <i class="fas fa-map-marker-alt"></i> Service Location
-                        </h3>
-                        <div class="location-selector">
-                            <button type="button" class="location-btn active" onclick="selectLocation('shop')">
-                                <i class="fas fa-store"></i>
-                                <span>Visit Our Shop</span>
-                            </button>
-                            <button type="button" class="location-btn" onclick="selectLocation('customer')">
-                                <i class="fas fa-home"></i>
-                                <span>Home Service</span>
-                            </button>
-                        </div>
-
-                        <div id="shop-location" class="location-option active">
-                            <div class="map-container">
-                                <div id="shop-map"></div>
-                            </div>
-                            <p class="map-instructions">
-                                <i class="fas fa-info-circle"></i> Our shop is located at 123 Tech Street, Nairobi, Kenya
-                            </p>
-                        </div>
-
-                        <div id="customer-location" class="location-option">
-                            <div class="map-container">
-                                <div id="customer-map"></div>
-                            </div>
-                            <p class="map-instructions">
-                                <i class="fas fa-info-circle"></i> Click on the map to set your location or use the button below
-                            </p>
-                            <button type="button" class="location-action-btn" onclick="getCurrentLocation()">
-                                <i class="fas fa-crosshairs"></i> Use My Current Location
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="submit-btn">
-                        <i class="fas fa-calendar-check"></i> Book Service
-                    </button>
-                </form>
+                </div>
             </div>
-
-            <!-- Booking Info Sidebar -->
-            <div class="booking-info">
-                <h2 class="info-title">Why Choose Us?</h2>
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <div class="info-content">
-                        <h3>Certified Technicians</h3>
-                        <p>Our team consists of certified professionals with years of experience</p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="info-content">
-                        <h3>Quick Turnaround</h3>
-                        <p>Most repairs completed within 24-48 hours</p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="info-content">
-                        <h3>Warranty Included</h3>
-                        <p>All repairs come with a 90-day warranty</p>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="fas fa-tag"></i>
-                    </div>
-                    <div class="info-content">
-                        <h3>Competitive Pricing</h3>
-                        <p>Affordable rates with no hidden charges</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
     </main>
 
     <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>About Blue Technology</h3>
-                <p>We are Nairobi's leading technology repair and sales company, providing top-quality services since 2010.</p>
+                <h3>About Blue Tech</h3>
+                <p>Blue Tech provides cutting-edge technology solutions and services to businesses and individuals worldwide. We're committed to excellence and innovation.</p>
                 <div class="social-links">
-                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
+            
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="services.html">Services</a></li>
                     <li><a href="products.html">Products</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
+            
             <div class="footer-section">
-                <h3>Contact Info</h3>
+                <h3>Contact Us</h3>
                 <div class="contact-info">
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <span>123 Tech Street, Nairobi, Kenya</span>
+                        <div>
+                            <p>123 Tech Street Nairobi, Kenya</p>
+                        </div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-phone"></i>
                         </div>
-                        <span>+254 700 123 456</span>
+                        <div>
+                            <p>Mon-Fri, 9am-5pm EAT</p>
+                        </div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <span>info@bluetechnology.co.ke</span>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-clock"></i>
+                        <div>
+                            <p>info@bluetech.co.ke</p>
                         </div>
-                        <span>Mon-Sat: 8:00 AM - 6:00 PM</span>
                     </div>
                 </div>
             </div>
         </div>
+        
         <div class="copyright">
-            <p>&copy; 2025 Blue Technology. All Rights Reserved.</p>
+            <p>&copy; 2025 Blue Tech. All rights reserved.</p>
+        </div>
+        
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
         </div>
     </footer>
 
-    <!-- Toast -->
+    <!-- Authentication Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <h3 class="auth-modal-title">Login / Register</h3>
+                <button class="close-auth-modal">&times;</button>
+            </div>
+            <div class="auth-modal-body">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" data-tab="login">Login</div>
+                    <div class="auth-tab" data-tab="register">Register</div>
+                </div>
+                
+                <form class="auth-form active" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginPhone">Phone Number</label>
+                        <input type="tel" id="loginPhone" class="form-control" placeholder="+254700000000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="auth-submit-btn">Login</button>
+                </form>
+                
+                <form class="auth-form" id="registerForm">
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerEmail">Email Address</label>
+                        <input type="email" id="registerEmail" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPhone">Phone Number</label>
+                        <input type="tel" id="registerPhone" class="form-control" placeholder="+254700000000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" class="form-control" placeholder="Create a password" required>
+                    </div>
+                    
+                    <button type="submit" class="auth-submit-btn">Register</button>
+                </form>
+                
+                <div class="guest-option">
+                    <p>Don't want to create an account?</p>
+                    <button class="guest-btn" id="continueAsGuest">Continue as Guest</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="success-title">Booking Confirmed!</h2>
+            <p class="success-message">
+                Thank you for your booking. Your service request has been successfully submitted.
+                You will receive a confirmation email shortly.
+            </p>
+            <div class="booking-id" id="confirmedBookingId">BI-XXXXXXXX</div>
+            <p class="success-message">
+                Please save this booking ID for tracking your service request.
+            </p>
+            <div id="guestBookingInstructions" class="guest-instructions" style="display: none;">
+                <h4><i class="fas fa-info-circle"></i> Important Information for Guest Users</h4>
+                <p>Since you booked as a guest, this booking is not linked to your profile. To save this booking to your profile and track it easily:</p>
+                <ol>
+                    <li>Save your Booking ID: <strong id="guestBookingId">BI-XXXXXXXX</strong></li>
+                    <li>Create an account or login</li>
+                    <li>Use the "Save to Profile" feature with your Booking ID</li>
+                </ol>
+            </div>
+            <div class="success-actions">
+                <a href="profile.html" class="btn-track">Track Booking</a>
+                <a href="index.html" class="btn-home">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
     <div class="toast" id="toast">
         <span class="toast-icon"><i class="fas fa-info-circle"></i></span>
         <span class="toast-message" id="toastMessage"></span>
@@ -1042,7 +1695,7 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // API Configuration - ALL ENDPOINTS RETAINED
+        // API Configuration
         const API_BASE_URL = 'https://blutech-backend2.onrender.com';
         const API_ENDPOINTS = {
             BOOKINGS: `${API_BASE_URL}/api/bookings`,
@@ -1056,228 +1709,696 @@
         };
 
         // Global state
+        let currentUser = null;
+        let authToken = localStorage.getItem('authToken');
+        let isGuest = localStorage.getItem('isGuest') === 'true';
+        let sessionId = localStorage.getItem('sessionId');
         let selectedLocation = 'shop';
         let customerCoordinates = null;
         let shopMap, customerMap;
         let customerMarker = null;
 
-        // Shop coordinates (Nairobi)
-        const shopCoordinates = [-1.2921, 36.8219];
-
-        // Initialize
+        // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
-            initializeTheme();
-            loadCartCount();
+            initializePage();
             setupEventListeners();
+            checkAuthStatus();
             initializeMaps();
-            setMinDate();
         });
 
-        // Theme Toggle
-        function initializeTheme() {
-            const theme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', theme);
-            updateThemeIcon(theme);
+        // Initialize page elements
+        function initializePage() {
+            // Generate session ID if not exists
+            if (!sessionId) {
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('sessionId', sessionId);
+            }
+            
+            // Set up authentication tabs
+            setupAuthTabs();
+            
+            // Set minimum date for service date to today
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const todayStr = `${yyyy}-${mm}-${dd}`;
+            document.getElementById('preferredDate').setAttribute('min', todayStr);
         }
 
-        function updateThemeIcon(theme) {
-            const icon = document.querySelector('#theme-toggle i');
-            icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
-
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
-
-        // Setup Event Listeners
+        // Set up event listeners
         function setupEventListeners() {
-            document.getElementById('menu-toggle').addEventListener('click', function() {
-                this.classList.toggle('active');
-                document.getElementById('nav-links').classList.toggle('active');
+            // Location selection
+            document.querySelectorAll('.location-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectLocation(this.dataset.location);
+                });
             });
-
-            document.getElementById('booking-form').addEventListener('submit', handleSubmit);
-
-            document.getElementById('search-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    const searchTerm = this.value.trim();
-                    if (searchTerm) {
-                        window.location.href = `services.html?search=${encodeURIComponent(searchTerm)}`;
-                    }
+            
+            // Share location button
+            document.getElementById('shareLocationBtn').addEventListener('click', shareLocation);
+            
+            // Form submission
+            document.getElementById('bookingForm').addEventListener('submit', submitBooking);
+            
+            // Auth modal
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            document.getElementById('continueAsGuest').addEventListener('click', continueAsGuest);
+            
+            // Close modals when clicking outside
+            document.getElementById('authModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(this);
                 }
             });
+            
+            document.getElementById('successModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal(this);
+                }
+            });
+            
+            // Close modals with close buttons
+            document.querySelector('.close-auth-modal').addEventListener('click', function() {
+                closeModal(document.getElementById('authModal'));
+            });
+            
+            // Profile menu
+            document.getElementById('profileButton').addEventListener('click', toggleProfileMenu);
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            document.getElementById('loginBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                openAuthModal();
+            });
+            document.getElementById('registerBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                openAuthModal('register');
+            });
         }
 
-        // Load Cart Count
-        function loadCartCount() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const count = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cart-count').textContent = count;
-        }
-
-        // Set Minimum Date
-        function setMinDate() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('date').setAttribute('min', today);
-        }
-
-        // Initialize Maps
+        // Initialize maps
         function initializeMaps() {
-            // Shop Map
-            shopMap = L.map('shop-map').setView(shopCoordinates, 15);
+            // Initialize shop map (Kenyatta University area)
+            shopMap = L.map('shop-map').setView([-1.2646, 36.8939], 15);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(shopMap);
-            L.marker(shopCoordinates).addTo(shopMap)
-                .bindPopup('Blue Technology Shop')
+
+            // Add marker for shop location
+            L.marker([-1.2646, 36.8939]).addTo(shopMap)
+                .bindPopup('Blue Technology<br>KM behind Kenyatta University, Nairobi')
                 .openPopup();
 
-            // Customer Map
-            customerMap = L.map('customer-map').setView(shopCoordinates, 13);
+            // Initialize customer map (centered on Nairobi)
+            customerMap = L.map('customer-map').setView([-1.2921, 36.8219], 12);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(customerMap);
 
-            // Click to set location
+            // Add click event to customer map to set location
             customerMap.on('click', function(e) {
                 setCustomerLocation(e.latlng.lat, e.latlng.lng);
             });
         }
 
-        // Select Location
-        function selectLocation(type) {
-            selectedLocation = type;
+        // Setup authentication tabs
+        function setupAuthTabs() {
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    document.querySelectorAll('.auth-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    
+                    // Hide all forms
+                    document.querySelectorAll('.auth-form').forEach(form => {
+                        form.classList.remove('active');
+                    });
+                    
+                    // Activate selected tab
+                    this.classList.add('active');
+                    document.getElementById(this.dataset.tab + 'Form').classList.add('active');
+                });
+            });
+        }
 
-            // Update buttons
+        // Check authentication status
+        async function checkAuthStatus() {
+            if (authToken) {
+                if (isGuest) {
+                    showGuestView();
+                } else {
+                    try {
+                        const response = await fetch(API_ENDPOINTS.AUTH_ME, {
+                            headers: {
+                                'Authorization': `Bearer ${authToken}`
+                            }
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            currentUser = data.user;
+                            showLoggedInView();
+                        } else {
+                            // Token is invalid
+                            localStorage.removeItem('authToken');
+                            localStorage.removeItem('isGuest');
+                            localStorage.removeItem('currentUser');
+                            authToken = null;
+                            isGuest = false;
+                            currentUser = null;
+                            showAuthBar();
+                        }
+                    } catch (error) {
+                        console.error('Error validating token:', error);
+                        showAuthBar();
+                    }
+                }
+            } else {
+                // Check if user is logged in from other pages
+                checkGlobalAuthStatus();
+            }
+        }
+
+        // Check global authentication status
+        function checkGlobalAuthStatus() {
+            const globalAuthToken = localStorage.getItem('authToken');
+            const globalIsGuest = localStorage.getItem('isGuest') === 'true';
+            const globalUser = localStorage.getItem('currentUser');
+            
+            if (globalAuthToken) {
+                authToken = globalAuthToken;
+                isGuest = globalIsGuest;
+                
+                if (globalUser) {
+                    try {
+                        currentUser = JSON.parse(globalUser);
+                    } catch (e) {
+                        console.error('Error parsing user data:', e);
+                        currentUser = null;
+                    }
+                }
+                
+                if (isGuest) {
+                    showGuestView();
+                } else {
+                    showLoggedInView();
+                }
+            } else {
+                showAuthBar();
+            }
+        }
+
+        // Show logged in view
+        function showLoggedInView() {
+            document.getElementById('authBar').style.display = 'none';
+            
+            // Update profile menu
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('guestInfo').style.display = 'none';
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+            }
+        }
+
+        // Show guest view
+        function showGuestView() {
+            document.getElementById('authBar').style.display = 'none';
+            
+            // Update profile menu
+            document.getElementById('userInfo').style.display = 'none';
+            document.getElementById('guestInfo').style.display = 'block';
+        }
+
+        // Show auth bar
+        function showAuthBar() {
+            document.getElementById('authBar').style.display = 'flex';
+            
+            // Update profile menu
+            document.getElementById('userInfo').style.display = 'none';
+            document.getElementById('guestInfo').style.display = 'block';
+        }
+
+        // Select location option
+        function selectLocation(locationType) {
+            selectedLocation = locationType;
+            
+            // Update active button
             document.querySelectorAll('.location-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            event.target.closest('.location-btn').classList.add('active');
-
-            // Update location options
+            document.querySelector(`.location-btn[data-location="${locationType}"]`).classList.add('active');
+            
+            // Show the selected location option
             document.querySelectorAll('.location-option').forEach(option => {
                 option.classList.remove('active');
             });
-            document.getElementById(`${type}-location`).classList.add('active');
-
-            // Invalidate map size
+            document.getElementById(`${locationType}Option`).classList.add('active');
+            
+            // Resize maps to ensure proper rendering
             setTimeout(() => {
-                if (type === 'shop') {
-                    shopMap.invalidateSize();
-                } else {
-                    customerMap.invalidateSize();
-                }
+                shopMap.invalidateSize();
+                customerMap.invalidateSize();
             }, 100);
         }
 
-        // Get Current Location
-        function getCurrentLocation() {
+        // Share location functionality
+        function shareLocation() {
             if (!navigator.geolocation) {
                 showToast('Geolocation is not supported by your browser', 'error');
                 return;
             }
 
-            showToast('Getting your location...', 'info');
+            const shareBtn = document.getElementById('shareLocationBtn');
+            shareBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Detecting Location...';
+            shareBtn.disabled = true;
 
             navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    setCustomerLocation(position.coords.latitude, position.coords.longitude);
-                    showToast('Location set successfully!', 'success');
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+
+                    setCustomerLocation(lat, lng);
+
+                    // Reset button
+                    shareBtn.innerHTML = '<i class="fas fa-location-arrow"></i> Share My Location';
+                    shareBtn.disabled = false;
                 },
-                (error) => {
-                    showToast('Unable to get your location. Please click on the map.', 'error');
+                function(error) {
+                    let errorMessage;
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = "Location sharing was denied. Please allow location access to use this feature.";
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = "Location information is unavailable.";
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = "The request to get your location timed out.";
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            errorMessage = "An unknown error occurred.";
+                            break;
+                    }
+
+                    showToast(errorMessage, 'error');
+
+                    // Reset button
+                    shareBtn.innerHTML = '<i class="fas fa-location-arrow"></i> Share My Location';
+                    shareBtn.disabled = false;
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 60000
                 }
             );
         }
 
-        // Set Customer Location
+        // Set customer location from coordinates
         function setCustomerLocation(lat, lng) {
-            customerCoordinates = [lat, lng];
+            customerCoordinates = { lat, lng };
+            
+            // Use OpenStreetMap Nominatim for reverse geocoding
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.display_name || `Lat: ${lat.toFixed(6)}, Long: ${lng.toFixed(6)}`;
+                    document.getElementById('customerLocation').value = address;
 
-            // Remove existing marker
-            if (customerMarker) {
-                customerMap.removeLayer(customerMarker);
-            }
+                    // Show success message
+                    document.getElementById('locationSuccess').style.display = 'flex';
+                    setTimeout(() => {
+                        document.getElementById('locationSuccess').style.display = 'none';
+                    }, 5000);
 
-            // Add new marker
-            customerMarker = L.marker([lat, lng]).addTo(customerMap)
-                .bindPopup('Your Location')
-                .openPopup();
+                    // Update or add marker on customer map
+                    if (customerMarker) {
+                        customerMarker.setLatLng([lat, lng]);
+                    } else {
+                        customerMarker = L.marker([lat, lng]).addTo(customerMap);
+                    }
 
-            // Center map
-            customerMap.setView([lat, lng], 15);
+                    // Center map on selected location
+                    customerMap.setView([lat, lng], 15);
+                })
+                .catch(error => {
+                    console.error('Error getting address:', error);
+                    document.getElementById('customerLocation').value = `Lat: ${lat.toFixed(6)}, Long: ${lng.toFixed(6)}`;
+
+                    // Show success message
+                    document.getElementById('locationSuccess').style.display = 'flex';
+                    setTimeout(() => {
+                        document.getElementById('locationSuccess').style.display = 'none';
+                    }, 5000);
+
+                    // Update or add marker on customer map
+                    if (customerMarker) {
+                        customerMarker.setLatLng([lat, lng]);
+                    } else {
+                        customerMarker = L.marker([lat, lng]).addTo(customerMap);
+                    }
+                });
         }
 
-        // Handle Form Submit
-        function handleSubmit(e) {
+        // Submit booking
+        async function submitBooking(e) {
             e.preventDefault();
 
-            // Validate location for home service
-            if (selectedLocation === 'customer' && !customerCoordinates) {
-                showToast('Please set your location on the map', 'error');
+            const submitBtn = document.getElementById('submitBookingBtn');
+            const originalText = submitBtn.innerHTML;
+
+            // Validate form
+            if (!validateForm()) {
                 return;
             }
 
-            // Get form data
-            const formData = {
-                name: document.getElementById('name').value,
+            // Prepare booking data
+            const bookingData = {
+                fullName: document.getElementById('fullName').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
-                date: document.getElementById('date').value,
-                serviceType: document.getElementById('service-type').value,
-                deviceBrand: document.getElementById('device-brand').value,
-                description: document.getElementById('description').value,
-                locationType: selectedLocation,
-                coordinates: selectedLocation === 'customer' ? customerCoordinates : shopCoordinates,
-                timestamp: new Date().toISOString()
+                deviceType: document.getElementById('deviceType').value,
+                deviceBrand: document.getElementById('deviceBrand').value,
+                deviceModel: document.getElementById('deviceModel').value,
+                operatingSystem: document.getElementById('operatingSystem').value,
+                issueCategory: document.getElementById('issueCategory').value,
+                problemDescription: document.getElementById('problemDescription').value,
+                preferredDate: document.getElementById('preferredDate').value,
+                preferredTime: document.getElementById('preferredTime').value,
+                serviceLocation: selectedLocation,
+                customerLocation: selectedLocation === 'technician' ? document.getElementById('customerLocation').value : 'Shop Location',
+                termsConsent: document.getElementById('termsConsent').checked,
+                diagnosticConsent: document.getElementById('diagnosticConsent').checked,
+                dataBackup: document.getElementById('dataBackup').checked
             };
 
-            // Store booking (you can replace this with actual API call)
-            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-            bookings.push(formData);
-            localStorage.setItem('bookings', JSON.stringify(bookings));
-
-            showToast('Booking submitted successfully! We will contact you soon.', 'success');
-
-            // Reset form
-            document.getElementById('booking-form').reset();
-            if (customerMarker) {
-                customerMap.removeLayer(customerMarker);
-                customerMarker = null;
-                customerCoordinates = null;
+            // Add coordinates if available
+            if (selectedLocation === 'technician' && customerCoordinates) {
+                bookingData.customerCoordinates = customerCoordinates;
             }
 
-            // Redirect after 2 seconds
-            setTimeout(() => {
-                window.location.href = 'profile.html?tab=bookings';
-            }, 2000);
+            // Determine the correct API endpoint and headers
+            const bookingEndpoint = API_ENDPOINTS.BOOKINGS;
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (authToken) {
+                headers['Authorization'] = `Bearer ${authToken}`;
+            }
+
+            // Show loading state
+            submitBtn.innerHTML = '<div class="loading"></div> Submitting...';
+            submitBtn.disabled = true;
+
+            try {
+                // Submit booking
+                const response = await fetch(bookingEndpoint, {
+                    method: 'POST',
+                    headers,
+                    body: JSON.stringify(bookingData)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to submit booking');
+                }
+                
+                const data = await response.json();
+                
+                // Show success modal
+                showBookingSuccess(data.booking);
+            } catch (error) {
+                console.error('Error submitting booking:', error);
+                showToast(`Failed to submit booking: ${error.message}`, 'error');
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
         }
 
-        // Show Toast
+        // Validate form
+        function validateForm() {
+            // Check required fields
+            const requiredFields = [
+                'fullName', 'email', 'phone', 'deviceType', 'deviceBrand', 
+                'deviceModel', 'operatingSystem', 'issueCategory', 
+                'problemDescription', 'preferredDate', 'preferredTime'
+            ];
+            
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    showToast(`Please fill in the ${field.labels[0].textContent} field`, 'error');
+                    field.focus();
+                    return false;
+                }
+            }
+            
+            // Validate email format
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast('Please enter a valid email address', 'error');
+                document.getElementById('email').focus();
+                return false;
+            }
+            
+            // Validate phone format (basic validation)
+            const phone = document.getElementById('phone').value;
+            if (phone.length < 10) {
+                showToast('Please enter a valid phone number', 'error');
+                document.getElementById('phone').focus();
+                return false;
+            }
+            
+            // For technician visit, validate that location was set
+            if (selectedLocation === 'technician' && !document.getElementById('customerLocation').value) {
+                showToast('Please set your location for technician visit', 'error');
+                return false;
+            }
+            
+            // Check consent checkboxes
+            if (!document.getElementById('termsConsent').checked) {
+                showToast('Please agree to the Terms of Service and Privacy Policy', 'error');
+                return false;
+            }
+            
+            if (!document.getElementById('diagnosticConsent').checked) {
+                showToast('Please consent to diagnostic procedures', 'error');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Show booking success modal
+        function showBookingSuccess(booking) {
+            document.getElementById('confirmedBookingId').textContent = booking.bookingId;
+            
+            // Show guest instructions if applicable
+            if (isGuest) {
+                document.getElementById('guestBookingInstructions').style.display = 'block';
+                document.getElementById('guestBookingId').textContent = booking.bookingId;
+            } else {
+                document.getElementById('guestBookingInstructions').style.display = 'none';
+            }
+            
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        // Authentication functions
+        function openAuthModal(tab = 'login') {
+            document.getElementById('authModal').classList.add('active');
+            
+            // Switch to specified tab if provided
+            if (tab === 'register') {
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+                document.querySelector('.auth-tab[data-tab="register"]').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('loginPhone').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const response = await fetch(API_ENDPOINTS.AUTH_LOGIN, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ phone, password })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Login failed');
+                }
+                
+                const data = await response.json();
+                
+                // Save auth state globally
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('isGuest', 'false');
+                localStorage.setItem('currentUser', JSON.stringify(data.user));
+                
+                authToken = data.token;
+                isGuest = false;
+                currentUser = data.user;
+                
+                // Update UI
+                showLoggedInView();
+                closeModal(document.getElementById('authModal'));
+                showToast('Login successful!', 'success');
+                
+                // Clear form fields
+                document.getElementById('loginPhone').value = '';
+                document.getElementById('loginPassword').value = '';
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            try {
+                const response = await fetch(API_ENDPOINTS.AUTH_REGISTER, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, phone, password })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Registration failed');
+                }
+                
+                const data = await response.json();
+                
+                // Auto-login after registration
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('isGuest', 'false');
+                localStorage.setItem('currentUser', JSON.stringify(data.user));
+                
+                authToken = data.token;
+                isGuest = false;
+                currentUser = data.user;
+                
+                // Update UI
+                showLoggedInView();
+                closeModal(document.getElementById('authModal'));
+                showToast('Registration successful!', 'success');
+                
+                // Clear form fields
+                document.getElementById('registerName').value = '';
+                document.getElementById('registerEmail').value = '';
+                document.getElementById('registerPhone').value = '';
+                document.getElementById('registerPassword').value = '';
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function continueAsGuest() {
+            try {
+                const response = await fetch(API_ENDPOINTS.AUTH_GUEST, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ sessionId })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to create guest session');
+                }
+                
+                const data = await response.json();
+                
+                // Save guest state globally
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('isGuest', 'true');
+                
+                authToken = data.token;
+                isGuest = true;
+                
+                // Update UI
+                showGuestView();
+                closeModal(document.getElementById('authModal'));
+                showToast('Continuing as guest', 'success');
+            } catch (error) {
+                console.error('Error creating guest session:', error);
+                showToast('Error starting guest session. Please try again.', 'error');
+            }
+        }
+
+        // Handle logout
+        function handleLogout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('isGuest');
+            localStorage.removeItem('currentUser');
+            authToken = null;
+            isGuest = false;
+            currentUser = null;
+            showAuthBar();
+            showToast('Logged out successfully', 'success');
+            toggleProfileMenu();
+        }
+
+        // Utility functions
+        function closeModal(modal) {
+            modal.classList.remove('active');
+        }
+
         function showToast(message, type = 'info') {
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toastMessage');
-            const toastIcon = toast.querySelector('.toast-icon i');
-
-            toastMessage.textContent = message;
-            toast.className = 'toast ' + type;
-
-            if (type === 'success') {
-                toastIcon.className = 'fas fa-check-circle';
-            } else if (type === 'error') {
-                toastIcon.className = 'fas fa-exclamation-circle';
-            } else {
-                toastIcon.className = 'fas fa-info-circle';
+            
+            toast.className = 'toast';
+            toast.classList.add(type);
+            
+            const icon = toast.querySelector('.toast-icon i');
+            icon.className = 'fas fa-info-circle';
+            
+            if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-exclamation-triangle';
             }
-
+            
+            toastMessage.textContent = message;
             toast.classList.add('show');
+            
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
+        }
+
+        function toggleProfileMenu() {
+            const profileMenu = document.getElementById('profileMenu');
+            profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
         }
     </script>
 </body>
